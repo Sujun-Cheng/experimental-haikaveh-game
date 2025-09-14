@@ -93,6 +93,7 @@ public class RootMotionControlScript : MonoBehaviour
     {
         if (cinput.enabled)
         {
+            print($"_inputForward, _inputTurn: {_inputForward}, {_inputTurn}");
             _inputForward = cinput.Forward;
             _inputTurn = cinput.Turn;
 
@@ -107,7 +108,6 @@ public class RootMotionControlScript : MonoBehaviour
 
     void FixedUpdate()
     {
-
         bool doButtonPress = false;
         bool doMatchToButtonPress = false;
 
