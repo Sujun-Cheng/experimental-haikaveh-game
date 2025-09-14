@@ -161,7 +161,7 @@ public class AIMovement : MonoBehaviour
             // Convert angle to turn input (-1 to 1)
             turnInput = Mathf.Clamp(angleToTarget / 45f, -1f, 1f) * turnSensitivity;
 
-            if (showDebugInfo) Debug.Log($"AI: Angle to target: {angleToTarget:F1}°, Turn input: {turnInput:F2}");
+            if (showDebugInfo) Debug.Log($"AI: Angle to target: {angleToTarget:F1}°, Turn input: {turnInput:F2}, following player: {player}");
         }
 
         // Apply the input
