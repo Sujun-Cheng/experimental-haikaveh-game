@@ -244,6 +244,7 @@ public class RootMotionControlScript : MonoBehaviour
         var rotation = Quaternion.LerpUnclamped(this.transform.rotation, newRootRotation, rootTurnSpeed);
         rbody.MovePosition(translation);
         rbody.MoveRotation(rotation);
+
     }
 
     private void OnAnimatorIK(int layerIndex)
