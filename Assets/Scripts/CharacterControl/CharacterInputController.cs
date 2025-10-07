@@ -5,6 +5,7 @@ using UnityEngine;
 public class CharacterInputController : MonoBehaviour {
 
     public string Name = "George P Burdell";
+    PlayerInput input;
 
     private float filteredForwardInput = 0f;
     private float filteredTurnInput = 0f;
@@ -16,6 +17,12 @@ public class CharacterInputController : MonoBehaviour {
 
     private float forwardSpeedLimit = 1f;
 
+    private Vector2 currentMovement;
+    public bool DashPressed
+    {
+        get; 
+        private set;
+    }
 
     public float Forward
     {
@@ -41,23 +48,35 @@ public class CharacterInputController : MonoBehaviour {
         private set;
     }
 
-        
 
-	void Update () {
-		
-        //GetAxisRaw() so we can do filtering here instead of the InputManager
-        float h = Input.GetAxisRaw("Horizontal");// setup h variable as our horizontal input axis
-        float v = Input.GetAxisRaw("Vertical"); // setup v variables as our vertical input axis
-        print($"h, v: {h}, {v}");
-
-        if (InputMapToCircular)
+    private void Awake()
+    {
+        input = new PlayerInput();
+        print("input initialized");
+        input.CharacterControls.Movement.performed += (ctx) => {
+            print($"Player {Name}: applying movement of {ctx.ReadValueAsObject()}");
+            currentMovement = ctx.ReadValue<Vector2>();
+        };
+        input.CharacterControls.Dash.performed += (ctx) => {
+            print($"Player {Name}: applying dash of {ctx.ReadValueAsObject()}");
+            DashPressed = ctx.ReadValueAsButton();
+        };
+        input.CharacterControls.Jump.performed += (ctx) =>
         {
-            // make coordinates circular
-            //based on http://mathproofs.blogspot.com/2005/07/mapping-square-to-circle.html
-            h = h * Mathf.Sqrt(1f - 0.5f * v * v);
-            v = v * Mathf.Sqrt(1f - 0.5f * h * h);
+            print($"Player {Name}: applying jump of {ctx.ReadValueAsObject()}");
+            Jump = ctx.ReadValueAsButton();
+        };
+    }
+    void Update () {
 
-        }
+        //GetAxisRaw() so we can do filtering here instead of the InputManager
+        //float h = Input.GetAxisRaw("Horizontal");// setup h variable as our horizontal input axis
+        //float v = Input.GetAxisRaw("Vertical"); // setup v variables as our vertical input axis
+        //print($"h, v: {h}, {v}");
+        float h = currentMovement.x;// setup h variable as our horizontal input axis
+        float v = currentMovement.y; // setup v variables as our vertical input axis
+        print($"h, v: {h}, {v}");
+        
 
 
         //BEGIN ANALOG ON KEYBOARD DEMO CODE
@@ -90,7 +109,7 @@ public class CharacterInputController : MonoBehaviour {
 
 
         //do some filtering of our input as well as clamp to a speed limit
-        filteredForwardInput = Mathf.Clamp(Mathf.Lerp(filteredForwardInput, v, 
+        filteredForwardInput = Mathf.Clamp(Mathf.Lerp(filteredForwardInput, v,
             Time.deltaTime * forwardInputFilter), -forwardSpeedLimit, forwardSpeedLimit);
 
         filteredTurnInput = Mathf.Lerp(filteredTurnInput, h,
@@ -106,4 +125,14 @@ public class CharacterInputController : MonoBehaviour {
         Jump = Input.GetButtonDown("Jump");
 
 	}
+
+    private void OnEnable()
+    {
+        input.CharacterControls.Enable();
+    }
+
+    private void OnDisable()
+    {
+        input.CharacterControls.Disable();
+    }
 }

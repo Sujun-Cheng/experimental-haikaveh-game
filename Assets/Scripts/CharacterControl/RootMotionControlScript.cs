@@ -40,6 +40,7 @@ public class RootMotionControlScript : MonoBehaviour
     // cached.
     float _inputForward = 0f;
     float _inputTurn = 0f;
+    bool _dash = false;
 
 
     //Useful if you implement jump in the future...
@@ -96,6 +97,7 @@ public class RootMotionControlScript : MonoBehaviour
             print($"_inputForward, _inputTurn: {_inputForward}, {_inputTurn}");
             _inputForward = cinput.Forward;
             _inputTurn = cinput.Turn;
+            _dash = cinput.DashPressed;
 
             // Note that we don't overwrite a true value already stored
             // Is only cleared to false in FixedUpdate()
