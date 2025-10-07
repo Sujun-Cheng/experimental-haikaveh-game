@@ -1,25 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.Cinemachine;
 using UnityEngine;
 
 
 public class CharacterManager : MonoBehaviour {
 
 
-    public CharacterInputController[] ControllableCharacters = {}; 
+    public MainCharacterController[] ControllableCharacters = {}; 
 
-    public ThirdPersonCamera thirdPersonCamera;
-
-    public string CameraPositionMarkerName = "CamPos";
+    public CinemachineCamera thirdPersonCamera;
 
 
     protected int nextCharacterIndex = 0;
 
     protected void disableAllCharacters() {
 
-        foreach (CharacterInputController c in ControllableCharacters)
+        foreach (MainCharacterController c in ControllableCharacters)
         {
-            c.enabled = false;
+            c.switchToAIControlledIdle();
         }
             
     }
@@ -34,10 +33,10 @@ public class CharacterManager : MonoBehaviour {
         if (charIndex >= ControllableCharacters.Length)
             charIndex = ControllableCharacters.Length - 1;
 
-        ControllableCharacters[charIndex].enabled = true;
+        ControllableCharacters[charIndex].switchToPlayerControlled();
 
-        thirdPersonCamera.desiredPose = ControllableCharacters[charIndex].transform.Find(CameraPositionMarkerName);
-        thirdPersonCamera.target = ControllableCharacters[charIndex].transform;
+        thirdPersonCamera.Follow = ControllableCharacters[charIndex].transform;
+        thirdPersonCamera.LookAt = ControllableCharacters[charIndex].transform;
 
         Debug.Log("Character " + ControllableCharacters[charIndex].Name + " was selected.");
    
@@ -72,7 +71,7 @@ public class CharacterManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (Input.GetKeyUp(KeyCode.T))
+        if (Input.GetKeyUp(KeyCode.Tab))
         {
             Debug.Log("Character toggled");
             toggleCharacter();

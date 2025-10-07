@@ -48,7 +48,7 @@ public class CharacterInputController : MonoBehaviour {
         //GetAxisRaw() so we can do filtering here instead of the InputManager
         float h = Input.GetAxisRaw("Horizontal");// setup h variable as our horizontal input axis
         float v = Input.GetAxisRaw("Vertical"); // setup v variables as our vertical input axis
-
+        print($"h, v: {h}, {v}");
 
         if (InputMapToCircular)
         {

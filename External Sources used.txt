@@ -1,0 +1,7 @@
+blender mmd plugin: https://github.com/MMD-Blender/blender_mmd_tools/releases 
+Cinemachine
+model sources: 
+https://activity.hdslb.com/blackboard/static/20240603/d32c2bb79f59192cb072d7bf79b61c6d/YSIzBndHoA.zip
+https://activity.hdslb.com/blackboard/static/20230407/c84ef0977c17fb1198f6887261fea35f/nNpqcReGhp.zip
+tutorials used:
+https://www.youtube.com/watch?v=J3ewkJUOA4k&ab_channel=AnAverageUnityDev
