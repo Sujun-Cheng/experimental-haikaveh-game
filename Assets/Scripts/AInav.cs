@@ -7,9 +7,9 @@ public class AIMovement : MonoBehaviour
 {
     [Header("AI Movement Settings")]
     public Transform player;
-    public float followDistance = 3f;
-    public float stopDistance = 1.5f;
-    public float moveSpeed = 0.8f;
+    public float followDistance = 0.5f;
+    public float stopDistance = 0.1f;
+    public float moveSpeed = 3.0f;
     public float turnSensitivity = 1.5f;
 
     [Header("AI Behavior")]

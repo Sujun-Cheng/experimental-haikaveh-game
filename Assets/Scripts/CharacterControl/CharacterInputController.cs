@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterInputController : MonoBehaviour {
+public class CharacterInputController : MonoBehaviour
+{
 
     public string Name = "George P Burdell";
-    PlayerInput input;
+    private PlayerInput playerInput;
 
     private float filteredForwardInput = 0f;
     private float filteredTurnInput = 0f;
@@ -18,68 +19,46 @@ public class CharacterInputController : MonoBehaviour {
     private float forwardSpeedLimit = 1f;
 
     private Vector2 currentMovement;
-    public bool DashPressed
-    {
-        get; 
-        private set;
-    }
 
-    public float Forward
-    {
-        get;
-        private set;
-    }
+    // Input properties - using simple get/set like the original
+    public bool DashPressed { get; private set; }
+    public float Forward { get; private set; }
+    public float Turn { get; private set; }
+    public bool Action { get; private set; }
+    public bool Jump { get; private set; }
 
-    public float Turn
-    {
-        get;
-        private set;
-    }
-
-    public bool Action
-    {
-        get;
-        private set;
-    }
-
-    public bool Jump
-    {
-        get;
-        private set;
-    }
+    // Attack uses the same pattern as Action - just stores the button state
+    public bool Attack { get; private set; }
 
 
     private void Awake()
     {
-        input = new PlayerInput();
+        playerInput = new PlayerInput();
         print("input initialized");
-        input.CharacterControls.Movement.performed += (ctx) => {
+
+        playerInput.CharacterControls.Movement.performed += (ctx) => {
             print($"Player {Name}: applying movement of {ctx.ReadValueAsObject()}");
             currentMovement = ctx.ReadValue<Vector2>();
         };
-        input.CharacterControls.Dash.performed += (ctx) => {
+
+        playerInput.CharacterControls.Dash.performed += (ctx) => {
             print($"Player {Name}: applying dash of {ctx.ReadValueAsObject()}");
             DashPressed = ctx.ReadValueAsButton();
         };
-        input.CharacterControls.Jump.performed += (ctx) =>
+
+        playerInput.CharacterControls.Jump.performed += (ctx) =>
         {
             print($"Player {Name}: applying jump of {ctx.ReadValueAsObject()}");
             Jump = ctx.ReadValueAsButton();
         };
     }
-    void Update () {
 
-        //GetAxisRaw() so we can do filtering here instead of the InputManager
-        //float h = Input.GetAxisRaw("Horizontal");// setup h variable as our horizontal input axis
-        //float v = Input.GetAxisRaw("Vertical"); // setup v variables as our vertical input axis
-        //print($"h, v: {h}, {v}");
-        float h = currentMovement.x;// setup h variable as our horizontal input axis
-        float v = currentMovement.y; // setup v variables as our vertical input axis
-        print($"h, v: {h}, {v}");
-        
+    void Update()
+    {
+        float h = currentMovement.x;
+        float v = currentMovement.y;
 
-
-        //BEGIN ANALOG ON KEYBOARD DEMO CODE
+        // BEGIN ANALOG ON KEYBOARD DEMO CODE
         if (Input.GetKey(KeyCode.Q))
             h = -0.5f;
         else if (Input.GetKey(KeyCode.E))
@@ -105,10 +84,9 @@ public class CharacterInputController : MonoBehaviour {
             forwardSpeedLimit = 0.9f;
         else if (Input.GetKeyUp(KeyCode.Alpha0))
             forwardSpeedLimit = 1.0f;
-        //END ANALOG ON KEYBOARD DEMO CODE  
+        // END ANALOG ON KEYBOARD DEMO CODE  
 
-
-        //do some filtering of our input as well as clamp to a speed limit
+        // Do filtering and clamping
         filteredForwardInput = Mathf.Clamp(Mathf.Lerp(filteredForwardInput, v,
             Time.deltaTime * forwardInputFilter), -forwardSpeedLimit, forwardSpeedLimit);
 
@@ -118,21 +96,27 @@ public class CharacterInputController : MonoBehaviour {
         Forward = filteredForwardInput;
         Turn = filteredTurnInput;
 
-
-        //Capture "fire" button for action event
+        // Capture button inputs - these will be checked by other scripts
         Action = Input.GetButtonDown("Fire1");
-
         Jump = Input.GetButtonDown("Jump");
 
-	}
+        // Attack input - check multiple sources
+        Attack = Input.GetButtonDown("Fire1") || Input.GetMouseButtonDown(0);
+
+        // Debug when attack is pressed
+        if (Attack)
+        {
+            Debug.Log($"🖱️ [{Time.frameCount}] ATTACK SET TO TRUE in CharacterInputController!");
+        }
+    }
 
     private void OnEnable()
     {
-        input.CharacterControls.Enable();
+        playerInput.CharacterControls.Enable();
     }
 
     private void OnDisable()
     {
-        input.CharacterControls.Disable();
+        playerInput.CharacterControls.Disable();
     }
 }

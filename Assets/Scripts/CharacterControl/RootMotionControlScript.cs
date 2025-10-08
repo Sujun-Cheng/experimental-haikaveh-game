@@ -11,7 +11,7 @@ using UnityEditor;
 [RequireComponent(typeof(CharacterInputController))]
 public class RootMotionControlScript : MonoBehaviour
 {
-    private Animator anim;	
+    private Animator anim;
     private Rigidbody rbody;
     private CharacterInputController cinput;
 
@@ -80,13 +80,13 @@ public class RootMotionControlScript : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-		//example of how to get access to certain limbs
+        //example of how to get access to certain limbs
         leftFoot = this.transform.Find("mixamorig:Hips/mixamorig:LeftUpLeg/mixamorig:LeftLeg/mixamorig:LeftFoot");
         rightFoot = this.transform.Find("mixamorig:Hips/mixamorig:RightUpLeg/mixamorig:RightLeg/mixamorig:RightFoot");
 
         if (leftFoot == null || rightFoot == null)
             Debug.Log("One of the feet could not be found");
-            
+
     }
 
 
@@ -129,7 +129,7 @@ public class RootMotionControlScript : MonoBehaviour
             buttonAngleDegrees = Quaternion.Angle(transform.rotation, buttonPressStandingSpot.transform.rotation);
         }
 
-        if(_inputActionFired)
+        if (_inputActionFired)
         {
             _inputActionFired = false; // clear the input event that came from Update()
 
@@ -137,17 +137,17 @@ public class RootMotionControlScript : MonoBehaviour
 
             if (buttonDistance <= buttonCloseEnoughForMatchDistance)
             {
-                if(buttonDistance <= buttonCloseEnoughForPressDistance &&
+                if (buttonDistance <= buttonCloseEnoughForPressDistance &&
                     buttonAngleDegrees <= buttonCloseEnoughForPressAngleDegrees)
                 {
                     Debug.Log("Button press initiated");
 
                     doButtonPress = true;
-                    
+
                 }
                 else
                 {
-                    
+
                     Debug.Log("match to button initiated");
                     doMatchToButtonPress = true;
                 }
@@ -202,7 +202,7 @@ public class RootMotionControlScript : MonoBehaviour
             EventManager.TriggerEvent<PlayerLandsEvent, Vector3, float>(collision.contacts[0].point, collision.impulse.magnitude);
 
         }
-						
+
     }
 
     private void OnCollisionExit(Collision collision)
@@ -225,8 +225,8 @@ public class RootMotionControlScript : MonoBehaviour
 
         if (isGrounded)
         {
-         	//use root motion as is if on the ground		
-            newRootPosition = anim.rootPosition;        
+            //use root motion as is if on the ground		
+            newRootPosition = anim.rootPosition;
         }
         else
         {
