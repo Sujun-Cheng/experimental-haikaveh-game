@@ -125,6 +125,7 @@ public class AINavV2 : MonoBehaviour
         {
             Debug.Log($"AI {gameObject.name}: Distance={distanceToPlayer:F1}m, Forward={currentForward:F2}, Turn={currentTurn:F2}");
         }
+        
     }
 
     void CalculateMovement(float distanceToPlayer)
