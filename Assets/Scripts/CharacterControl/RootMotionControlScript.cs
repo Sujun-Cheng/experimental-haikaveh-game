@@ -94,7 +94,7 @@ public class RootMotionControlScript : MonoBehaviour
     {
         if (cinput.enabled)
         {
-            print($"_inputForward, _inputTurn: {_inputForward}, {_inputTurn}");
+            //print($"_inputForward, _inputTurn: {_inputForward}, {_inputTurn}");
             _inputForward = cinput.Forward;
             _inputTurn = cinput.Turn;
             _dash = cinput.DashPressed;

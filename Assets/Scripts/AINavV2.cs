@@ -30,6 +30,7 @@ public class AINavV2 : MonoBehaviour
 
     private NavMeshAgent navAgent;
     private Animator anim;
+    private Rigidbody rb;
     private RootMotionControlScript rootMotion;
 
     // Reflection fields
@@ -44,6 +45,7 @@ public class AINavV2 : MonoBehaviour
         navAgent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
         rootMotion = GetComponent<RootMotionControlScript>();
+        rb = GetComponent<Rigidbody>();
 
         // Configure NavMeshAgent
         if (navAgent != null)
@@ -106,11 +108,13 @@ public class AINavV2 : MonoBehaviour
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
         // Update NavMesh destination
-        if (distanceToPlayer > stopDistance)
-        {
+        //if (distanceToPlayer > stopDistance)
+        //{
             navAgent.SetDestination(player.position);
-        }
+            
+        //}
 
+        
         // Calculate movement inputs
         CalculateMovement(distanceToPlayer);
 
@@ -141,10 +145,12 @@ public class AINavV2 : MonoBehaviour
             // Far away - move at full speed
             currentForward = moveSpeed;
         }
+        distanceToPlayer = Vector3.Distance(transform.position, navAgent.steeringTarget);
+        print($"navAgent.steeringTarget: {navAgent.steeringTarget}");
 
         // TURNING
         // Calculate direction TO player
-        Vector3 directionToPlayer = player.position - transform.position;
+        Vector3 directionToPlayer = navAgent.steeringTarget - transform.position;
         directionToPlayer.y = 0; // Ignore height difference
         directionToPlayer.Normalize();
 
@@ -161,7 +167,12 @@ public class AINavV2 : MonoBehaviour
 
         // Smooth the turn input
         currentTurn = Mathf.Clamp(currentTurn, -1f, 1f);
+        navAgent.nextPosition = anim.rootPosition;
+        navAgent.transform.rotation = transform.rotation;
+        
     }
+
+    
 
     void SetInputs(float forward, float turn)
     {

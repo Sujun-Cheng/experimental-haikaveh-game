@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Unity.Cinemachine;
 using UnityEngine;
 
 /// <summary>
@@ -16,27 +18,64 @@ public class CharacterManager : MonoBehaviour
     public List<GameObject> aiCompanions = new List<GameObject>();
 
     [Header("Camera")]
-    public Camera mainCamera;
+    public CinemachineCamera thirdPersonCamera;
     public float cameraDistance = 5f;
     public float cameraHeight = 2f;
-
-    private Transform currentCameraTarget;
 
     void Start()
     {
         // Validate setup
+        SetUpPlayer();
+
+        // Setup AI companions to follow player
+        SetupAICompanions();
+    }
+
+    void Update()
+    {
+
+        if (Input.GetKeyUp(KeyCode.Tab))
+        {
+            Debug.Log("Character toggled");
+            toggleCharacter();
+
+        }
+
+    }
+
+    private void toggleCharacter()
+    {
+        if (aiCompanions.Count > 0)
+        {
+            GameObject passivePlayer = aiCompanions[0];
+            GameObject activePlayer = playerCharacter;
+            aiCompanions.RemoveAt(0);
+            playerCharacter = passivePlayer;
+            AddCompanion(activePlayer);
+            SetUpPlayer();
+        }
+        
+    }
+    void SetUpPlayer()
+    {
         if (playerCharacter == null)
         {
             Debug.LogError("❌ CharacterManager: Player Character not assigned!");
             return;
         }
-
+        MainCharacterController mainChar = playerCharacter.GetComponent<MainCharacterController>();
+        if (mainChar != null)
+        {
+            mainChar.switchToPlayerControlled();
+        }
+        else
+        {
+            Debug.LogWarning($"⚠️ {playerCharacter.name} has no MainCharacterController - cannot set as Player");
+        }
         // Set camera to follow player
-        currentCameraTarget = playerCharacter.transform;
+        thirdPersonCamera.Follow = playerCharacter.transform;
+        thirdPersonCamera.LookAt = playerCharacter.transform;
         Debug.Log($"✅ Camera following: {playerCharacter.name}");
-
-        // Setup AI companions to follow player
-        SetupAICompanions();
     }
 
     void SetupAICompanions()
@@ -62,29 +101,29 @@ public class CharacterManager : MonoBehaviour
         }
     }
 
-    void LateUpdate()
-    {
-        // Update camera position to follow current target
-        if (currentCameraTarget != null && mainCamera != null)
-        {
-            UpdateCameraPosition();
-        }
-    }
+    //void LateUpdate()
+    //{
+    //    // Update camera position to follow current target
+    //    if (currentCameraTarget != null && mainCamera != null)
+    //    {
+    //        UpdateCameraPosition();
+    //    }
+    //}
 
-    void UpdateCameraPosition()
-    {
-        Vector3 targetPosition = currentCameraTarget.position;
-        Vector3 desiredPosition = targetPosition - currentCameraTarget.forward * cameraDistance + Vector3.up * cameraHeight;
+    //void UpdateCameraPosition()
+    //{
+    //    Vector3 targetPosition = currentCameraTarget.position;
+    //    Vector3 desiredPosition = targetPosition - currentCameraTarget.forward * cameraDistance + Vector3.up * cameraHeight;
 
-        // Smooth camera movement
-        mainCamera.transform.position = Vector3.Lerp(
-            mainCamera.transform.position,
-            desiredPosition,
-            Time.deltaTime * 5f
-        );
+    //    // Smooth camera movement
+    //    mainCamera.transform.position = Vector3.Lerp(
+    //        mainCamera.transform.position,
+    //        desiredPosition,
+    //        Time.deltaTime * 5f
+    //    );
 
-        mainCamera.transform.LookAt(targetPosition + Vector3.up * 1.5f);
-    }
+    //    mainCamera.transform.LookAt(targetPosition + Vector3.up * 1.5f);
+    //}
 
     // Public methods to manage companions
 
