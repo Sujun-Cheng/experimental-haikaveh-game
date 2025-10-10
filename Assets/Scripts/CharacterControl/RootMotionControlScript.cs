@@ -180,8 +180,11 @@ public class RootMotionControlScript : MonoBehaviour
 
 
         anim.speed = animationSpeed;
-        anim.SetFloat("velx", _inputTurn);
-        anim.SetFloat("vely", _inputForward);
+        //anim.SetFloat("velx", _inputTurn);
+        Vector3 currentPosition = transform.position;
+        Vector3 newPosition = new Vector3(_inputTurn, 0, _inputForward);
+        transform.LookAt(currentPosition + newPosition);
+        anim.SetFloat("vely", newPosition.magnitude);
         anim.SetBool("isFalling", !isGrounded);
         anim.SetBool("doButtonPress", doButtonPress);
         anim.SetBool("matchToButtonPress", doMatchToButtonPress);

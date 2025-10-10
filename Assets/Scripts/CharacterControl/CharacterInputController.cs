@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class CharacterInputController : MonoBehaviour
 {
 
     public string Name = "George P Burdell";
+    public CinemachineCamera thirdPersonCamera;
     private PlayerInput playerInput;
 
     private float filteredForwardInput = 0f;
@@ -13,8 +15,8 @@ public class CharacterInputController : MonoBehaviour
 
     public bool InputMapToCircular = true;
 
-    public float forwardInputFilter = 5f;
-    public float turnInputFilter = 5f;
+    public float forwardInputFilter = 20f;
+    public float turnInputFilter = 20f;
 
     private float forwardSpeedLimit = 1f;
 
@@ -77,7 +79,22 @@ public class CharacterInputController : MonoBehaviour
     {
         float h = currentMovement.x;
         float v = currentMovement.y;
-
+        if ( thirdPersonCamera != null)
+        {
+            Vector3 cameraReferenceForward = thirdPersonCamera.transform.forward;
+            Vector3 cameraReferenceRight = thirdPersonCamera.transform.right;
+            cameraReferenceForward.y = 0;
+            cameraReferenceRight.y = 0;
+            cameraReferenceForward.Normalize();
+            cameraReferenceRight.Normalize();
+            Vector3 relativeForwardMovement = cameraReferenceForward * v;
+            Vector3 relativeRightMovement = cameraReferenceRight * h;
+            Vector3 newMovementVector = relativeForwardMovement + relativeRightMovement;
+            h = newMovementVector.x;
+            v = newMovementVector.z;
+        }
+        //get forward vector between player and camera
+        print($"h, v: {h}, {v}");
         // BEGIN ANALOG ON KEYBOARD DEMO CODE
         if (Input.GetKey(KeyCode.Q))
             h = -0.5f;
@@ -110,9 +127,12 @@ public class CharacterInputController : MonoBehaviour
         filteredForwardInput = Mathf.Clamp(Mathf.Lerp(filteredForwardInput, v,
             Time.deltaTime * forwardInputFilter), -forwardSpeedLimit, forwardSpeedLimit);
 
-        filteredTurnInput = Mathf.Lerp(filteredTurnInput, h,
-            Time.deltaTime * turnInputFilter);
+        //filteredTurnInput = Mathf.Lerp(filteredTurnInput, h,
+        //    Time.deltaTime * turnInputFilter);
 
+
+        filteredTurnInput = Mathf.Clamp(Mathf.Lerp(filteredTurnInput, h,
+            Time.deltaTime * turnInputFilter), -forwardSpeedLimit, forwardSpeedLimit);
         Forward = filteredForwardInput;
         Turn = filteredTurnInput;
 
@@ -132,11 +152,11 @@ public class CharacterInputController : MonoBehaviour
 
     private void OnEnable()
     {
-        playerInput.CharacterControls.Enable();
+        playerInput.Enable();
     }
 
     private void OnDisable()
     {
-        playerInput.CharacterControls.Disable();
+        playerInput.Disable();
     }
 }
