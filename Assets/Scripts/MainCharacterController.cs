@@ -17,12 +17,13 @@ public class MainCharacterController : MonoBehaviour
 
     private CharacterInputController cinput;
     private RootMotionControlScript rootMotionControlScript;
-    private AINavV2 aiNavController;
+    private AINavV2 aiFollowController;
     private AIMovement aiMovementScript;
     private CombatController combatController;
 
     public enum ControllState
     {
+        PlayerControlled,
         AIControlledIdle,
         AIControlledFollowing,
         AIControlledFighting
@@ -35,7 +36,7 @@ public class MainCharacterController : MonoBehaviour
         // Get all components
         cinput = GetComponent<CharacterInputController>();
         rootMotionControlScript = GetComponent<RootMotionControlScript>();
-        aiNavController = GetComponent<AINavV2>();
+        aiFollowController = GetComponent<AINavV2>();
         aiMovementScript = GetComponent<AIMovement>();
         combatController = GetComponent<CombatController>();
 
@@ -67,7 +68,7 @@ public class MainCharacterController : MonoBehaviour
         // Continuously update target position for following
         if (currentControlState == ControllState.AIControlledFollowing && playerTarget != null)
         {
-            if (useV2 && aiNavController != null && aiNavController.enabled)
+            if (useV2 && aiFollowController != null && aiFollowController.enabled)
             {
                 // AINavV2 handles continuous updates in its own Update
             }
@@ -79,7 +80,28 @@ public class MainCharacterController : MonoBehaviour
     }
 
     // ===== PUBLIC SWITCHING METHODS =====
+    public void switchToPlayerControlled()
+    {
+        Debug.Log($"Switching {Name} to PlayerControlled");
 
+        // Disable player input
+        if (cinput != null)
+            cinput.enabled = true;
+
+        // Configure AI based on version
+        if (aiFollowController != null)
+            aiFollowController.enabled = false;
+        if (aiMovementScript != null)
+            aiMovementScript.enabled = false;
+
+        // Disable combat in idle state
+        if (combatController != null)
+            combatController.enabled = false;
+
+        currentControlState = ControllState.PlayerControlled;
+
+        Debug.Log($"✅ {Name} is now PlayerControlled");
+    }
     public void switchToAIControlledIdle()
     {
         Debug.Log($"🤖 Switching {Name} to AIControlledIdle");
@@ -91,8 +113,8 @@ public class MainCharacterController : MonoBehaviour
         // Configure AI based on version
         if (useV2)
         {
-            if (aiNavController != null)
-                aiNavController.enabled = true;
+            if (aiFollowController != null)
+                aiFollowController.enabled = true;
             if (aiMovementScript != null)
                 aiMovementScript.enabled = false;
         }
@@ -100,8 +122,8 @@ public class MainCharacterController : MonoBehaviour
         {
             if (aiMovementScript != null)
                 aiMovementScript.enabled = true;
-            if (aiNavController != null)
-                aiNavController.enabled = false;
+            if (aiFollowController != null)
+                aiFollowController.enabled = false;
         }
 
         // Disable combat in idle state
@@ -122,12 +144,12 @@ public class MainCharacterController : MonoBehaviour
             cinput.enabled = false;
 
         // Enable appropriate AI system
-        if (useV2 && aiNavController != null)
+        if (useV2 && aiFollowController != null)
         {
-            aiNavController.enabled = true;
+            aiFollowController.enabled = true;
             if (target != null)
             {
-                aiNavController.SetTarget(target);
+                aiFollowController.SetTarget(target);
                 playerTarget = target;
             }
 
@@ -143,8 +165,8 @@ public class MainCharacterController : MonoBehaviour
                 playerTarget = target;
             }
 
-            if (aiNavController != null)
-                aiNavController.enabled = false;
+            if (aiFollowController != null)
+                aiFollowController.enabled = false;
         }
 
         // Enable combat for companion protection
@@ -165,11 +187,11 @@ public class MainCharacterController : MonoBehaviour
             cinput.enabled = false;
 
         // Enable appropriate AI system and set target
-        if (useV2 && aiNavController != null)
+        if (useV2 && aiFollowController != null)
         {
-            aiNavController.enabled = true;
+            aiFollowController.enabled = true;
             if (target != null)
-                aiNavController.SetTarget(target);
+                aiFollowController.SetTarget(target);
 
             if (aiMovementScript != null)
                 aiMovementScript.enabled = false;
@@ -180,8 +202,8 @@ public class MainCharacterController : MonoBehaviour
             if (target != null)
                 aiMovementScript.SetTarget(target);
 
-            if (aiNavController != null)
-                aiNavController.enabled = false;
+            if (aiFollowController != null)
+                aiFollowController.enabled = false;
         }
 
         // Always enable combat in fighting state
@@ -197,7 +219,7 @@ public class MainCharacterController : MonoBehaviour
 
     public bool IsAIControlled()
     {
-        return true; // Always true for AI companions
+        return currentControlState != ControllState.PlayerControlled; // Always true for AI companions
     }
 
     public void SetControlState(ControllState newState)
@@ -212,6 +234,8 @@ public class MainCharacterController : MonoBehaviour
                 break;
             case ControllState.AIControlledFighting:
                 switchToAIControlledFighting(null);
+                break;
+            case ControllState.PlayerControlled:
                 break;
         }
     }
