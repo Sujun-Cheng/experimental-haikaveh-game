@@ -1392,7 +1392,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 435430742}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.05660823, y: -0.003616634, z: 0.00020506138, w: 0.99838996}
+  m_LocalRotation: {x: 0.056607407, y: -0.006492628, z: 0.00036812876, w: 0.99837536}
   m_LocalPosition: {x: 107.020004, y: 2.01, z: 9.066805}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3390,6 +3390,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: SomeDudeRootMotion
+  thirdPersonCamera: {fileID: 435430747}
   InputMapToCircular: 1
   forwardInputFilter: 5
   turnInputFilter: 5
@@ -3678,7 +3679,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1233660826}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.05660823, y: -0.0036166345, z: 0.00020506144, w: 0.99838996}
+  m_LocalRotation: {x: 0.05660741, y: -0.0064926283, z: 0.00036812894, w: 0.99837536}
   m_LocalPosition: {x: 107.020004, y: 2.01, z: 9.066805}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4440,6 +4441,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: George P Burdell
+  thirdPersonCamera: {fileID: 435430747}
   InputMapToCircular: 1
   forwardInputFilter: 5
   turnInputFilter: 5

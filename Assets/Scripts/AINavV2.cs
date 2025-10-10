@@ -130,21 +130,22 @@ public class AINavV2 : MonoBehaviour
 
     void CalculateMovement(float distanceToPlayer)
     {
+        float speedMultiplier = 0;
         // FORWARD MOVEMENT
         if (distanceToPlayer <= stopDistance)
         {
             // Too close - stop
-            currentForward = 0f;
+            speedMultiplier = 0f;
         }
         else if (distanceToPlayer <= followDistance)
         {
             // In range - move slowly
-            currentForward = 0.3f;
+            speedMultiplier = 0.5f;
         }
         else
         {
             // Far away - move at full speed
-            currentForward = moveSpeed;
+            speedMultiplier = moveSpeed;
         }
         distanceToPlayer = Vector3.Distance(transform.position, navAgent.steeringTarget);
         print($"navAgent.steeringTarget: {navAgent.steeringTarget}");
@@ -156,18 +157,22 @@ public class AINavV2 : MonoBehaviour
         directionToPlayer.Normalize();
 
         // Get current forward direction
-        Vector3 currentForward3D = transform.forward;
+        //Vector3 currentForward3D = transform.forward;
 
         // Calculate angle difference (-180 to 180)
-        float angleToPlayer = Vector3.SignedAngle(currentForward3D, directionToPlayer, Vector3.up);
+        //float angleToPlayer = Vector3.SignedAngle(currentForward3D, directionToPlayer, Vector3.up);
 
         // Convert angle to turn input (-1 to 1)
         // Positive angle = need to turn right (positive input)
         // Negative angle = need to turn left (negative input)
-        currentTurn = Mathf.Clamp(angleToPlayer / 45f, -1f, 1f) * turnSpeed;
+        //currentTurn = Mathf.Clamp(angleToPlayer / 45f, -1f, 1f) * turnSpeed;
 
-        // Smooth the turn input
-        currentTurn = Mathf.Clamp(currentTurn, -1f, 1f);
+        //// Smooth the turn input
+        //currentTurn = Mathf.Clamp(currentTurn, -1f, 1f);
+        //currentTurn = angleToPlayer;
+        currentForward = directionToPlayer.z * speedMultiplier;
+
+        currentTurn = directionToPlayer.x * speedMultiplier;
         navAgent.nextPosition = anim.rootPosition;
         navAgent.transform.rotation = transform.rotation;
         
