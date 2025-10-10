@@ -45,11 +45,31 @@ public class CharacterInputController : MonoBehaviour
             print($"Player {Name}: applying dash of {ctx.ReadValueAsObject()}");
             DashPressed = ctx.ReadValueAsButton();
         };
+        playerInput.CharacterControls.Dash.performed += (ctx) => {
+            print($"Player {Name}: applying dash of {ctx.ReadValueAsObject()}");
+            DashPressed = ctx.ReadValueAsButton();
+        };
 
         playerInput.CharacterControls.Jump.performed += (ctx) =>
         {
             print($"Player {Name}: applying jump of {ctx.ReadValueAsObject()}");
             Jump = ctx.ReadValueAsButton();
+        };
+        playerInput.CharacterControls.Jump.performed += (ctx) =>
+        {
+            print($"Player {Name}: applying jump of {ctx.ReadValueAsObject()}");
+            Jump = ctx.ReadValueAsButton();
+        };
+        playerInput.CharacterControls.Attack.performed += (ctx) =>
+        {
+            print($"Player {Name}: applying atk of {ctx.ReadValueAsObject()}");
+            Debug.Log($"🖱️ [{Time.frameCount}] ATTACK SET TO TRUE in CharacterInputController!");
+            Attack = ctx.ReadValueAsButton();
+        };
+        playerInput.CharacterControls.Attack.canceled += (ctx) =>
+        {
+            print($"Player {Name}: applying atk of {ctx.ReadValueAsObject()}");
+            Attack = ctx.ReadValueAsButton();
         };
     }
 
@@ -101,13 +121,13 @@ public class CharacterInputController : MonoBehaviour
         Jump = Input.GetButtonDown("Jump");
 
         // Attack input - check multiple sources
-        Attack = Input.GetButtonDown("Fire1") || Input.GetMouseButtonDown(0);
+        //Attack = Input.GetButtonDown("Fire1") || Input.GetMouseButtonDown(0);
 
-        // Debug when attack is pressed
-        if (Attack)
-        {
-            Debug.Log($"🖱️ [{Time.frameCount}] ATTACK SET TO TRUE in CharacterInputController!");
-        }
+        //// Debug when attack is pressed
+        //if (Attack)
+        //{
+        //    Debug.Log($"🖱️ [{Time.frameCount}] ATTACK SET TO TRUE in CharacterInputController!");
+        //}
     }
 
     private void OnEnable()

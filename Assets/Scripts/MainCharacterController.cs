@@ -236,6 +236,7 @@ public class MainCharacterController : MonoBehaviour
                 switchToAIControlledFighting(null);
                 break;
             case ControllState.PlayerControlled:
+                switchToPlayerControlled();
                 break;
         }
     }
