@@ -47,7 +47,7 @@ public class CharacterInputController : MonoBehaviour
             print($"Player {Name}: applying dash of {ctx.ReadValueAsObject()}");
             DashPressed = ctx.ReadValueAsButton();
         };
-        playerInput.CharacterControls.Dash.performed += (ctx) => {
+        playerInput.CharacterControls.Dash.canceled += (ctx) => {
             print($"Player {Name}: applying dash of {ctx.ReadValueAsObject()}");
             DashPressed = ctx.ReadValueAsButton();
         };
@@ -57,7 +57,7 @@ public class CharacterInputController : MonoBehaviour
             print($"Player {Name}: applying jump of {ctx.ReadValueAsObject()}");
             Jump = ctx.ReadValueAsButton();
         };
-        playerInput.CharacterControls.Jump.performed += (ctx) =>
+        playerInput.CharacterControls.Jump.canceled += (ctx) =>
         {
             print($"Player {Name}: applying jump of {ctx.ReadValueAsObject()}");
             Jump = ctx.ReadValueAsButton();
