@@ -17,6 +17,8 @@ public class AINavV2 : MonoBehaviour
 
     [Tooltip("Start moving when further than this")]
     public float followDistance = 5f;
+    [Tooltip("Start sprinting when further than this")]
+    public float sprintDistance = 20f;
 
     [Tooltip("How fast to move (0-1)")]
     public float moveSpeed = 0.8f;
@@ -36,9 +38,11 @@ public class AINavV2 : MonoBehaviour
     // Reflection fields
     private FieldInfo inputForwardField;
     private FieldInfo inputTurnField;
+    private FieldInfo sprintFlag;
 
     private float currentForward = 0f;
     private float currentTurn = 0f;
+    private bool currentSprint = false;
 
     void Awake()
     {
@@ -79,7 +83,7 @@ public class AINavV2 : MonoBehaviour
         System.Type type = typeof(RootMotionControlScript);
         inputForwardField = type.GetField("_inputForward", BindingFlags.NonPublic | BindingFlags.Instance);
         inputTurnField = type.GetField("_inputTurn", BindingFlags.NonPublic | BindingFlags.Instance);
-
+        sprintFlag = type.GetField("_dash", BindingFlags.NonPublic | BindingFlags.Instance);
         if (inputForwardField == null || inputTurnField == null)
         {
             Debug.LogError("AINavV2: Could not find _inputForward or _inputTurn fields!");
@@ -101,7 +105,7 @@ public class AINavV2 : MonoBehaviour
     {
         if (player == null || navAgent == null || !navAgent.isOnNavMesh)
         {
-            SetInputs(0f, 0f);
+            SetInputs(0f, 0f, false);
             return;
         }
 
@@ -119,7 +123,7 @@ public class AINavV2 : MonoBehaviour
         CalculateMovement(distanceToPlayer);
 
         // Apply inputs via reflection
-        SetInputs(currentForward, currentTurn);
+        SetInputs(currentForward, currentTurn, currentSprint);
 
         if (showDebug && Time.frameCount % 60 == 0) // Log every 60 frames
         {
@@ -131,23 +135,35 @@ public class AINavV2 : MonoBehaviour
     void CalculateMovement(float distanceToPlayer)
     {
         float speedMultiplier = 0;
+        currentSprint = false;
+        print($"distance between follower and target: {distanceToPlayer}");
         // FORWARD MOVEMENT
         if (distanceToPlayer <= stopDistance)
         {
+            print($"distance between follower and target: {distanceToPlayer}, stopping");
             // Too close - stop
             speedMultiplier = 0f;
         }
         else if (distanceToPlayer <= followDistance)
         {
+            print($"distance between follower and target: {distanceToPlayer}, slowing down");
             // In range - move slowly
             speedMultiplier = 0.5f;
         }
-        else
+        else if (distanceToPlayer <= sprintDistance)
         {
+            print($"distance between follower and target: {distanceToPlayer}, running: distance to player: {distanceToPlayer}, {sprintDistance}");
             // Far away - move at full speed
             speedMultiplier = moveSpeed;
+        } else
+        {
+            print($"distance between follower and target: {distanceToPlayer}, dashing");
+            print($"distance threshold reached. setting speed parameter: {currentSprint}");
+            speedMultiplier = 1f;
+            currentSprint = true;
+
         }
-        distanceToPlayer = Vector3.Distance(transform.position, navAgent.steeringTarget);
+            distanceToPlayer = Vector3.Distance(transform.position, navAgent.steeringTarget);
         print($"navAgent.steeringTarget: {navAgent.steeringTarget}");
 
         // TURNING
@@ -180,7 +196,7 @@ public class AINavV2 : MonoBehaviour
 
     
 
-    void SetInputs(float forward, float turn)
+    void SetInputs(float forward, float turn, bool sprint)
     {
         if (rootMotion == null) return;
 
@@ -194,6 +210,12 @@ public class AINavV2 : MonoBehaviour
             if (inputTurnField != null)
             {
                 inputTurnField.SetValue(rootMotion, turn);
+            }
+
+            if (sprintFlag != null)
+            {
+                print($"sprintFlag: {currentSprint}");
+                sprintFlag.SetValue(rootMotion, currentSprint);
             }
         }
         catch (System.Exception e)
@@ -213,7 +235,7 @@ public class AINavV2 : MonoBehaviour
         if (navAgent != null)
             navAgent.enabled = false;
 
-        SetInputs(0f, 0f);
+        SetInputs(0f, 0f, false);
     }
 
     // Gizmos removed - no visual debug lines

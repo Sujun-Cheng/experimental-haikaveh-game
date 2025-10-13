@@ -188,6 +188,7 @@ public class RootMotionControlScript : MonoBehaviour
         anim.SetBool("isFalling", !isGrounded);
         anim.SetBool("doButtonPress", doButtonPress);
         anim.SetBool("matchToButtonPress", doMatchToButtonPress);
+        anim.SetBool("isDashing", _dash);
 
     }
 
