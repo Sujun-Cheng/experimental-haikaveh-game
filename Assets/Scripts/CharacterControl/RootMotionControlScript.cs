@@ -14,11 +14,11 @@ public class RootMotionControlScript : MonoBehaviour
     private Animator anim;
     private Rigidbody rbody;
     private CharacterInputController cinput;
+    private Time lastAnimatorUpdate;
 
     private Transform leftFoot;
     private Transform rightFoot;
     public GameObject buttonObject;
-
     public GameObject buttonPressStandingSpot;
     public float buttonCloseEnoughForMatchDistance = 2f;
     public float buttonCloseEnoughForPressDistance = 0.22f;
@@ -41,6 +41,7 @@ public class RootMotionControlScript : MonoBehaviour
     float _inputForward = 0f;
     float _inputTurn = 0f;
     bool _dash = false;
+    bool _jump = false;
 
 
     //Useful if you implement jump in the future...
@@ -90,6 +91,7 @@ public class RootMotionControlScript : MonoBehaviour
     }
 
 
+
     private void Update()
     {
         if (cinput.enabled)
@@ -98,6 +100,7 @@ public class RootMotionControlScript : MonoBehaviour
             _inputForward = cinput.Forward;
             _inputTurn = cinput.Turn;
             _dash = cinput.DashPressed;
+            _jump = IsGrounded ? cinput.Jump : false;
 
             // Note that we don't overwrite a true value already stored
             // Is only cleared to false in FixedUpdate()
@@ -177,19 +180,35 @@ public class RootMotionControlScript : MonoBehaviour
 
             }
         }
+        bool isJumping = false ;
+        if (!cinput.enabled)
+        {
+            isGrounded = true;
+        } else if (animState.IsName("Jump Up"))
+        {
+            isJumping = false; //prevents double jumping
+        } else
+        {
+            isJumping = (isGrounded && _jump);
+        }
+        if (isJumping)
+        {
+            isGrounded = false;
+        } 
+       
 
-
-        anim.speed = animationSpeed;
+            anim.speed = animationSpeed;
         //anim.SetFloat("velx", _inputTurn);
         Vector3 currentPosition = transform.position;
         Vector3 newPosition = new Vector3(_inputTurn, 0, _inputForward);
         transform.LookAt(currentPosition + newPosition);
         anim.SetFloat("vely", newPosition.magnitude);
+        anim.SetBool("isJumping", isJumping);
         anim.SetBool("isFalling", !isGrounded);
         anim.SetBool("doButtonPress", doButtonPress);
         anim.SetBool("matchToButtonPress", doMatchToButtonPress);
         anim.SetBool("isDashing", _dash);
-
+       
     }
 
 
@@ -235,7 +254,16 @@ public class RootMotionControlScript : MonoBehaviour
         else
         {
             //Simple trick to keep model from climbing other rigidbodies that aren't the ground
-            newRootPosition = new Vector3(anim.rootPosition.x, this.transform.position.y, anim.rootPosition.z);
+            //applies a velocity to the model while airborne so you can still move in the air
+            Vector3 forward = transform.forward*anim.GetFloat("vely");
+            forward = forward * 4f;
+            if (anim.GetBool("isDashing"))
+            {
+                forward = forward * 1.2f;
+            }
+            newRootPosition = new Vector3(anim.rootPosition.x + forward.x*Time.deltaTime, this.transform.position.y, anim.rootPosition.z + forward.z*Time.deltaTime);
+
+            
         }
 
         //use rotational root motion as is
@@ -278,6 +306,14 @@ public class RootMotionControlScript : MonoBehaviour
             }
         }
     }
+
+    public void ApplyJumpForce()
+    {
+
+        rbody.AddForce((transform.up * 300) , ForceMode.Impulse);
+    }
+
+    
 
 
 }
