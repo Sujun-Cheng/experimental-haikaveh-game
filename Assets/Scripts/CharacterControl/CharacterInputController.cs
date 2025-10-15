@@ -52,7 +52,7 @@ public class CharacterInputController : MonoBehaviour
             DashPressed = ctx.ReadValueAsButton();
         };
 
-        playerInput.CharacterControls.Jump.started += (ctx) =>
+        playerInput.CharacterControls.Jump.performed += (ctx) =>
         {
             print($"Player {Name}: applying jump of {ctx.ReadValueAsObject()}");
             Jump = ctx.ReadValueAsButton();
