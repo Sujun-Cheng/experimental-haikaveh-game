@@ -186,7 +186,7 @@ public class RootMotionControlScript : MonoBehaviour
             isGrounded = true;
         } else if (animState.IsName("Jump Up"))
         {
-            isJumping = false; //prevents double jumping
+            //isJumping = false; //prevents double jumping
         } else
         {
             isJumping = (isGrounded && _jump);
@@ -245,8 +245,18 @@ public class RootMotionControlScript : MonoBehaviour
         Quaternion newRootRotation;
 
         bool isGrounded = IsGrounded || CharacterCommon.CheckGroundNear(this.transform.position, jumpableGroundNormalMaxAngle, 0.1f, 1f, out closeToJumpableGround);
-
-        if (isGrounded)
+        var animState = anim.GetCurrentAnimatorStateInfo(0);
+        if (animState.IsName("Jump Up"))
+        {
+            Vector3 forward = transform.forward * anim.GetFloat("vely");
+            forward = forward * 4f;
+            if (anim.GetBool("isDashing"))
+            {
+                forward = forward * 1.2f;
+            }
+            newRootPosition = new Vector3(anim.rootPosition.x + forward.x * Time.deltaTime, this.transform.position.y, anim.rootPosition.z + forward.z * Time.deltaTime);
+        }
+        else if (isGrounded)
         {
             //use root motion as is if on the ground		
             newRootPosition = anim.rootPosition;
