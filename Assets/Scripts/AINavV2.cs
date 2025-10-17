@@ -73,6 +73,7 @@ public class AINavV2 : MonoBehaviour
             if (player != null)
                 Debug.Log($"   Target: {player.name}");
         }
+        navAgent.autoTraverseOffMeshLink = false;
     }
 
     void SetupReflection()
@@ -139,16 +140,17 @@ public class AINavV2 : MonoBehaviour
                 //inputForwardField.SetValue(rootMotion, directionVector.z);
                 //inputTurnField.SetValue(rootMotion, directionVector.x);
                 //jumpFlag.SetValue(rootMotion, true);
-                //StartCoroutine(DoOffMeshLink(link));
+                StartCoroutine(DoOffMeshLink(link, 1f));
 
             }
         }
         else
         {
+            isOffMesh = false;
             jumpFlag.SetValue(rootMotion, false);
             rb.isKinematic = false;
-            //navAgent.updatePosition = false;
-            //navAgent.updateRotation = false;
+            navAgent.updatePosition = false;
+            navAgent.updateRotation = false;
             //}
 
 
@@ -278,22 +280,34 @@ public class AINavV2 : MonoBehaviour
     // Gizmos removed - no visual debug lines
 
 
-    //IEnumerator DoOffMeshLink(OffMeshLinkData link)
-    //{
-    //    if (jumpFlag != null)
-    //    {
-    //        Vector3 directionVector = (link.endPos - link.startPos);
-    //        navAgent.isStopped = true;
-    //        directionVector.y = 0;
-    //        directionVector.Normalize();
-    //        rb.isKinematic = true;
-    //        //inputTurnField.SetValue(rootMotion, directionVector.x);
-    //        //inputForwardField.SetValue(rootMotion, directionVector.z);
+    IEnumerator DoOffMeshLink(OffMeshLinkData link, float duration)
+    {
+        Vector3 directionVector = (link.endPos - navAgent.transform.position);
 
-    //        print($"jumpFlag: {jumpFlag}");
-    //        inputForwardField.SetValue(rootMotion, directionVector.z);
-    //        inputTurnField.SetValue(rootMotion, directionVector.x);
-    //        jumpFlag.SetValue(rootMotion, true);
-    //    }
-    //}
+        Vector3 startPos = transform.position;
+        Vector3 endPos = link.endPos;
+        navAgent.isStopped = true;
+        Vector3 lookAt = endPos;
+        
+
+            //directionVector.Normalize();
+            
+            print($"jumpFlag: {jumpFlag}");
+           
+        float normalizedTime = 0f;
+        while (normalizedTime < 1f)
+        {
+            float yOffset = 5.0f * (normalizedTime - normalizedTime * normalizedTime);
+            transform.position = Vector3.Lerp(startPos, endPos, normalizedTime) + yOffset * Vector3.up;
+            lookAt.y = transform.position.y;
+            transform.LookAt(lookAt);
+            anim.rootPosition = transform.position;
+            navAgent.nextPosition = transform.position;
+            navAgent.transform.position = transform.position;
+            normalizedTime += Time.deltaTime / duration;
+            yield return new WaitForSeconds(0);
+        }
+        navAgent.CompleteOffMeshLink();
+        navAgent.isStopped = false;
+    }
 }
