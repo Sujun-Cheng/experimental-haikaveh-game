@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Collections;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -39,10 +40,12 @@ public class AINavV2 : MonoBehaviour
     private FieldInfo inputForwardField;
     private FieldInfo inputTurnField;
     private FieldInfo sprintFlag;
+    private FieldInfo jumpFlag;
 
     private float currentForward = 0f;
     private float currentTurn = 0f;
     private bool currentSprint = false;
+    private bool isOffMesh = false;
 
     void Awake()
     {
@@ -70,6 +73,7 @@ public class AINavV2 : MonoBehaviour
             if (player != null)
                 Debug.Log($"   Target: {player.name}");
         }
+        navAgent.autoTraverseOffMeshLink = false;
     }
 
     void SetupReflection()
@@ -84,6 +88,7 @@ public class AINavV2 : MonoBehaviour
         inputForwardField = type.GetField("_inputForward", BindingFlags.NonPublic | BindingFlags.Instance);
         inputTurnField = type.GetField("_inputTurn", BindingFlags.NonPublic | BindingFlags.Instance);
         sprintFlag = type.GetField("_dash", BindingFlags.NonPublic | BindingFlags.Instance);
+        jumpFlag = type.GetField("_jump", BindingFlags.NonPublic | BindingFlags.Instance);
         if (inputForwardField == null || inputTurnField == null)
         {
             Debug.LogError("AINavV2: Could not find _inputForward or _inputTurn fields!");
@@ -103,7 +108,7 @@ public class AINavV2 : MonoBehaviour
 
     void Update()
     {
-        if (player == null || navAgent == null || !navAgent.isOnNavMesh)
+        if (player == null || navAgent == null)
         {
             SetInputs(0f, 0f, false);
             return;
@@ -114,20 +119,51 @@ public class AINavV2 : MonoBehaviour
         // Update NavMesh destination
         //if (distanceToPlayer > stopDistance)
         //{
-            navAgent.SetDestination(player.position);
-            
-        //}
-
-        
-        // Calculate movement inputs
-        CalculateMovement(distanceToPlayer);
-
-        // Apply inputs via reflection
-        SetInputs(currentForward, currentTurn, currentSprint);
-
-        if (showDebug && Time.frameCount % 60 == 0) // Log every 60 frames
+        navAgent.SetDestination(player.position);
+        if (navAgent.isOnOffMeshLink)
         {
-            Debug.Log($"AI {gameObject.name}: Distance={distanceToPlayer:F1}m, Forward={currentForward:F2}, Turn={currentTurn:F2}");
+            if (!isOffMesh)
+            {
+                isOffMesh = true;
+                var link = navAgent.currentOffMeshLinkData;
+                rb.isKinematic = true;
+                Vector3 directionVector = (link.endPos - link.startPos);
+                directionVector.y = 0;
+                directionVector.Normalize();
+                
+                inputTurnField.SetValue(rootMotion, 0);
+                inputForwardField.SetValue(rootMotion, 0);
+
+                print($"jumpFlag: {jumpFlag}");
+                navAgent.updatePosition = true;
+                navAgent.updateRotation = true;
+                //inputForwardField.SetValue(rootMotion, directionVector.z);
+                //inputTurnField.SetValue(rootMotion, directionVector.x);
+                //jumpFlag.SetValue(rootMotion, true);
+                StartCoroutine(DoOffMeshLink(link, 1f));
+
+            }
+        }
+        else
+        {
+            isOffMesh = false;
+            jumpFlag.SetValue(rootMotion, false);
+            rb.isKinematic = false;
+            navAgent.updatePosition = false;
+            navAgent.updateRotation = false;
+            //}
+
+
+            // Calculate movement inputs
+            CalculateMovement(distanceToPlayer);
+
+            // Apply inputs via reflection
+            SetInputs(currentForward, currentTurn, currentSprint);
+
+            if (showDebug && Time.frameCount % 60 == 0) // Log every 60 frames
+            {
+                Debug.Log($"AI {gameObject.name}: Distance={distanceToPlayer:F1}m, Forward={currentForward:F2}, Turn={currentTurn:F2}");
+            }
         }
         
     }
@@ -190,6 +226,7 @@ public class AINavV2 : MonoBehaviour
 
         currentTurn = directionToPlayer.x * speedMultiplier;
         navAgent.nextPosition = anim.rootPosition;
+
         navAgent.transform.rotation = transform.rotation;
         
     }
@@ -217,6 +254,8 @@ public class AINavV2 : MonoBehaviour
                 print($"sprintFlag: {currentSprint}");
                 sprintFlag.SetValue(rootMotion, currentSprint);
             }
+            
+           
         }
         catch (System.Exception e)
         {
@@ -239,4 +278,36 @@ public class AINavV2 : MonoBehaviour
     }
 
     // Gizmos removed - no visual debug lines
+
+
+    IEnumerator DoOffMeshLink(OffMeshLinkData link, float duration)
+    {
+        Vector3 directionVector = (link.endPos - navAgent.transform.position);
+
+        Vector3 startPos = transform.position;
+        Vector3 endPos = link.endPos;
+        navAgent.isStopped = true;
+        Vector3 lookAt = endPos;
+        
+
+            //directionVector.Normalize();
+            
+            print($"jumpFlag: {jumpFlag}");
+           
+        float normalizedTime = 0f;
+        while (normalizedTime < 1f)
+        {
+            float yOffset = 5.0f * (normalizedTime - normalizedTime * normalizedTime);
+            transform.position = Vector3.Lerp(startPos, endPos, normalizedTime) + yOffset * Vector3.up;
+            lookAt.y = transform.position.y;
+            transform.LookAt(lookAt);
+            anim.rootPosition = transform.position;
+            navAgent.nextPosition = transform.position;
+            navAgent.transform.position = transform.position;
+            normalizedTime += Time.deltaTime / duration;
+            yield return new WaitForSeconds(0);
+        }
+        navAgent.CompleteOffMeshLink();
+        navAgent.isStopped = false;
+    }
 }

@@ -28,6 +28,7 @@ public class RootMotionControlScript : MonoBehaviour
     public float animationSpeed = 1f;
     public float rootMovementSpeed = 1f;
     public float rootTurnSpeed = 1f;
+    public float jumpForce = 350f;
 
 
 
@@ -183,7 +184,8 @@ public class RootMotionControlScript : MonoBehaviour
         bool isJumping = false ;
         if (!cinput.enabled)
         {
-            isGrounded = true;
+            //isGrounded = true;
+            isJumping = (isGrounded && _jump);
         } else if (animState.IsName("Jump Up"))
         {
             //isJumping = false; //prevents double jumping
@@ -252,7 +254,7 @@ public class RootMotionControlScript : MonoBehaviour
             forward = forward * 4f;
             if (anim.GetBool("isDashing"))
             {
-                forward = forward * 1.2f;
+                forward = forward * 1.3f;
             }
             newRootPosition = new Vector3(anim.rootPosition.x + forward.x * Time.deltaTime, this.transform.position.y, anim.rootPosition.z + forward.z * Time.deltaTime);
         }
@@ -269,7 +271,7 @@ public class RootMotionControlScript : MonoBehaviour
             forward = forward * 4f;
             if (anim.GetBool("isDashing"))
             {
-                forward = forward * 1.2f;
+                forward = forward * 1.3f;
             }
             newRootPosition = new Vector3(anim.rootPosition.x + forward.x*Time.deltaTime, this.transform.position.y, anim.rootPosition.z + forward.z*Time.deltaTime);
 
@@ -319,8 +321,16 @@ public class RootMotionControlScript : MonoBehaviour
 
     public void ApplyJumpForce()
     {
-
-        rbody.AddForce((transform.up * 300) , ForceMode.Impulse);
+        float jumpForceMultiplier = 1;
+        if (_dash)
+        {
+            jumpForceMultiplier = 1.3f;
+        }
+        if (!rbody.isKinematic)
+        {
+            rbody.AddForce((transform.up * jumpForce * jumpForceMultiplier), ForceMode.Impulse);
+        }
+        
     }
 
     
