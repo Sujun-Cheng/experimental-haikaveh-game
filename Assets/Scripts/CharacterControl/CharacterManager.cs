@@ -21,12 +21,16 @@ public class CharacterManager : MonoBehaviour
     public CinemachineCamera thirdPersonCamera;
     public float cameraDistance = 5f;
     public float cameraHeight = 2f;
+    public PlayerUIManager playerUIManager;
 
     void Start()
     {
         // Validate setup
         SetUpPlayer();
-
+        if (playerUIManager != null)
+        {
+            playerUIManager.SetCharacter(playerCharacter);
+        }  
         // Setup AI companions to follow player
         SetupAICompanions();
     }
@@ -53,6 +57,11 @@ public class CharacterManager : MonoBehaviour
             playerCharacter = passivePlayer;
             AddCompanion(activePlayer);
             SetUpPlayer();
+
+            if (playerUIManager != null)
+            {
+                playerUIManager.SetCharacter(playerCharacter);
+            }
         }
         
     }
