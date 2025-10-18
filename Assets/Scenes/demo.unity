@@ -2194,6 +2194,36 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
+    - target: {fileID: 114172647563574064, guid: 92fe32709c76d450094d1a1b3dcfc9b9,
+        type: 3}
+      propertyPath: footStepAudio.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114172647563574064, guid: 92fe32709c76d450094d1a1b3dcfc9b9,
+        type: 3}
+      propertyPath: 'footStepAudio.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 8fc252ff972370241b2451ee8684b871, type: 3}
+    - target: {fileID: 114172647563574064, guid: 92fe32709c76d450094d1a1b3dcfc9b9,
+        type: 3}
+      propertyPath: 'footStepAudio.Array.data[1]'
+      value: 
+      objectReference: {fileID: 8300000, guid: dbdad1c2d8b77324bba9b579cff98b8d, type: 3}
+    - target: {fileID: 114172647563574064, guid: 92fe32709c76d450094d1a1b3dcfc9b9,
+        type: 3}
+      propertyPath: 'footStepAudio.Array.data[2]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 8a5d0caffed7ad8408762173197c89eb, type: 3}
+    - target: {fileID: 114172647563574064, guid: 92fe32709c76d450094d1a1b3dcfc9b9,
+        type: 3}
+      propertyPath: 'footStepAudio.Array.data[3]'
+      value: 
+      objectReference: {fileID: 8300000, guid: e7132f9c36139aa4499ff5c5e80e8eaa, type: 3}
+    - target: {fileID: 114172647563574064, guid: 92fe32709c76d450094d1a1b3dcfc9b9,
+        type: 3}
+      propertyPath: 'footStepAudio.Array.data[4]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 68919eef930646c47baec2350ce2b51f, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4971,6 +5001,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1179679566}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1acab6c3906b66f42ace7b5edf2cef37,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1179679567}
   m_SourcePrefab: {fileID: 100100000, guid: 1acab6c3906b66f42ace7b5edf2cef37, type: 3}
 --- !u!4 &1171360967 stripped
 Transform:
@@ -5338,6 +5372,18 @@ MonoBehaviour:
   weaponPrefab: {fileID: 1487645458238499357, guid: b81c43fc99ea0274da5bc0c50aae9b6e,
     type: 3}
   slashVFXPrefab: {fileID: 0}
+--- !u!114 &1179679567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1179679549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5b1794735a2163419d92ac940d65c76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1191700596
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6356,6 +6402,18 @@ MonoBehaviour:
   jumpForce: 350
   jumpableGroundNormalMaxAngle: 45
   closeToJumpableGround: 0
+--- !u!114 &1331787760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1331787731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5b1794735a2163419d92ac940d65c76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1333554565
 GameObject:
   m_ObjectHideFlags: 0
@@ -9220,6 +9278,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1331787749}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4c08a01c25d17744c9b33989d172b31c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1331787760}
   m_SourcePrefab: {fileID: 100100000, guid: 4c08a01c25d17744c9b33989d172b31c, type: 3}
 --- !u!1001 &2005123247
 PrefabInstance:
