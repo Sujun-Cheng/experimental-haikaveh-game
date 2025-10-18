@@ -21,6 +21,7 @@ public class AudioEventManager : MonoBehaviour
     public AudioClip minionSpawnAudio;
     public AudioClip[] minionFootstepAudio;
     public AudioClip punchAudio;
+    public AudioClip[] footStepAudio;
 
     private UnityAction<Vector3,float> boxCollisionEventListener;
 
@@ -45,6 +46,8 @@ public class AudioEventManager : MonoBehaviour
     private UnityAction<Vector3> minionFootstepEventListener;
 
     private UnityAction<Vector3> minionOuchEventListener;
+
+    private UnityAction<Vector3> playerFootstepEventListener;
 
     void Awake()
     {
@@ -72,6 +75,8 @@ public class AudioEventManager : MonoBehaviour
         minionFootstepEventListener = new UnityAction<Vector3>(minionFootstepEventHandler);
 
         minionOuchEventListener = new UnityAction<Vector3>(minionOuchEventHandler);
+
+        playerFootstepEventListener = new UnityAction<Vector3>(playerFootstepsEventHandler);
     }
 
 
@@ -99,6 +104,7 @@ public class AudioEventManager : MonoBehaviour
         EventManager.StartListening<MinionSpawnEvent, MinionScript>(minionSpawnEventListener);
         EventManager.StartListening<MinionFootstepEvent, Vector3>(minionFootstepEventListener);
         EventManager.StartListening<MinionOuchEvent, Vector3>(minionOuchEventListener);
+        EventManager.StartListening<PlayerFootstepsEvent, Vector3>(playerFootstepEventListener);
 
     }
 
@@ -117,6 +123,7 @@ public class AudioEventManager : MonoBehaviour
         EventManager.StopListening<MinionSpawnEvent, MinionScript>(minionSpawnEventListener);
         EventManager.StopListening<MinionFootstepEvent, Vector3>(minionFootstepEventListener);
         EventManager.StopListening<MinionOuchEvent, Vector3>(minionOuchEventListener);
+        EventManager.StopListening<PlayerFootstepsEvent, Vector3>(playerFootstepEventListener);
     }
 
 
@@ -392,5 +399,21 @@ public class AudioEventManager : MonoBehaviour
         }
 
 
+    }
+
+    void playerFootstepsEventHandler(Vector3 pos)
+    {
+        if (footStepAudio.Length > 0)
+        {
+
+            EventSound3D snd = Instantiate(eventSound3DPrefab, pos, Quaternion.identity, null);
+
+            snd.audioSrc.clip = this.footStepAudio[Random.Range(0, footStepAudio.Length)];
+
+            snd.audioSrc.minDistance = 5f;
+            snd.audioSrc.maxDistance = 100f;
+            snd.audioSrc.volume = 0.33f;
+            snd.audioSrc.Play();
+        }
     }
 }
