@@ -1,0 +1,10 @@
+Update 10.18
+
+可能涉及冲突的改动。
+1. 
+Alhaitham 的layer改为player，便于enemy攻击
+
+2. 
+// Alternative: Send message if enemy doesn't implement IDamageable
+//enemy.SendMessage("TakeDamage", attackDamage, SendMessageOptions.DontRequireReceiver);
+这两行comment out了，不然enemy攻击之后总传输1个parameter，卡死。

@@ -269,7 +269,7 @@ public class CombatController : MonoBehaviour
                 }
 
                 // Alternative: Send message if enemy doesn't implement IDamageable
-                enemy.SendMessage("TakeDamage", attackDamage, SendMessageOptions.DontRequireReceiver);
+                //enemy.SendMessage("TakeDamage", attackDamage, SendMessageOptions.DontRequireReceiver);
             }
         }
     }
