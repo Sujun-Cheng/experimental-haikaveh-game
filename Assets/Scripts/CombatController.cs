@@ -37,6 +37,9 @@ public class CombatController : MonoBehaviour
     // Attack hit detection
     public Transform attackPoint;
     public float attackRadius = 1.5f;
+    public float attackPointHeight = 1f;
+    public float attackPointSide = 0f;
+    public float attackPointForward = 1f;
 
     void Awake()
     {
@@ -47,13 +50,14 @@ public class CombatController : MonoBehaviour
 
         if (anim == null)
             Debug.LogError("CombatController: Animator not found!");
-
+        if (cinput == null)
+            Debug.LogError("CombatController: CharacterInputController not found!");
         // If no attack point is set, create one at character position
         if (attackPoint == null)
         {
             GameObject ap = new GameObject("AttackPoint");
             ap.transform.parent = transform;
-            ap.transform.localPosition = Vector3.forward * 1f + Vector3.up * 1f;
+            ap.transform.localPosition = Vector3.forward * attackPointForward + Vector3.up * attackPointHeight + Vector3.right * attackPointSide;
             attackPoint = ap.transform;
         }
 
@@ -69,13 +73,15 @@ public class CombatController : MonoBehaviour
         }
 
         bool shouldAttack = false;
-
+        Debug.Log($"CombatController: updating");
         // PLAYER CONTROLLED: Check for player input
         if (!isAIControlled && cinput != null && cinput.enabled)
         {
+            Debug.Log($"🎯 Player attack input received: {cinput.Attack}, {canAttack}");
             if (cinput.Attack && canAttack)
             {
                 shouldAttack = true;
+                Debug.Log($"🎯 Player attack input received");
                 if (showDebugInfo)
                     Debug.Log($"🎯 Player attack input received");
             }

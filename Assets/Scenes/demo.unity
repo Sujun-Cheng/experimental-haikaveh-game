@@ -512,6 +512,9 @@ MonoBehaviour:
   drawGizmos: 1
   attackPoint: {fileID: 0}
   attackRadius: 1.5
+  attackPointHeight: 1
+  attackPointSide: 0
+  attackPointForward: 1
 --- !u!1001 &94523091
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2880,6 +2883,9 @@ MonoBehaviour:
   drawGizmos: 1
   attackPoint: {fileID: 0}
   attackRadius: 1.5
+  attackPointHeight: 1
+  attackPointSide: 0
+  attackPointForward: 1
 --- !u!136 &151277211
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -6491,6 +6497,9 @@ MonoBehaviour:
   drawGizmos: 1
   attackPoint: {fileID: 0}
   attackRadius: 1.5
+  attackPointHeight: 1
+  attackPointSide: 0
+  attackPointForward: 1
 --- !u!1 &435430742
 GameObject:
   m_ObjectHideFlags: 0
@@ -8358,6 +8367,9 @@ MonoBehaviour:
   drawGizmos: 1
   attackPoint: {fileID: 0}
   attackRadius: 1.5
+  attackPointHeight: 1
+  attackPointSide: 0
+  attackPointForward: 1
 --- !u!1001 &673931050
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16282,10 +16294,6 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 11
       objectReference: {fileID: 0}
-    - target: {fileID: 13700006, guid: 468074b7db6524718a2aab5fdc63acc9, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 3d7a8e20598a043a199de06f7427d5b4, type: 2}
     - target: {fileID: 2454548610312323064, guid: 4c08a01c25d17744c9b33989d172b31c,
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -16366,6 +16374,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[19]'
       value: 
       objectReference: {fileID: 2100000, guid: 3a56eda7b970c1642996c7143ce593f3, type: 2}
+    - target: {fileID: 13700006, guid: 468074b7db6524718a2aab5fdc63acc9, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 3d7a8e20598a043a199de06f7427d5b4, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -16398,10 +16410,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1179679562}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1acab6c3906b66f42ace7b5edf2cef37,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1179679560}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1acab6c3906b66f42ace7b5edf2cef37,
         type: 3}
       insertIndex: -1
@@ -16661,6 +16669,9 @@ MonoBehaviour:
   drawGizmos: 1
   attackPoint: {fileID: 0}
   attackRadius: 1.5
+  attackPointHeight: 1
+  attackPointSide: 0
+  attackPointForward: 1
 --- !u!114 &1179679559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16689,33 +16700,6 @@ MonoBehaviour:
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1179679560
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1179679549}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2070c0730757948b54394e45c7d258, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackRange: 2
-  attackDamage: 10
-  attackCooldown: 0.5
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 8192
-  isAIControlled: 0
-  aiAttackInterval: 2
-  aiAttackRangeCheck: 2.5
-  comboResetTime: 1.5
-  maxComboCount: 3
-  showDebugInfo: 1
-  drawGizmos: 1
-  attackPoint: {fileID: 0}
-  attackRadius: 1.5
 --- !u!114 &1179679562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17680,7 +17664,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackRange: 2
-  attackDamage: 10
+  attackDamage: 5
   attackCooldown: 0.5
   enemyLayer:
     serializedVersion: 2
@@ -17694,6 +17678,9 @@ MonoBehaviour:
   drawGizmos: 1
   attackPoint: {fileID: 0}
   attackRadius: 1.5
+  attackPointHeight: 1.95
+  attackPointSide: 0.3
+  attackPointForward: -0.1
 --- !u!114 &1331787750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17739,33 +17726,6 @@ MonoBehaviour:
   playerTarget: {fileID: 1179679555}
   initialControlState: 1
   currentControlState: 1
---- !u!114 &1331787752
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1331787731}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2070c0730757948b54394e45c7d258, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackRange: 2
-  attackDamage: 10
-  attackCooldown: 0.5
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  isAIControlled: 0
-  aiAttackInterval: 2
-  aiAttackRangeCheck: 2.5
-  comboResetTime: 1.5
-  maxComboCount: 3
-  showDebugInfo: 1
-  drawGizmos: 1
-  attackPoint: {fileID: 0}
-  attackRadius: 1.5
 --- !u!114 &1331787753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18073,6 +18033,9 @@ MonoBehaviour:
   drawGizmos: 1
   attackPoint: {fileID: 0}
   attackRadius: 1.5
+  attackPointHeight: 1
+  attackPointSide: 0
+  attackPointForward: 1
 --- !u!1001 &1390384390
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22008,6 +21971,9 @@ MonoBehaviour:
   drawGizmos: 1
   attackPoint: {fileID: 0}
   attackRadius: 1.5
+  attackPointHeight: 1
+  attackPointSide: 0
+  attackPointForward: 1
 --- !u!4 &1851680365 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4508698902390004, guid: 0fa7223d8ca8d9d41be3cfe23c085a00,
@@ -22623,10 +22589,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 13700006, guid: 468074b7db6524718a2aab5fdc63acc9, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 3d7a8e20598a043a199de06f7427d5b4, type: 2}
     - target: {fileID: -8679921383154817045, guid: 4c08a01c25d17744c9b33989d172b31c,
         type: 3}
       propertyPath: m_RootOrder
@@ -22782,6 +22744,10 @@ PrefabInstance:
       propertyPath: m_AnimatePhysics
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 13700006, guid: 468074b7db6524718a2aab5fdc63acc9, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 3d7a8e20598a043a199de06f7427d5b4, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -22810,10 +22776,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1331787753}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4c08a01c25d17744c9b33989d172b31c,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1331787752}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4c08a01c25d17744c9b33989d172b31c,
         type: 3}
       insertIndex: -1
@@ -23014,6 +22976,9 @@ MonoBehaviour:
   drawGizmos: 1
   attackPoint: {fileID: 0}
   attackRadius: 1.5
+  attackPointHeight: 1
+  attackPointSide: 0
+  attackPointForward: 1
 --- !u!1001 &2086936707
 PrefabInstance:
   m_ObjectHideFlags: 0
