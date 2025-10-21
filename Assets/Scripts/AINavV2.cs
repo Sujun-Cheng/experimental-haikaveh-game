@@ -153,13 +153,21 @@ public class AINavV2 : MonoBehaviour
             navAgent.updateRotation = false;
             //}
 
+            if (rootMotion.IsGrounded)
+            {
+                if (!navAgent.enabled)
+                {
+                    navAgent.enabled = true;
+                }
+                // Calculate movement inputs
+                CalculateMovement(distanceToPlayer);
 
-            // Calculate movement inputs
-            CalculateMovement(distanceToPlayer);
-
-            // Apply inputs via reflection
-            SetInputs(currentForward, currentTurn, currentSprint);
-
+                // Apply inputs via reflection
+                SetInputs(currentForward, currentTurn, currentSprint);
+            } else
+            {
+                navAgent.enabled = false;
+            }
             if (showDebug && Time.frameCount % 60 == 0) // Log every 60 frames
             {
                 Debug.Log($"AI {gameObject.name}: Distance={distanceToPlayer:F1}m, Forward={currentForward:F2}, Turn={currentTurn:F2}");
