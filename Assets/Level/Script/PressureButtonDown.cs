@@ -2,25 +2,25 @@ using UnityEngine;
 
 public class PressureButton : MonoBehaviour
 {
-    public GameObject gate;
-    private Animator GateAnimator;
+    public GameObject item;
+    private Animator Animator;
     bool isDown = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        GateAnimator = gate.GetComponent<Animator>();
+        Animator = item.GetComponent<Animator>();
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") && !isDown)
         {
-            Invoke("SetGateDown", 3);
+            Invoke("SetDown", 3);
             isDown = true;
         }
     }
-    void SetGateDown()
+    void SetDown()
     {
-        GateAnimator.SetTrigger("GateDown");
+        Animator.SetTrigger("Down");
     }
     // Update is called once per frame
 
