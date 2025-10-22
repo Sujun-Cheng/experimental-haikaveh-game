@@ -5,30 +5,21 @@ using UnityEngine;
 public class MageCombatController : MonoBehaviour
 {
     [Header("Combat Settings")]
-    public float attackRange = 15f;
-    public float attackDamage = 15f;
-    public float attackCooldown = 1.5f;
+    public float attackRange = 2f;
+    public float attackDamage = 10f;
+    public float attackCooldown = 0.5f;
     public LayerMask enemyLayer;
-
-    [Header("Projectile Settings")]
-    public GameObject projectilePrefab;
-    public Transform projectileSpawnPoint;
-    public float projectileSpeed = 20f;
-    public float projectileLifetime = 3f;
-    public float projectileSpawnHeight = 1.5f;
-    public float projectileSpawnForward = 0.5f;
+    public LayerMask allyLayer;
 
     [Header("AI Combat Settings")]
     public bool isAIControlled = false;
-    public float aiAttackInterval = 2.5f;
-    public float aiMinAttackRange = 5f;
-    public float aiMaxAttackRange = 15f;
+    public float aiAttackInterval = 2f;
+    public float aiAttackRangeCheck = 2.5f;
     private float aiLastAttackTime;
 
-    [Header("Spell System")]
-    public float spellCastTime = 0.3f;
-    public int maxSpellLevel = 3;
-    public float spellChargeTime = 2f;
+    [Header("Combo System")]
+    public float comboResetTime = 1.5f;
+    public int maxComboCount = 3;
 
     [Header("Debug")]
     public bool showDebugInfo = true;
@@ -40,10 +31,16 @@ public class MageCombatController : MonoBehaviour
     private MainCharacterController mainCharController;
 
     private float lastAttackTime;
-    private int currentSpellLevel = 1;
-    private bool isCasting = false;
+    private int currentComboIndex = 0;
+    private bool isAttacking = false;
     private bool canAttack = true;
-    private float spellChargeStartTime;
+
+    // Attack hit detection
+    public Transform attackPoint;
+    public float attackRadius = 1.5f;
+    public float attackPointHeight = 1f;
+    public float attackPointSide = 0f;
+    public float attackPointForward = 1f;
 
     void Awake()
     {
@@ -52,13 +49,13 @@ public class MageCombatController : MonoBehaviour
         rootMotion = GetComponent<RootMotionControlScript>();
         mainCharController = GetComponent<MainCharacterController>();
 
-        // If no projectile spawn point is set, create one
-        if (projectileSpawnPoint == null)
+        // If no attack point is set, create one at character position
+        if (attackPoint == null)
         {
-            GameObject sp = new GameObject("ProjectileSpawnPoint");
-            sp.transform.parent = transform;
-            sp.transform.localPosition = Vector3.forward * projectileSpawnForward + Vector3.up * projectileSpawnHeight;
-            projectileSpawnPoint = sp.transform;
+            GameObject ap = new GameObject("AttackPoint");
+            ap.transform.parent = transform;
+            ap.transform.localPosition = Vector3.forward * attackPointForward + Vector3.up * attackPointHeight + Vector3.right * attackPointSide;
+            attackPoint = ap.transform;
         }
     }
 
@@ -71,17 +68,12 @@ public class MageCombatController : MonoBehaviour
         }
 
         bool shouldAttack = false;
-        Vector3 targetPosition = Vector3.zero;
-        Transform targetEnemy = null;
-
         // PLAYER CONTROLLED: Check for player input
         if (!isAIControlled && cinput != null && cinput.enabled)
         {
             if (cinput.Attack && canAttack)
             {
                 shouldAttack = true;
-                // For player, aim in forward direction
-                targetPosition = transform.position + transform.forward * attackRange;
             }
         }
         // AI CONTROLLED: Check for nearby enemies
@@ -89,17 +81,22 @@ public class MageCombatController : MonoBehaviour
         {
             if (canAttack && Time.time - aiLastAttackTime >= aiAttackInterval)
             {
-                targetEnemy = FindTargetEnemy();
-                if (targetEnemy != null)
+                Transform nearestEnemy = FindNearestEnemy();
+                if (nearestEnemy != null)
                 {
-                    float distanceToEnemy = Vector3.Distance(transform.position, targetEnemy.position);
+                    float distanceToEnemy = Vector3.Distance(transform.position, nearestEnemy.position);
 
-                    // Attack if enemy is within range (not too close, not too far)
-                    if (distanceToEnemy >= aiMinAttackRange && distanceToEnemy <= aiMaxAttackRange)
+                    if (distanceToEnemy <= aiAttackRangeCheck)
                     {
-                        shouldAttack = true;
-                        targetPosition = targetEnemy.position;
-                        aiLastAttackTime = Time.time;
+                        // Check if enemy is in front
+                        Vector3 directionToEnemy = (nearestEnemy.position - transform.position).normalized;
+                        float angle = Vector3.Angle(transform.forward, directionToEnemy);
+
+                        if (angle < 60f) // Enemy is in front
+                        {
+                            shouldAttack = true;
+                            aiLastAttackTime = Time.time;
+                        }
                     }
                 }
             }
@@ -108,28 +105,34 @@ public class MageCombatController : MonoBehaviour
         // Execute attack if conditions are met
         if (shouldAttack)
         {
-            CastSpell(targetPosition, targetEnemy);
+            TryAttack();
+        }
+
+        // Reset combo if too much time has passed
+        if (Time.time - lastAttackTime > comboResetTime && currentComboIndex > 0)
+        {
+            ResetCombo();
         }
 
         // Update animator parameters
         if (anim != null)
         {
-            anim.SetBool("isCasting", isCasting);
-            anim.SetInteger("spellLevel", currentSpellLevel);
+            anim.SetBool("isAttacking", isAttacking);
+            anim.SetInteger("comboIndex", currentComboIndex);
         }
     }
 
-    Transform FindTargetEnemy()
+    Transform FindNearestEnemy()
     {
         // Find all enemies in range
-        Collider[] enemies = Physics.OverlapSphere(transform.position, aiMaxAttackRange, enemyLayer);
+        Collider[] enemies = Physics.OverlapSphere(transform.position, aiAttackRangeCheck * 2f, enemyLayer);
 
-        Transform target = null;
-        float bestScore = float.MinValue;
+        Transform nearest = null;
+        float minDistance = float.MaxValue;
 
         foreach (Collider enemy in enemies)
         {
-            // Don't attack self
+            // Don't attack self or friendly characters
             if (enemy.transform == transform)
                 continue;
 
@@ -139,230 +142,188 @@ public class MageCombatController : MonoBehaviour
                 continue;
 
             float distance = Vector3.Distance(transform.position, enemy.transform.position);
-
-            // Skip if too close or too far
-            if (distance < aiMinAttackRange || distance > aiMaxAttackRange)
-                continue;
-
-            // Check if enemy is roughly in front
-            Vector3 directionToEnemy = (enemy.transform.position - transform.position).normalized;
-            float angle = Vector3.Angle(transform.forward, directionToEnemy);
-
-            // Prefer enemies in front and at medium range
-            float angleScore = Mathf.Max(0, 1f - (angle / 180f));
-            float distanceScore = 1f - (distance / aiMaxAttackRange);
-            float totalScore = angleScore * 0.7f + distanceScore * 0.3f;
-
-            if (totalScore > bestScore)
+            if (distance < minDistance)
             {
-                bestScore = totalScore;
-                target = enemy.transform;
+                minDistance = distance;
+                nearest = enemy.transform;
             }
         }
 
-        return target;
+        return nearest;
     }
 
-    void CastSpell(Vector3 targetPosition, Transform targetEnemy = null)
+    void TryAttack()
     {
-        if (!canAttack || isCasting)
-            return;
+        // Increment combo
+        currentComboIndex++;
+        if (currentComboIndex > maxComboCount)
+            currentComboIndex = 1;
 
-        // Trigger casting animation
+        // Trigger attack animation
         if (anim != null)
         {
-            anim.ResetTrigger("cast");
-            anim.SetTrigger("cast");
-            anim.SetInteger("spellLevel", currentSpellLevel);
-            anim.SetBool("isCasting", true);
+            // Reset the trigger first to ensure clean state
+            anim.ResetTrigger("attack");
+
+            // Then set it
+            anim.SetTrigger("attack");
+            anim.SetInteger("comboIndex", currentComboIndex);
+            anim.SetBool("isAttacking", true);
         }
 
-        isCasting = true;
+        isAttacking = true;
         lastAttackTime = Time.time;
 
-        // Start casting coroutine
-        StartCoroutine(CastSpellRoutine(targetPosition, targetEnemy));
+        // Start attack coroutine
+        StartCoroutine(AttackRoutine());
     }
 
-    IEnumerator CastSpellRoutine(Vector3 targetPosition, Transform targetEnemy)
+    IEnumerator AttackRoutine()
     {
         canAttack = false;
 
-        // Wait for spell cast time (animation wind-up)
-        yield return new WaitForSeconds(spellCastTime);
+        // Wait a bit before doing hit detection (animation wind-up)
+        yield return new WaitForSeconds(0.2f);
 
-        // Launch projectile
-        LaunchProjectile(targetPosition, targetEnemy);
+        // Perform hit detection
+        PerformAttackHitDetection();
 
         // Wait for cooldown
         yield return new WaitForSeconds(attackCooldown);
 
-        // Reset casting state
-        isCasting = false;
+        // Reset attack state
+        isAttacking = false;
         canAttack = true;
 
         if (anim != null)
         {
-            anim.SetBool("isCasting", false);
+            anim.SetBool("isAttacking", false);
         }
     }
 
-    void LaunchProjectile(Vector3 targetPosition, Transform targetEnemy)
+    void PerformAttackHitDetection()
     {
-        if (projectilePrefab == null || projectileSpawnPoint == null)
+        if (attackPoint == null) return;
+
+        // Detect enemies in range
+        Collider[] hitEnemies = Physics.OverlapSphere(
+            attackPoint.position,
+            attackRadius,
+            enemyLayer
+        );
+
+        Collider[] hitAllies = Physics.OverlapSphere(
+            attackPoint.position,
+            attackRadius,
+            allyLayer
+        );
+
+        foreach (Collider enemy in hitEnemies)
         {
-            Debug.LogWarning("Projectile prefab or spawn point not set!");
-            return;
+            // Don't hit self
+            if (enemy.transform == transform)
+                continue;
+
+            // Check if enemy is in front of attacker
+            Vector3 directionToEnemy = (enemy.transform.position - transform.position).normalized;
+            float angle = Vector3.Angle(transform.forward, directionToEnemy);
+
+            if (angle < 90f) // Enemy is in front
+            {
+
+                // Apply damage to enemy
+                IDamageable damageable = enemy.GetComponent<IDamageable>();
+                if (damageable != null)
+                {
+                    damageable.TakeDamage(attackDamage, transform.position);
+                }
+
+                // Alternative: Send message if enemy doesn't implement IDamageable
+                //enemy.SendMessage("TakeDamage", attackDamage, SendMessageOptions.DontRequireReceiver);
+            }
         }
 
-        // Instantiate projectile
-        GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.identity);
-
-        // Calculate direction
-        Vector3 direction;
-        if (targetEnemy != null)
+        float totalDamageToEnemies = hitEnemies.Length* attackDamage;
+        float distributedHealingToAllies = totalDamageToEnemies / hitAllies.Length;
+        foreach (Collider ally in hitAllies)
         {
-            // Aim at target with prediction
-            direction = (targetEnemy.position - projectileSpawnPoint.position).normalized;
-        }
-        else
-        {
-            // Aim at target position
-            direction = (targetPosition - projectileSpawnPoint.position).normalized;
-        }
+            
+            // Check if enemy is in front of attacker
+            Vector3 directionToEnemy = (ally.transform.position - transform.position).normalized;
+            float angle = Vector3.Angle(transform.forward, directionToEnemy);
 
-        // Set projectile rotation to face direction
-        projectile.transform.rotation = Quaternion.LookRotation(direction);
+            if (angle < 90f) // Enemy is in front
+            {
 
-        // Get or add projectile component
-        MageProjectile projScript = projectile.GetComponent<MageProjectile>();
-        if (projScript == null)
-        {
-            projScript = projectile.AddComponent<MageProjectile>();
+                // Apply damage to enemy
+                IDamageable damageable = ally.GetComponent<IDamageable>();
+                if (damageable != null)
+                {
+                    damageable.TakeDamage(-distributedHealingToAllies, transform.position);
+                }
+
+                // Alternative: Send message if enemy doesn't implement IDamageable
+                //enemy.SendMessage("TakeDamage", attackDamage, SendMessageOptions.DontRequireReceiver);
+            }
         }
+    }
 
-        // Initialize projectile
-        projScript.Initialize(direction, projectileSpeed, attackDamage, projectileLifetime, enemyLayer, transform);
+    void ResetCombo()
+    {
+        currentComboIndex = 0;
     }
 
     // Public methods for animation events
-    public void OnSpellCastPoint()
+    public void OnAttackHit()
     {
-        // Called by animation event at the moment of spell release
-        // Can be used for additional effects or early projectile launch
+        // Called by animation event at the moment of impact
+        PerformAttackHitDetection();
     }
 
-    public void OnSpellComplete()
+    public void OnAttackComplete()
     {
-        // Called by animation event when casting animation finishes
-        isCasting = false;
+        // Called by animation event when attack animation finishes
+        isAttacking = false;
     }
 
-    // Public method to manually trigger spell (for AI or other systems)
-    public void ForceCast(Vector3 targetPosition)
+    // Public method to manually trigger attack (for AI or other systems)
+    public void ForceAttack()
     {
         if (canAttack)
         {
-            CastSpell(targetPosition);
+            TryAttack();
         }
     }
 
     // Gizmos for visualization
     void OnDrawGizmosSelected()
     {
-        if (!drawGizmos) return;
+        if (!drawGizmos || attackPoint == null) return;
 
-        // Draw attack range (max)
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
+        // Draw attack range
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(attackPoint.position, attackRadius);
 
-        // Draw projectile spawn point
-        if (projectileSpawnPoint != null)
-        {
-            Gizmos.color = Color.cyan;
-            Gizmos.DrawWireSphere(projectileSpawnPoint.position, 0.2f);
-            Gizmos.DrawRay(projectileSpawnPoint.position, transform.forward * 2f);
-        }
+        // Draw attack direction
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawRay(transform.position, transform.forward * attackRange);
 
         // Draw AI detection range
         if (isAIControlled)
         {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position, aiMaxAttackRange);
-
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, aiMinAttackRange);
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawWireSphere(transform.position, aiAttackRangeCheck);
         }
     }
 
     void OnDrawGizmos()
     {
         // Show AI status
-        if (isAIControlled)
+        if (isAIControlled && attackPoint != null)
         {
-            Gizmos.color = new Color(0f, 0.5f, 1f, 0.2f);
-            Gizmos.DrawWireSphere(transform.position, aiMaxAttackRange);
+            Gizmos.color = new Color(1f, 0.5f, 0f, 0.3f);
+            Gizmos.DrawWireSphere(transform.position, aiAttackRangeCheck);
         }
     }
 }
 
-// Projectile script for mage spells
-public class MageProjectile : MonoBehaviour
-{
-    private Vector3 direction;
-    private float speed;
-    private float damage;
-    private float lifetime;
-    private LayerMask targetLayer;
-    private Transform caster;
-    private float spawnTime;
-
-    public void Initialize(Vector3 dir, float spd, float dmg, float life, LayerMask layer, Transform source)
-    {
-        direction = dir.normalized;
-        speed = spd;
-        damage = dmg;
-        lifetime = life;
-        targetLayer = layer;
-        caster = source;
-        spawnTime = Time.time;
-    }
-
-    void Update()
-    {
-        // Move projectile
-        transform.position += direction * speed * Time.deltaTime;
-
-        // Check lifetime
-        if (Time.time - spawnTime >= lifetime)
-        {
-            Destroy(gameObject);
-        }
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        // Check if hit is on target layer
-        if (((1 << other.gameObject.layer) & targetLayer) != 0)
-        {
-            // Don't hit caster
-            if (caster != null && other.transform == caster)
-                return;
-
-            // Apply damage
-            IDamageable damageable = other.GetComponent<IDamageable>();
-            if (damageable != null)
-            {
-                damageable.TakeDamage(damage, transform.position);
-            }
-
-            // Destroy projectile on hit
-            Destroy(gameObject);
-        }
-        // Also destroy on environment collision
-        else if (other.gameObject.layer != LayerMask.NameToLayer("Ignore Raycast"))
-        {
-            Destroy(gameObject);
-        }
-    }
-}
