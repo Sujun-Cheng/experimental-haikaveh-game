@@ -25,7 +25,7 @@ public class CharacterCommon {
 
         Ray ray = new Ray(charPos + Vector3.up * rayOriginOffset, Vector3.down);
 
-        int layerMask = 1 << LayerMask.NameToLayer("ground");
+        int layerMask = 1 << LayerMask.NameToLayer("Default");
 
 
         RaycastHit[] hits = Physics.RaycastAll(ray, totalRayLen, layerMask);
