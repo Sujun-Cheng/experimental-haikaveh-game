@@ -96,7 +96,7 @@ public class MainCharacterController : MonoBehaviour
 
         // Disable combat in idle state
         if (combatController != null)
-            combatController.enabled = false;
+            combatController.enabled = true;
 
         currentControlState = ControllState.PlayerControlled;
 
