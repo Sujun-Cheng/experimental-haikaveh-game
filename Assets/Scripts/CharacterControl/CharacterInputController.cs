@@ -32,26 +32,22 @@ public class CharacterInputController : MonoBehaviour
     // Attack uses the same pattern as Action - just stores the button state
     public bool Attack { get; private set; }
 
-    private bool disabledAllMoves = false;
 
     private void Awake()
     {
         playerInput = new PlayerInput();
         print("input initialized");
 
-        playerInput.CharacterControls.Movement.performed += (ctx) =>
-        {
+        playerInput.CharacterControls.Movement.performed += (ctx) => {
             print($"Player {Name}: applying movement of {ctx.ReadValueAsObject()}");
             currentMovement = ctx.ReadValue<Vector2>();
         };
 
-        playerInput.CharacterControls.Dash.performed += (ctx) =>
-        {
+        playerInput.CharacterControls.Dash.performed += (ctx) => {
             print($"Player {Name}: applying dash of {ctx.ReadValueAsObject()}");
             DashPressed = ctx.ReadValueAsButton();
         };
-        playerInput.CharacterControls.Dash.canceled += (ctx) =>
-        {
+        playerInput.CharacterControls.Dash.canceled += (ctx) => {
             print($"Player {Name}: applying dash of {ctx.ReadValueAsObject()}");
             DashPressed = ctx.ReadValueAsButton();
         };
@@ -162,28 +158,5 @@ public class CharacterInputController : MonoBehaviour
     private void OnDisable()
     {
         playerInput.Disable();
-    }
-
-    public void DisableInput()
-    {
-        disabledAllMoves = true;
-        playerInput.CharacterControls.Disable();
-    }
-
-    public void EnableInput()
-    {
-        disabledAllMoves = false;
-        playerInput.CharacterControls.Enable();
-    }
-
-    public void StopAllMovement()
-    {
-        currentMovement = Vector2.zero;
-        Forward = 0f;
-        Turn = 0f;
-        DashPressed = false;
-        Jump = false;
-        Action = false;
-        Attack = false;
     }
 }
