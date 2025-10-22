@@ -20,6 +20,7 @@ public class RootMotionControlScript : MonoBehaviour
     private Transform rightFoot;
     public GameObject buttonObject;
     public GameObject buttonPressStandingSpot;
+    public float searchThreshold = 0.5f;
     public float buttonCloseEnoughForMatchDistance = 2f;
     public float buttonCloseEnoughForPressDistance = 0.22f;
     public float buttonCloseEnoughForPressAngleDegrees = 5f;
@@ -46,7 +47,7 @@ public class RootMotionControlScript : MonoBehaviour
 
 
     //Useful if you implement jump in the future...
-    public float jumpableGroundNormalMaxAngle = 45f;
+    public float jumpableGroundNormalMaxAngle = 60f;
     public bool closeToJumpableGround;
 
 
@@ -57,7 +58,7 @@ public class RootMotionControlScript : MonoBehaviour
         get
         {
             return groundContactCount > 0;
-        }
+        } 
     }
 
     void Awake()
@@ -122,8 +123,8 @@ public class RootMotionControlScript : MonoBehaviour
         //Therefore, an additional raycast approach is used to check for close ground.
         //This is good for allowing player to jump and not be frustrated that the jump button doesn't
         //work
-        bool isGrounded = IsGrounded || CharacterCommon.CheckGroundNear(this.transform.position, jumpableGroundNormalMaxAngle, 0.2f, 1f, out closeToJumpableGround);
-
+        bool isGrounded = IsGrounded || CharacterCommon.CheckGroundNear(this.transform.position, jumpableGroundNormalMaxAngle, searchThreshold, 1f, out closeToJumpableGround);
+        print($"Character is grounded: {isGrounded}");
         float buttonDistance = float.MaxValue;
         float buttonAngleDegrees = float.MaxValue;
 
@@ -246,7 +247,7 @@ public class RootMotionControlScript : MonoBehaviour
         Vector3 newRootPosition;
         Quaternion newRootRotation;
 
-        bool isGrounded = IsGrounded || CharacterCommon.CheckGroundNear(this.transform.position, jumpableGroundNormalMaxAngle, 0.1f, 1f, out closeToJumpableGround);
+        bool isGrounded = IsGrounded || CharacterCommon.CheckGroundNear(this.transform.position, jumpableGroundNormalMaxAngle, searchThreshold, 1f, out closeToJumpableGround);
         var animState = anim.GetCurrentAnimatorStateInfo(0);
         if (animState.IsName("Jump Up") || animState.IsName("Land"))
         {
