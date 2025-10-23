@@ -44,7 +44,8 @@ public class CombatController : MonoBehaviour
         cinput = GetComponent<CharacterInputController>();
         rootMotion = GetComponent<RootMotionControlScript>();
         mainCharController = GetComponent<MainCharacterController>();
-
+        if (anim == null)
+                anim = GetComponentInChildren<Animator>(true);
         if (anim == null)
             Debug.LogError("CombatController: Animator not found!");
 
