@@ -226,10 +226,7 @@ public class MageCombatController : MonoBehaviour
 
             // Check if enemy is in front of attacker
             Vector3 directionToEnemy = (enemy.transform.position - transform.position).normalized;
-            float angle = Vector3.Angle(transform.forward, directionToEnemy);
-
-            if (angle < 90f) // Enemy is in front
-            {
+            
 
                 // Apply damage to enemy
                 IDamageable damageable = enemy.GetComponent<IDamageable>();
@@ -240,7 +237,7 @@ public class MageCombatController : MonoBehaviour
 
                 // Alternative: Send message if enemy doesn't implement IDamageable
                 //enemy.SendMessage("TakeDamage", attackDamage, SendMessageOptions.DontRequireReceiver);
-            }
+            
         }
 
         float totalDamageToEnemies = hitEnemies.Length* attackDamage;
@@ -250,10 +247,7 @@ public class MageCombatController : MonoBehaviour
             
             // Check if enemy is in front of attacker
             Vector3 directionToEnemy = (ally.transform.position - transform.position).normalized;
-            float angle = Vector3.Angle(transform.forward, directionToEnemy);
-
-            if (angle < 90f) // Enemy is in front
-            {
+            
 
                 // Apply damage to enemy
                 IDamageable damageable = ally.GetComponent<IDamageable>();
@@ -264,7 +258,7 @@ public class MageCombatController : MonoBehaviour
 
                 // Alternative: Send message if enemy doesn't implement IDamageable
                 //enemy.SendMessage("TakeDamage", attackDamage, SendMessageOptions.DontRequireReceiver);
-            }
+            
         }
     }
 
