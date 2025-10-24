@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EnemyUIManager : MonoBehaviour
 {
-    public Enemy enemy;
+    public EnemyStatus enemy;
     public HealthBar healthBar;
     public TextMeshProUGUI nameText;
     private float lastHealth;
