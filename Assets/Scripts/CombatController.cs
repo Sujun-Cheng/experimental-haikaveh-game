@@ -37,6 +37,9 @@ public class CombatController : MonoBehaviour
     // Attack hit detection
     public Transform attackPoint;
     public float attackRadius = 1.5f;
+    public float attackPointHeight = 1f;
+    public float attackPointSide = 0f;
+    public float attackPointForward = 1f;
 
     void Awake()
     {
@@ -44,21 +47,15 @@ public class CombatController : MonoBehaviour
         cinput = GetComponent<CharacterInputController>();
         rootMotion = GetComponent<RootMotionControlScript>();
         mainCharController = GetComponent<MainCharacterController>();
-        if (anim == null)
-                anim = GetComponentInChildren<Animator>(true);
-        if (anim == null)
-            Debug.LogError("CombatController: Animator not found!");
 
         // If no attack point is set, create one at character position
         if (attackPoint == null)
         {
             GameObject ap = new GameObject("AttackPoint");
             ap.transform.parent = transform;
-            ap.transform.localPosition = Vector3.forward * 1f + Vector3.up * 1f;
+            ap.transform.localPosition = Vector3.forward * attackPointForward + Vector3.up * attackPointHeight + Vector3.right * attackPointSide;
             attackPoint = ap.transform;
         }
-
-        Debug.Log($"CombatController initialized on {gameObject.name}");
     }
 
     void Update()
@@ -70,15 +67,12 @@ public class CombatController : MonoBehaviour
         }
 
         bool shouldAttack = false;
-
         // PLAYER CONTROLLED: Check for player input
         if (!isAIControlled && cinput != null && cinput.enabled)
         {
             if (cinput.Attack && canAttack)
             {
                 shouldAttack = true;
-                if (showDebugInfo)
-                    Debug.Log($"🎯 Player attack input received");
             }
         }
         // AI CONTROLLED: Check for nearby enemies
@@ -101,9 +95,6 @@ public class CombatController : MonoBehaviour
                         {
                             shouldAttack = true;
                             aiLastAttackTime = Time.time;
-
-                            if (showDebugInfo)
-                                Debug.Log($"🤖 AI attacking {nearestEnemy.name} at distance {distanceToEnemy:F2}");
                         }
                     }
                 }
@@ -162,16 +153,6 @@ public class CombatController : MonoBehaviour
 
     void TryAttack()
     {
-        if (!canAttack)
-        {
-            if (showDebugInfo)
-                Debug.LogWarning("❌ TryAttack called but canAttack is FALSE!");
-            return;
-        }
-
-        if (showDebugInfo)
-            Debug.Log($"🗡️ {(isAIControlled ? "AI" : "Player")} TryAttack() EXECUTING!");
-
         // Increment combo
         currentComboIndex++;
         if (currentComboIndex > maxComboCount)
@@ -180,9 +161,6 @@ public class CombatController : MonoBehaviour
         // Trigger attack animation
         if (anim != null)
         {
-            if (showDebugInfo)
-                Debug.Log($"⚔️ SETTING ANIMATOR TRIGGER - Combo: {currentComboIndex}");
-
             // Reset the trigger first to ensure clean state
             anim.ResetTrigger("attack");
 
@@ -190,21 +168,10 @@ public class CombatController : MonoBehaviour
             anim.SetTrigger("attack");
             anim.SetInteger("comboIndex", currentComboIndex);
             anim.SetBool("isAttacking", true);
-
-            if (showDebugInfo)
-                Debug.Log($"✅ Animator trigger 'attack' has been SET");
-        }
-        else
-        {
-            Debug.LogError("❌ Animator is NULL! Cannot play attack animation!");
-            return;
         }
 
         isAttacking = true;
         lastAttackTime = Time.time;
-
-        if (showDebugInfo)
-            Debug.Log($"Attack initiated - Combo: {currentComboIndex}");
 
         // Start attack coroutine
         StartCoroutine(AttackRoutine());
@@ -231,9 +198,6 @@ public class CombatController : MonoBehaviour
         {
             anim.SetBool("isAttacking", false);
         }
-
-        if (showDebugInfo)
-            Debug.Log("✅ Attack routine completed, ready for next attack");
     }
 
     void PerformAttackHitDetection()
@@ -259,8 +223,6 @@ public class CombatController : MonoBehaviour
 
             if (angle < 90f) // Enemy is in front
             {
-                if (showDebugInfo)
-                    Debug.Log($"💥 Hit enemy: {enemy.name}");
 
                 // Apply damage to enemy
                 IDamageable damageable = enemy.GetComponent<IDamageable>();
@@ -278,8 +240,6 @@ public class CombatController : MonoBehaviour
     void ResetCombo()
     {
         currentComboIndex = 0;
-        if (showDebugInfo)
-            Debug.Log("Combo reset");
     }
 
     // Public methods for animation events
@@ -293,8 +253,6 @@ public class CombatController : MonoBehaviour
     {
         // Called by animation event when attack animation finishes
         isAttacking = false;
-        if (showDebugInfo)
-            Debug.Log("✅ Attack animation completed");
     }
 
     // Public method to manually trigger attack (for AI or other systems)
@@ -336,10 +294,4 @@ public class CombatController : MonoBehaviour
             Gizmos.DrawWireSphere(transform.position, aiAttackRangeCheck);
         }
     }
-}
-
-// Interface for damageable entities
-public interface IDamageable
-{
-    void TakeDamage(float damage, Vector3 hitPosition);
 }

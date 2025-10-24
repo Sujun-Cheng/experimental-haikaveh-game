@@ -3,7 +3,7 @@ using UnityEngine;
 public class EnemyStatus: MonoBehaviour, IDamageable
 {
     public float maxHealth = 100f;
-    private float currentHealth;
+    public float currentHealth;
     private Animator anim;
     private bool isDead = false;
 

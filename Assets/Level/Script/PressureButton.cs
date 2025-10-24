@@ -13,7 +13,7 @@ public class TirggerButton : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            PressureButtonAnimator.SetTrigger("PressureButton");
+            PressureButtonAnimator.SetTrigger("Down");
         }
     }
     
