@@ -44,6 +44,10 @@ public class CombatController : MonoBehaviour
     void Awake()
     {
         anim = GetComponent<Animator>();
+        if (anim == null )
+        {
+            anim = GetComponentInChildren<Animator>();
+        }
         cinput = GetComponent<CharacterInputController>();
         rootMotion = GetComponent<RootMotionControlScript>();
         mainCharController = GetComponent<MainCharacterController>();

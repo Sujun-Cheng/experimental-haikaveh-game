@@ -194,12 +194,12 @@ public class MageCombatController : MonoBehaviour
         canAttack = false;
 
         // Wait a bit before doing hit detection (animation wind-up)
-        yield return new WaitForSeconds(0.45f);
+        yield return new WaitForSeconds(0.2f);
         attackingVFX.SetActive(true); // wait for hand to lower
         
         // Perform hit detection
         float totalDamage = PerformAttackHitDetection();
-        yield return new WaitForSeconds(0.25f); //wait for hand to raise
+        yield return new WaitForSeconds(0.5f); //wait for hand to raise
         PerformHealingHitDetection(totalDamage);
         attackingVFX.SetActive(false); //disables attack at the same time as enables healing
         healingVFX.SetActive(true );
