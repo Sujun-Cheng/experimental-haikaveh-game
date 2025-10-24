@@ -33,12 +33,12 @@ public class EnemyController : MonoBehaviour
 
     void Awake()
     {
-        // 获取同一个物体上的 CombatController
+        // get CombatController on same GameObject
         combatController = GetComponent<CombatController>();
         selfHealth = GetComponent<EnemyStatus>();
         if (playerTransform == null)
         {
-            // 尝试通过Tag自动查找
+            // use the first found Player if not assigned
             GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
             if (playerObj != null)
             {
@@ -46,46 +46,46 @@ public class EnemyController : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("EnemyAIController: 找不到 'Player' Tag 的物体!");
+                Debug.LogWarning("EnemyController: can't find 'Player' Tag object!");
             }
         }
 
         if (combatController == null)
         {
-            Debug.LogError("EnemyAIController: Can't find CombatController! No Attack.");
+            Debug.LogError("EnemyController: Can't find CombatController! No Attack.");
         }
     }
 
     void Update()
     {
-        // 1) 死亡检查
+        // dead check
         if (selfHealth != null && selfHealth.IsDead()) return;
 
-        // 2) 目标检查
+        // 2) objectives check
         if (targetNearestPlayer && Time.time >= _nextRetargetTime)
         {
             playerTransform = FindNearestAlivePlayer();
             _nextRetargetTime = Time.time + retargetInterval;
         }
         if (playerTransform == null) return;
-        // --- 跟踪范围判定 ---
+        // tracking 
         float distanceToPlayerSqr = (playerTransform.position - transform.position).sqrMagnitude;
         float enterRangeSqr = trackEnterRange * trackEnterRange;
         float exitRangeSqr = trackExitRange * trackExitRange;
 
-        // 当进入范围时开始追踪，超出更远距离时停止追踪（有回滞）
+        // tracking when enter, stop tracking when exit
         if (!isTrackingPlayer && distanceToPlayerSqr <= enterRangeSqr)
             isTrackingPlayer = true;
         else if (isTrackingPlayer && distanceToPlayerSqr >= exitRangeSqr)
             isTrackingPlayer = false;
 
-        // 如果当前不在跟踪状态，就不旋转
+        // No turning/attacking if not tracking
         if (!isTrackingPlayer)
             return;
 
 
 
-        // --- 旋转（用恒定角速度 + 死区） ---
+        // turn to face player
         Vector3 toPlayer = playerTransform.position - transform.position;
         Vector3 flatDir = new Vector3(toPlayer.x, 0f, toPlayer.z);
         if (flatDir.sqrMagnitude > 0.0001f)
@@ -93,48 +93,47 @@ public class EnemyController : MonoBehaviour
             Quaternion targetRot = Quaternion.LookRotation(flatDir.normalized);
             float currentAngle = Quaternion.Angle(transform.rotation, targetRot);
 
-            // 只有超过死区角再转，避免开场轻微抖动
+            // dead zone to prevent jittering
             const float deadZone = 1f; // 1°
             if (currentAngle > deadZone)
             {
-                // RotateTowards：每秒最多转 turnSpeed 度
+                // RotateTowards: smooth turning
                 transform.rotation = Quaternion.RotateTowards(
                     transform.rotation,
                     targetRot,
-                    turnSpeed * Time.deltaTime * 60f // turnSpeed 以“每秒度数”为语义更直观
+                    turnSpeed * Time.deltaTime * 60f 
                 );
             }
         }
 
-        // --- 攻击 ---
+        // Attack 
         if (Time.time - aiLastAttackTime < aiAttackInterval) return;
 
         float distance = Vector3.Distance(transform.position, playerTransform.position);
         if (distance > aiAttackRangeCheck)
         {
-            if (showDebugInfo) Debug.Log($"[AI] 等距离: {distance:F2} / 需要 ≤ {aiAttackRangeCheck}");
+            if (showDebugInfo) Debug.Log($"[AI] current distance: {distance:F2} / should ≤ {aiAttackRangeCheck}");
             return;
         }
-
-        // 放宽锥角：更容易在移动中满足
-        const float attackCone = 45f; // 你可调 30~60
+        // check attack angle
+        const float attackCone = 45f; 
         float angleToPlayer = Vector3.Angle(transform.forward, flatDir);
         if (angleToPlayer > attackCone)
         {
-            if (showDebugInfo) Debug.Log($"[AI] 等角度: {angleToPlayer:F1}° / 需要 ≤ {attackCone}°");
+            if (showDebugInfo) Debug.Log($"[AI] current angle: {angleToPlayer:F1}° / should ≤ {attackCone}°");
             return;
         }
 
-        // 到这里 => 满足距离+角度+冷却，可以攻击
-        if (showDebugInfo) Debug.Log($"🤖 攻击 {playerTransform.name} | 距离 {distance:F2} | 角度 {angleToPlayer:F1}°");
+        // ready to attack
+        if (showDebugInfo) Debug.Log($"🤖 attack {playerTransform.name} | distance {distance:F2} | angle {angleToPlayer:F1}°");
 
-        // 播放VFX
+        // play VFX
         if (attackVFXs != null && attackVFXs.Count > 0)
         {
             foreach (var vfx in attackVFXs) if (vfx != null) vfx.Play();
         }
 
-        // 触发攻击
+        // initiate attack
         combatController.ForceAttack();
         aiLastAttackTime = Time.time;
     }
@@ -147,7 +146,7 @@ public class EnemyController : MonoBehaviour
         foreach (var go in players)
         {
             var t = go.transform;
-            // 如果你有玩家生命组件，替换成你自己的：
+
             var health = t.GetComponent<HealthSystem>();
             if (health != null && health.IsDead()) continue;
 
@@ -161,8 +160,6 @@ public class EnemyController : MonoBehaviour
         return best;
     }
 
-
-    // (Gizmos 也移过来，这样它就只在AI身上显示)
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.cyan;
