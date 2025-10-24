@@ -42,6 +42,9 @@ public class MageCombatController : MonoBehaviour
     public float attackPointSide = 0f;
     public float attackPointForward = 1f;
 
+    public GameObject healingVFX;
+    public GameObject attackingVFX;
+
     void Awake()
     {
         anim = GetComponent<Animator>();
@@ -56,6 +59,14 @@ public class MageCombatController : MonoBehaviour
             ap.transform.parent = transform;
             ap.transform.localPosition = Vector3.forward * attackPointForward + Vector3.up * attackPointHeight + Vector3.right * attackPointSide;
             attackPoint = ap.transform;
+        }
+        if (healingVFX != null)
+        {
+            healingVFX.SetActive(false);
+        }
+        if (attackingVFX != null)
+        {
+            attackingVFX.SetActive(false);
         }
     }
 
@@ -183,14 +194,20 @@ public class MageCombatController : MonoBehaviour
         canAttack = false;
 
         // Wait a bit before doing hit detection (animation wind-up)
-        yield return new WaitForSeconds(0.2f);
-
+        yield return new WaitForSeconds(0.45f);
+        attackingVFX.SetActive(true); // wait for hand to lower
+        
         // Perform hit detection
-        PerformAttackHitDetection();
+        float totalDamage = PerformAttackHitDetection();
+        yield return new WaitForSeconds(0.25f); //wait for hand to raise
+        PerformHealingHitDetection(totalDamage);
+        attackingVFX.SetActive(false); //disables attack at the same time as enables healing
+        healingVFX.SetActive(true );
 
         // Wait for cooldown
         yield return new WaitForSeconds(attackCooldown);
-
+        
+        healingVFX.SetActive(false);
         // Reset attack state
         isAttacking = false;
         canAttack = true;
@@ -201,9 +218,9 @@ public class MageCombatController : MonoBehaviour
         }
     }
 
-    void PerformAttackHitDetection()
+    float PerformAttackHitDetection()
     {
-        if (attackPoint == null) return;
+        if (attackPoint == null) return 0;
 
         // Detect enemies in range
         Collider[] hitEnemies = Physics.OverlapSphere(
@@ -212,11 +229,7 @@ public class MageCombatController : MonoBehaviour
             enemyLayer
         );
 
-        Collider[] hitAllies = Physics.OverlapSphere(
-            attackPoint.position,
-            attackRadius,
-            allyLayer
-        );
+       
 
         foreach (Collider enemy in hitEnemies)
         {
@@ -241,24 +254,36 @@ public class MageCombatController : MonoBehaviour
         }
 
         float totalDamageToEnemies = hitEnemies.Length* attackDamage;
+
+        return totalDamageToEnemies;
+        
+    }
+
+    void PerformHealingHitDetection(float totalDamageToEnemies)
+    {
+        Collider[] hitAllies = Physics.OverlapSphere(
+           attackPoint.position,
+           attackRadius,
+           allyLayer
+        );
         float distributedHealingToAllies = totalDamageToEnemies / hitAllies.Length;
         foreach (Collider ally in hitAllies)
         {
-            
+
             // Check if enemy is in front of attacker
             Vector3 directionToEnemy = (ally.transform.position - transform.position).normalized;
-            
 
-                // Apply damage to enemy
-                IDamageable damageable = ally.GetComponent<IDamageable>();
-                if (damageable != null)
-                {
-                    damageable.TakeDamage(-distributedHealingToAllies, transform.position);
-                }
 
-                // Alternative: Send message if enemy doesn't implement IDamageable
-                //enemy.SendMessage("TakeDamage", attackDamage, SendMessageOptions.DontRequireReceiver);
-            
+            // Apply damage to enemy
+            IDamageable damageable = ally.GetComponent<IDamageable>();
+            if (damageable != null)
+            {
+                damageable.TakeDamage(-distributedHealingToAllies, transform.position);
+            }
+
+            // Alternative: Send message if enemy doesn't implement IDamageable
+            //enemy.SendMessage("TakeDamage", attackDamage, SendMessageOptions.DontRequireReceiver);
+
         }
     }
 
