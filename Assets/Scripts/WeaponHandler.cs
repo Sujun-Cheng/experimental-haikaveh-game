@@ -6,6 +6,11 @@ public class WeaponHandler : MonoBehaviour
     public Transform handHold; // Assign WeaponHoldSpot
     public GameObject weaponPrefab;
     public GameObject slashVFXPrefab; // Assign your slash effect here
+    public Transform vfxSpawnPoint; //optional spawn point for VFX
+
+    public GameObject explosionVFXPrefab; // add another effect after slash
+    public Transform explosionSpawnPoint;
+
     private GameObject currWeapon;
 
     void Awake()
@@ -43,6 +48,25 @@ public class WeaponHandler : MonoBehaviour
     {
         if (currWeapon != null)
             currWeapon.SetActive(false);
+    }
+
+    public void PlaySlashVFX()
+    {
+        if (slashVFXPrefab != null)
+        {
+            Transform spawnPos = vfxSpawnPoint != null ? vfxSpawnPoint : handHold;
+            GameObject vfx = Instantiate(slashVFXPrefab, spawnPos.position, spawnPos.rotation);
+            Destroy(vfx, 2f); // Auto-destroy after 2 seconds
+        }
+    }
+    public void PlayExplosionVFX()
+    {
+        if (explosionVFXPrefab != null)
+        {
+            Transform spawnPos = explosionSpawnPoint != null ? explosionSpawnPoint : handHold;
+            GameObject vfx = Instantiate(explosionVFXPrefab, spawnPos.position, spawnPos.rotation);
+            Destroy(vfx, 3f); // Auto-destroy after 3 seconds (adjust as needed)
+        }
     }
 
     void Update()
