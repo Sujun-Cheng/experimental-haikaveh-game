@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1214532158896106935}
   - component: {fileID: 5162366447447736280}
   - component: {fileID: -3508641172761506397}
+  - component: {fileID: 1478787272158476272}
   m_Layer: 0
   m_Name: Pickup
   m_TagString: Pickup
@@ -149,3 +150,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1478787272158476272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1835621846696819271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f68f7429297e7d4c8128edd74409692, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  autoCollectOnTrigger: 1
+  playerTag: Player
+  rotateItem: 1
+  rotationSpeed: 50
+  bobUpDown: 1
+  bobSpeed: 2
+  bobHeight: 0.3
+  collectEffect: {fileID: 0}
+  collectSound: {fileID: 0}
