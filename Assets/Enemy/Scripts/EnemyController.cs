@@ -26,6 +26,7 @@ public class EnemyController : MonoBehaviour
 
 
     private CombatController combatController;
+    private EnemyAttackingEmitter enemyAttackingEmitter;
     private EnemyStatus selfHealth; 
     // ----------------
 
@@ -36,6 +37,7 @@ public class EnemyController : MonoBehaviour
         // get CombatController on same GameObject
         combatController = GetComponent<CombatController>();
         selfHealth = GetComponent<EnemyStatus>();
+        enemyAttackingEmitter = GetComponent<EnemyAttackingEmitter>();
         if (playerTransform == null)
         {
             // use the first found Player if not assigned
@@ -83,7 +85,11 @@ public class EnemyController : MonoBehaviour
         if (!isTrackingPlayer)
             return;
 
-
+        if (enemyAttackingEmitter != null)
+        {
+            print("enemy detected player, attacking"); //changes bgm
+            enemyAttackingEmitter.SignalHostileEnemy();
+        }
 
         // turn to face player
         Vector3 toPlayer = playerTransform.position - transform.position;
