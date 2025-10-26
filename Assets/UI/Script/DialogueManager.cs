@@ -19,7 +19,7 @@ public class DialogueManager : MonoBehaviour
     private bool optionSelected;
     // Need to disable player control/movement 
 
-    void Start()
+    void Awake()
     {
         dialogueParent.SetActive(false);
         if (choicesParent != null)
