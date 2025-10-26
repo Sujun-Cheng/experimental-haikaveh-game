@@ -8,6 +8,7 @@ TagManager:
   - grabbable
   - ground
   - Enemy
+  - Pickup
   layers:
   - Default
   - TransparentFX
@@ -24,7 +25,7 @@ TagManager:
   - static_obstacle
   - Enemy
   - level
-  - 
+  - postproc
   - 
   - 
   - 
