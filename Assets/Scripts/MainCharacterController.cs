@@ -18,7 +18,6 @@ public class MainCharacterController : MonoBehaviour
     private CharacterInputController cinput;
     private RootMotionControlScript rootMotionControlScript;
     private AINavV2 aiFollowController;
-    private AIMovement aiMovementScript;
     private CombatController combatController;
 
     public enum ControllState
@@ -37,7 +36,6 @@ public class MainCharacterController : MonoBehaviour
         cinput = GetComponent<CharacterInputController>();
         rootMotionControlScript = GetComponent<RootMotionControlScript>();
         aiFollowController = GetComponent<AINavV2>();
-        aiMovementScript = GetComponent<AIMovement>();
         combatController = GetComponent<CombatController>();
 
         // Set initial state
@@ -72,10 +70,7 @@ public class MainCharacterController : MonoBehaviour
             {
                 // AINavV2 handles continuous updates in its own Update
             }
-            else if (aiMovementScript != null && aiMovementScript.enabled)
-            {
-                // AIMovement handles continuous updates in its own Update
-            }
+
         }
     }
 
@@ -91,8 +86,7 @@ public class MainCharacterController : MonoBehaviour
         // Configure AI based on version
         if (aiFollowController != null)
             aiFollowController.enabled = false;
-        if (aiMovementScript != null)
-            aiMovementScript.enabled = false;
+
 
         // Disable combat in idle state
         if (combatController != null)
@@ -115,13 +109,11 @@ public class MainCharacterController : MonoBehaviour
         {
             if (aiFollowController != null)
                 aiFollowController.enabled = true;
-            if (aiMovementScript != null)
-                aiMovementScript.enabled = false;
+
         }
         else
         {
-            if (aiMovementScript != null)
-                aiMovementScript.enabled = true;
+
             if (aiFollowController != null)
                 aiFollowController.enabled = false;
         }
@@ -153,21 +145,9 @@ public class MainCharacterController : MonoBehaviour
                 playerTarget = target;
             }
 
-            if (aiMovementScript != null)
-                aiMovementScript.enabled = false;
-        }
-        else if (aiMovementScript != null)
-        {
-            aiMovementScript.enabled = true;
-            if (target != null)
-            {
-                aiMovementScript.SetTarget(target);
-                playerTarget = target;
-            }
 
-            if (aiFollowController != null)
-                aiFollowController.enabled = false;
         }
+        
 
         // Enable combat for companion protection
         if (combatController != null)
@@ -193,18 +173,8 @@ public class MainCharacterController : MonoBehaviour
             if (target != null)
                 aiFollowController.SetTarget(target);
 
-            if (aiMovementScript != null)
-                aiMovementScript.enabled = false;
         }
-        else if (aiMovementScript != null)
-        {
-            aiMovementScript.enabled = true;
-            if (target != null)
-                aiMovementScript.SetTarget(target);
-
-            if (aiFollowController != null)
-                aiFollowController.enabled = false;
-        }
+       
 
         // Always enable combat in fighting state
         if (combatController != null)
