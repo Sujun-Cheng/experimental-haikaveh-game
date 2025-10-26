@@ -18,6 +18,7 @@ public class ObjectiveManager : MonoBehaviour
 
     [Header("UI Reference")]
     public ObjectiveUI objectiveUI;
+    public GameObject winTextObject;
 
     [Header("Win Condition")]
     public UnityEvent onAllObjectivesComplete;
@@ -38,6 +39,7 @@ public class ObjectiveManager : MonoBehaviour
     private void Start()
     {
         UpdateUI();
+        winTextObject.SetActive(false); 
     }
 
     // Called when player collects an item
@@ -86,6 +88,7 @@ public class ObjectiveManager : MonoBehaviour
             npcsDisappeared >= totalNPCConversations)
         {
             Debug.Log("ALL OBJECTIVES COMPLETE! YOU WIN!"); // need to add game win UI later
+            winTextObject.SetActive(true);
             onAllObjectivesComplete?.Invoke();
         }
     }
