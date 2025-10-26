@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.TextCore.Text;
+using System.Collections;
 
 [System.Serializable]
 public class dialogueString
@@ -44,9 +45,7 @@ public class NPCInteraction : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         if (interactionPrompt != null)
-        {
             interactionPrompt.SetActive(false);
-        }
     }
 
     void OnTriggerEnter(Collider c)
@@ -85,9 +84,9 @@ public class NPCInteraction : MonoBehaviour
             // transform.LookAt(faceDirection);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotateSpeed);
         }
-        if (playerInRange && Input.GetKeyDown(KeyCode.E))
+        if (playerInRange && Input.GetKeyDown(KeyCode.R))
         {
-            Debug.Log("E pressed");
+            Debug.Log("R pressed");
             StartConversation();
             anim.SetTrigger("Talk");
         }
