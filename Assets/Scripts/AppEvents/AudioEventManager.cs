@@ -7,6 +7,8 @@ public class AudioEventManager : MonoBehaviour
 {
 
     public EventSound3D eventSound3DPrefab;
+    public AudioClip ambiantMusic;
+    public AudioClip battleMusic;
 
 
     public AudioClip[] boxAudio = null;
@@ -18,6 +20,10 @@ public class AudioEventManager : MonoBehaviour
     public AudioClip gruntAudio;
     public AudioClip punchAudio;
     public AudioClip[] footStepAudio;
+    public float battleMusicCoolDown;
+    private bool inBattle;
+    private float battleMusicTimeElapsed;
+    private AudioSource bgmAudioSource;
 
     private UnityAction<Vector3,float> boxCollisionEventListener;
 
@@ -35,6 +41,8 @@ public class AudioEventManager : MonoBehaviour
 
 
     private UnityAction<Vector3> playerFootstepEventListener;
+
+    private UnityAction<Vector3> battleEventListener;
 
     void Awake()
     {
@@ -58,15 +66,41 @@ public class AudioEventManager : MonoBehaviour
  
 
         playerFootstepEventListener = new UnityAction<Vector3>(playerFootstepsEventHandler);
+
+        battleEventListener = new UnityAction<Vector3>(battleEventHandler);
     }
 
 
     // Use this for initialization
     void Start()
     {
+        bgmAudioSource = gameObject.AddComponent<AudioSource>();
+        inBattle = false;
+        bgmAudioSource.loop = true;
+        bgmAudioSource.clip = ambiantMusic;
+        bgmAudioSource.volume = 0.5f;
+        bgmAudioSource.Play();
 
 
-        			
+
+    }
+
+    private void Update()
+    {
+        if (inBattle)
+        {
+            if (battleMusicTimeElapsed < 0)
+            {
+                inBattle = false;
+                bgmAudioSource.Stop();
+                bgmAudioSource.clip = ambiantMusic;
+                bgmAudioSource.Play();
+            }
+            else
+            {
+                battleMusicTimeElapsed -= Time.deltaTime;
+            }
+        } 
     }
 
 
@@ -82,7 +116,7 @@ public class AudioEventManager : MonoBehaviour
         EventManager.StartListening<DeathEvent, GameObject>(deathEventListener);
  
         EventManager.StartListening<PlayerFootstepsEvent, Vector3>(playerFootstepEventListener);
-
+        EventManager.StartListening<EnemyAttackingEvent, Vector3>(battleEventListener);
     }
 
     void OnDisable()
@@ -97,6 +131,7 @@ public class AudioEventManager : MonoBehaviour
         EventManager.StopListening<DeathEvent, GameObject>(deathEventListener);
 
         EventManager.StopListening<PlayerFootstepsEvent, Vector3>(playerFootstepEventListener);
+        EventManager.StopListening<EnemyAttackingEvent, Vector3>(battleEventListener);
     }
 
 
@@ -248,5 +283,23 @@ public class AudioEventManager : MonoBehaviour
             snd.audioSrc.volume = 0.33f;
             snd.audioSrc.Play();
         }
+    }
+
+    void battleEventHandler(Vector3 pos)
+    {
+
+        print("battle signal detected, playing battle music");
+        if (inBattle)
+        {
+            battleMusicTimeElapsed = battleMusicCoolDown;
+        } else
+        {
+            inBattle = true;
+            battleMusicTimeElapsed = battleMusicCoolDown;
+            bgmAudioSource.Stop();
+            bgmAudioSource.clip = battleMusic;
+            bgmAudioSource.Play();
+        }
+
     }
 }

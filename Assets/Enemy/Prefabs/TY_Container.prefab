@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2409269216520081653}
   - component: {fileID: 639067645610417246}
   - component: {fileID: 2212664384144784531}
+  - component: {fileID: -333058700120470023}
   m_Layer: 13
   m_Name: TY_Container
   m_TagString: Untagged
@@ -64,6 +65,9 @@ MonoBehaviour:
   drawGizmos: 1
   attackPoint: {fileID: 0}
   attackRadius: 1.5
+  attackPointHeight: 1
+  attackPointSide: 0
+  attackPointForward: 1
 --- !u!114 &2409269216520081653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -105,6 +109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 30
+  currentHealth: 0
 --- !u!136 &2212664384144784531
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -128,6 +133,18 @@ CapsuleCollider:
   m_Height: 1.9
   m_Direction: 1
   m_Center: {x: 0, y: 0.95, z: 0}
+--- !u!114 &-333058700120470023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1785938054553476133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6daf1c29470dbb4ca405dcda621cce8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8420873641128614034
 GameObject:
   m_ObjectHideFlags: 0

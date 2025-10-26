@@ -47,6 +47,7 @@ GameObject:
   - component: {fileID: 1892119199975488255}
   - component: {fileID: 5726360564963173595}
   - component: {fileID: 3018909033850236356}
+  - component: {fileID: -7992465679506356661}
   m_Layer: 13
   m_Name: Leo_Container
   m_TagString: Untagged
@@ -98,6 +99,9 @@ MonoBehaviour:
   drawGizmos: 1
   attackPoint: {fileID: 0}
   attackRadius: 1.5
+  attackPointHeight: 1
+  attackPointSide: 0
+  attackPointForward: 1
 --- !u!114 &1892119199975488255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,6 +143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 30
+  currentHealth: 0
 --- !u!136 &3018909033850236356
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -162,6 +167,18 @@ CapsuleCollider:
   m_Height: 1.8
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
+--- !u!114 &-7992465679506356661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2586575781641479535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6daf1c29470dbb4ca405dcda621cce8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1537242602379470812
 PrefabInstance:
   m_ObjectHideFlags: 0

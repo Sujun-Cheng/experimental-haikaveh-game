@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2971753729639276255}
   - component: {fileID: 2513045866793847209}
   - component: {fileID: 8478679816056736658}
+  - component: {fileID: 4818407756396835990}
   m_Layer: 13
   m_Name: Tink_Container
   m_TagString: Untagged
@@ -64,6 +65,9 @@ MonoBehaviour:
   drawGizmos: 1
   attackPoint: {fileID: 0}
   attackRadius: 1.5
+  attackPointHeight: 1
+  attackPointSide: 0
+  attackPointForward: 1
 --- !u!114 &2971753729639276255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,6 +81,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 30
+  currentHealth: 0
 --- !u!136 &2513045866793847209
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -126,6 +131,18 @@ MonoBehaviour:
   trackEnterRange: 3
   trackExitRange: 3
   showDebugInfo: 1
+--- !u!114 &4818407756396835990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3121250739880784643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6daf1c29470dbb4ca405dcda621cce8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5035005155342745148
 GameObject:
   m_ObjectHideFlags: 0

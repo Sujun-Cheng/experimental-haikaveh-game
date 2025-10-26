@@ -10489,6 +10489,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114172647563574064, guid: 92fe32709c76d450094d1a1b3dcfc9b9,
         type: 3}
+      propertyPath: battleMusic
+      value: 
+      objectReference: {fileID: 8300000, guid: b73ad82ce5847dd4cb463db7e292c111, type: 3}
+    - target: {fileID: 114172647563574064, guid: 92fe32709c76d450094d1a1b3dcfc9b9,
+        type: 3}
+      propertyPath: ambiantMusic
+      value: 
+      objectReference: {fileID: 8300000, guid: 693ffda398f3bde4fb5b282341d9b6c1, type: 3}
+    - target: {fileID: 114172647563574064, guid: 92fe32709c76d450094d1a1b3dcfc9b9,
+        type: 3}
+      propertyPath: battleMusicCoolDown
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114172647563574064, guid: 92fe32709c76d450094d1a1b3dcfc9b9,
+        type: 3}
       propertyPath: footStepAudio.Array.size
       value: 5
       objectReference: {fileID: 0}

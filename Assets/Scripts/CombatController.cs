@@ -28,6 +28,7 @@ public class CombatController : MonoBehaviour
     private CharacterInputController cinput;
     private RootMotionControlScript rootMotion;
     private MainCharacterController mainCharController;
+    private EnemyAttackingEmitter enemyAttackingEmitter;
 
     private float lastAttackTime;
     private int currentComboIndex = 0;
@@ -51,7 +52,7 @@ public class CombatController : MonoBehaviour
         cinput = GetComponent<CharacterInputController>();
         rootMotion = GetComponent<RootMotionControlScript>();
         mainCharController = GetComponent<MainCharacterController>();
-
+        enemyAttackingEmitter = GetComponent<EnemyAttackingEmitter>();
         // If no attack point is set, create one at character position
         if (attackPoint == null)
         {
