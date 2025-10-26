@@ -75,9 +75,7 @@ public class HealthSystem : MonoBehaviour, IDamageable
         var inputController = GetComponent<CharacterInputController>();
         if (inputController != null)
             inputController.enabled = false;
-        var aiMovement = GetComponent<AIMovement>();
-        if (aiMovement != null)
-            aiMovement.enabled = false;
+
         // Destroy after delay if set
         if (destroyOnDeath)
         {
