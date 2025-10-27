@@ -142,7 +142,7 @@ public class CharacterInputController : MonoBehaviour
 
         // Capture button inputs - these will be checked by other scripts
         Action = Input.GetButtonDown("Fire1");
-        Jump = Input.GetButtonDown("Jump");
+        // Jump = Input.GetButtonDown("Jump");
 
         // Attack input - check multiple sources
         //Attack = Input.GetButtonDown("Fire1") || Input.GetMouseButtonDown(0);
