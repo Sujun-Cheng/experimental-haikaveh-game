@@ -12,6 +12,7 @@ public class EnemyStatus : MonoBehaviour, IDamageable
     [Header("Disappear Settings")]
     public float disappearDelay = 2f; // Time before disappearing after death
     public bool isNPCEnemy = false; // Set true if this enemy came from NPC dialogue
+    public int npcCountValue = 2; // How many NPCs this counts as when killed (default: 2 for paired NPCs)
 
     void Start()
     {
@@ -47,7 +48,12 @@ public class EnemyStatus : MonoBehaviour, IDamageable
         // Notify ObjectiveManager that NPC disappeared (killed)
         if (isNPCEnemy && ObjectiveManager.Instance != null)
         {
-            ObjectiveManager.Instance.NPCDisappeared();
+            // Add the specified count (default 2 for paired NPCs)
+            for (int i = 0; i < npcCountValue; i++)
+            {
+                ObjectiveManager.Instance.NPCDisappeared();
+            }
+            Debug.Log($"[EnemyStatus] {gameObject.name} killed - counted as {npcCountValue} NPCs disappeared");
         }
 
         // Start disappear coroutine
