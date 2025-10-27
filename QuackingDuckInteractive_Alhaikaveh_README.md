@@ -147,3 +147,26 @@ CollectableItem.cs
 ObjectiveManager.cs
 NPCObjectiveTracker.cs
 ObjectiveUI.cs
+
+Zhuoyun Cai
+Pressure Button Trigger:
+When a character stands on a pressure button, it becomes active and plays the corresponding button animation.
+After 3 seconds, the linked platform or slope moves to its designated position, allowing the character to continue along the path.
+AI Follower Characters:
+AI-controlled characters can follow the player and jump to reach the player’s position.
+Rotating Pickups:
+Rotating pickups are placed along the path to guide the player in the correct direction.
+When collected, pickups disappear.
+Scripts:
+AudioPlay.cs
+GateTrigger.cs
+GateTriggerDown.cs
+PlayerCollectable.cs
+PressureButton.cs
+PressureButtonDown.cs
+PressureButtonTrap.cs
+PressureButtonUp.cs
+Rotator.cs
+SlopeTrigger.cs
+TrapTrigger.cs
+TrapTriggerUp.cs
