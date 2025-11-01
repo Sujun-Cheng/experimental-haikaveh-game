@@ -10,6 +10,7 @@ using UnityEngine;
 /// </summary>
 public class CharacterManager : MonoBehaviour
 {
+
     [Header("Character References")]
     [Tooltip("The main player character (always player-controlled)")]
     public GameObject playerCharacter;
@@ -22,7 +23,28 @@ public class CharacterManager : MonoBehaviour
     public float cameraDistance = 5f;
     public float cameraHeight = 2f;
     public PlayerUIManager playerUIManager;
+    
+    [Header("Controls")]
+    public PlayerInput PlayerInput { get; private set; }
 
+    private void Awake()
+    {
+        PlayerInput = new PlayerInput();
+        PlayerInput.Enable();
+        PlayerInput.CharacterSwitching.Enable();
+        PlayerInput.CharacterSwitching.Switch.performed += (ctx) =>
+        {
+            print($"Switch input detected of value {ctx.ReadValueAsObject()}");
+            Debug.Log("Character toggled");
+            toggleCharacter();
+        };
+        PlayerInput.CharacterSwitching.Switch.canceled += (ctx) =>
+        {
+            print($"Switch input detected of value {ctx.ReadValueAsObject()}");
+            
+        };
+
+    }
     void Start()
     {
         // Validate setup
@@ -30,20 +52,15 @@ public class CharacterManager : MonoBehaviour
         if (playerUIManager != null)
         {
             playerUIManager.SetCharacter(playerCharacter);
-        }  
+        }
         // Setup AI companions to follow player
         SetupAICompanions();
+
     }
 
     void Update()
     {
-
-        if (Input.GetKeyUp(KeyCode.Tab))
-        {
-            Debug.Log("Character toggled");
-            toggleCharacter();
-
-        }
+        
 
     }
 
