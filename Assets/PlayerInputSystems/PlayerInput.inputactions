@@ -144,6 +144,73 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "CharacterSwitching",
+            "id": "2bd71fb3-a5fb-46e6-8aa9-2a762bd67c55",
+            "actions": [
+                {
+                    "name": "Switch",
+                    "type": "Button",
+                    "id": "77824957-f1cd-4bdc-b200-5778d212e2ed",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "cad0320a-3598-4902-9adf-299649df6a45",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Switch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Dialogue",
+            "id": "0b1a5132-51b5-4017-8657-3a32f3db55a0",
+            "actions": [
+                {
+                    "name": "NextLine",
+                    "type": "Button",
+                    "id": "69315291-300b-4d03-9a01-348a3a5f2c46",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "4cf45162-6731-4317-8931-d6e71c60f4d8",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";KeyboardScheme",
+                    "action": "NextLine",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e0de3573-1fcc-4cc7-a022-9227d1952efe",
+                    "path": "<Keyboard>/anyKey",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "NextLine",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

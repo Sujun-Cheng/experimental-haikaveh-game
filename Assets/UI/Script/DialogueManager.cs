@@ -1,9 +1,10 @@
-using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
-using UnityEngine.Events;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -18,9 +19,21 @@ public class DialogueManager : MonoBehaviour
     private int currentDialogueIndex = 0;
     private bool optionSelected;
     // Need to disable player control/movement 
-
+    private PlayerInput playerInput;
+    private bool nextLinePressed;
     void Awake()
     {
+        playerInput = new PlayerInput();
+        playerInput.Dialogue.NextLine.performed += (ctx) =>
+        {
+            nextLinePressed = ctx.ReadValueAsButton();
+        };
+        playerInput.Dialogue.NextLine.canceled += (ctx) =>
+        {
+            nextLinePressed = ctx.ReadValueAsButton();
+        };
+        playerInput.Enable();
+        playerInput.Dialogue.Disable();
         dialogueParent.SetActive(false);
         if (choicesParent != null)
         {
@@ -34,9 +47,12 @@ public class DialogueManager : MonoBehaviour
         // Need to disable player control/movement 
         // Cursor.lockState = CursorLockMode.None;
         // Cursor.visible = true;
+        playerInput.Dialogue.Enable();
         if (characterManager != null && characterManager.GetPlayerCharacter() != null)
         {
+            characterManager.PlayerInput.CharacterSwitching.Disable();
             CharacterInputController inputControl = characterManager.GetPlayerCharacter().GetComponent<CharacterInputController>();
+            print($"disabling control for character {characterManager.GetPlayerCharacter()}, using input controll {inputControl}");
             inputControl.DisableInput();
             inputControl.StopAllMovement();
         }
@@ -128,7 +144,7 @@ public class DialogueManager : MonoBehaviour
 
         if (!dialogueList[currentDialogueIndex].isQuestion)
         {
-            yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
+            yield return new WaitUntil(() => nextLinePressed);
         }
 
         if (dialogueList[currentDialogueIndex].isEnd)
@@ -147,11 +163,14 @@ public class DialogueManager : MonoBehaviour
 
         if (choicesParent != null)
             choicesParent.SetActive(false);
-
+        playerInput.Dialogue.Disable();
         if (characterManager != null && characterManager.GetPlayerCharacter() != null)
         {
+            print($"reenabling player input: {characterManager.GetPlayerCharacter().name}");
             CharacterInputController inputControl = characterManager.GetPlayerCharacter().GetComponent<CharacterInputController>();
             inputControl.EnableInput();
+            
+            characterManager.PlayerInput.CharacterSwitching.Enable();
         }
         // Cursor.lockState = CursorLockMode.Locked;
         // Cursor.visible = false;

@@ -168,12 +168,15 @@ public class CharacterInputController : MonoBehaviour
     {
         disabledAllMoves = true;
         playerInput.CharacterControls.Disable();
+        playerInput.CharacterSwitching.Disable();
     }
 
     public void EnableInput()
     {
         disabledAllMoves = false;
+        playerInput.Enable();
         playerInput.CharacterControls.Enable();
+        playerInput.CharacterSwitching.Enable();
     }
 
     public void StopAllMovement()
