@@ -13,14 +13,6 @@ public class WeaponHandler : MonoBehaviour
 
     private GameObject currWeapon;
 
-    void Awake()
-    {
-        if (!handHold)
-            handHold = transform.Find("RightHand/WeaponHoldSpot");
-        if (!animator)
-            animator = GetComponent<Animator>();
-    }
-
     void Start()
     {
         // Create the weapon when the game starts
