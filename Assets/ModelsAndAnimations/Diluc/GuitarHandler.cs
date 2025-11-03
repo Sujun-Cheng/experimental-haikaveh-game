@@ -18,9 +18,14 @@ public class GuitarHandler : MonoBehaviour
     public void EquipGuitar()
     {
         if (currGuitar != null) return;
+
         currGuitar = Instantiate(GuitarPrefab, handHold);
-        currGuitar.transform.localPosition = Vector3.zero;
-        currGuitar.transform.localRotation = Quaternion.identity;
+        //currGuitar.transform.localPosition = Vector3.zero;
+        //currGuitar.transform.localRotation = Quaternion.identity;
+        currGuitar.transform.localPosition = new Vector3(0.27276f, -1.3091f, 1.4247f);
+        currGuitar.transform.localRotation = Quaternion.Euler(-47.131f, -111.762f, 142.959f);
+        currGuitar.transform.localScale = new Vector3(11f, 12f, 9f);
+
         currGuitar.SetActive(true); 
     }
 
