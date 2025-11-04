@@ -55,7 +55,6 @@ public class CharacterManager : MonoBehaviour
         }
         // Setup AI companions to follow player
         SetupAICompanions();
-
     }
 
     void Update()

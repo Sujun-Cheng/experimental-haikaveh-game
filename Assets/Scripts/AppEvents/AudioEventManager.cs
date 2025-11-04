@@ -78,7 +78,7 @@ public class AudioEventManager : MonoBehaviour
         inBattle = false;
         bgmAudioSource.loop = true;
         bgmAudioSource.clip = ambiantMusic;
-        bgmAudioSource.volume = 0.5f;
+        bgmAudioSource.volume = 0.3f;
         bgmAudioSource.Play();
 
 
