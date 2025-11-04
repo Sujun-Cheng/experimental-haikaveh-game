@@ -48,6 +48,7 @@ public class DialogueManager : MonoBehaviour
         // Cursor.lockState = CursorLockMode.None;
         // Cursor.visible = true;
         playerInput.Dialogue.Enable();
+        Cursor.lockState = CursorLockMode.None;
         if (characterManager != null && characterManager.GetPlayerCharacter() != null)
         {
             characterManager.PlayerInput.CharacterSwitching.Disable();
@@ -160,7 +161,7 @@ public class DialogueManager : MonoBehaviour
         StopAllCoroutines();
         dialogueText.text = "";
         dialogueParent.SetActive(false);
-
+        Cursor.lockState = CursorLockMode.Locked;
         if (choicesParent != null)
             choicesParent.SetActive(false);
         playerInput.Dialogue.Disable();
