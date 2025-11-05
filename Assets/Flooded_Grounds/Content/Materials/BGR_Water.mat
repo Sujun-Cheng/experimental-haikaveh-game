@@ -19,7 +19,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties: 
+  m_LockedProperties: _Parallax
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -98,14 +98,14 @@ Material:
     - _DetailInt: 0.4
     - _DetailTile: 10
     - _DetailTiling: 10
-    - _Emis: 0.05
+    - _Emis: 0.348
     - _Fresnel: 1
     - _FresnelScale: 0.75
     - _GerstnerIntensity: 1
     - _Glossiness: 2.1641788
     - _InvertValue: 0
     - _Opacity: 0.75
-    - _Parallax: 0.0313
+    - _Parallax: 0.0151
     - _Power: 0
     - _RefInt: 0.7
     - _RefIntensity: 1
@@ -119,12 +119,12 @@ Material:
     - _Shift: 0
     - _Shininess: 0.6012862
     - _Smoothness: 1
-    - _Smth: 0.95
+    - _Smth: 0.786
     - _SpecContrast: 2
     - _SpecIntensity: 2.3
     - _Transparency: 0.95
     - _WaveFreq: 20
-    - _WaveHeight: 0.25
+    - _WaveHeight: 0.2
     - _WavePower: 1.4029856
     - _WaveScale: 0.058
     - _fogEnd: 400
@@ -137,7 +137,7 @@ Material:
     - _BaseColor: {r: 0.54, g: 0.95, b: 0.99, a: 0.5}
     - _BumpDirection: {r: 1, g: 1, b: -1, a: 1}
     - _BumpTiling: {r: 1, g: 1, b: -2, a: 3}
-    - _Color: {r: 0.7861892, g: 0.791, b: 0.62569845, a: 1}
+    - _Color: {r: 0.21686716, g: 0.6887658, b: 0.8037735, a: 1}
     - _ColorTint: {r: 0.74509805, g: 0.7023594, b: 0.5727028, a: 1}
     - _DistortParams: {r: 1, g: 1, b: 2, a: 1.15}
     - _Emission: {r: 0, g: 0, b: 0, a: 0}
