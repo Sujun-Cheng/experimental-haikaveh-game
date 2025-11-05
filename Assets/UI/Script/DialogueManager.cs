@@ -21,6 +21,7 @@ public class DialogueManager : MonoBehaviour
     // Need to disable player control/movement 
     private PlayerInput playerInput;
     private bool nextLinePressed;
+    public bool IsDialogueActive { get; private set; } = false;
     void Awake()
     {
         playerInput = new PlayerInput();
@@ -43,6 +44,8 @@ public class DialogueManager : MonoBehaviour
 
     public void DialogueStart(List<dialogueString> textToPrint)
     {
+        if (IsDialogueActive) return;
+        IsDialogueActive = true;
         dialogueParent.SetActive(true);
         // Need to disable player control/movement 
         // Cursor.lockState = CursorLockMode.None;
@@ -137,20 +140,33 @@ public class DialogueManager : MonoBehaviour
         string speakerText = dialogueList[currentDialogueIndex].speaker;
         string fullText = !string.IsNullOrEmpty(speakerText) ? $"{speakerText}: {text}" : text;
 
-        foreach (char letter in fullText.ToCharArray())
+        for (int i = 0; i < fullText.Length; i++)
         {
-            dialogueText.text += letter;
+            dialogueText.text += fullText[i];
+
+            // If space bar pressed while typing, instantly show the rest of the line
+            if (nextLinePressed)
+            {
+                dialogueText.text = fullText;
+                nextLinePressed = false;  // reset to avoid skipping right away
+                break;
+            }
+
             yield return new WaitForSeconds(typingSpeed);
         }
 
+        // Wait for player input to proceed (unless it's a question line)
         if (!dialogueList[currentDialogueIndex].isQuestion)
         {
             yield return new WaitUntil(() => nextLinePressed);
+            nextLinePressed = false;
         }
 
+        // Stop dialogue if marked as end
         if (dialogueList[currentDialogueIndex].isEnd)
         {
             DialogueStop();
+            yield break;
         }
 
         currentDialogueIndex++;
@@ -170,9 +186,11 @@ public class DialogueManager : MonoBehaviour
             print($"reenabling player input: {characterManager.GetPlayerCharacter().name}");
             CharacterInputController inputControl = characterManager.GetPlayerCharacter().GetComponent<CharacterInputController>();
             inputControl.EnableInput();
-            
+
             characterManager.PlayerInput.CharacterSwitching.Enable();
         }
+
+        IsDialogueActive = false;
         // Cursor.lockState = CursorLockMode.Locked;
         // Cursor.visible = false;
     }

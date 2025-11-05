@@ -3,16 +3,28 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    public Slider slider;
+    [SerializeField] private Slider slider;
+    [SerializeField] private float smoothSpeed = 10f;
+
+    private float targetValue;
+    public void SetMaxHealth(float maxHealth)
+    {
+        slider.maxValue = maxHealth;
+        slider.value = maxHealth;
+        targetValue = maxHealth;
+    }
 
     public void SetHealth(float health)
     {
-        slider.value = health;
+        targetValue = health;
     }
 
-    public void SetMaxHealth(float health)
+    void Update()
     {
-        slider.maxValue = health;
-        slider.value = health;
+        // Smoothly move toward target value
+        if (Mathf.Abs(slider.value - targetValue) > 0.01f)
+        {
+            slider.value = Mathf.Lerp(slider.value, targetValue, Time.deltaTime * smoothSpeed);
+        }
     }
 }
