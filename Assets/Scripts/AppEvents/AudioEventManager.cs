@@ -37,7 +37,6 @@ public class AudioEventManager : MonoBehaviour
 
     private UnityAction<Vector3> jumpEventListener;
 
-    private UnityAction<GameObject> deathEventListener;
 
 
     private UnityAction<Vector3> playerFootstepEventListener;
@@ -61,7 +60,6 @@ public class AudioEventManager : MonoBehaviour
 
         jumpEventListener = new UnityAction<Vector3>(jumpEventHandler);
 
-        deathEventListener = new UnityAction<GameObject>(deathEventHandler);
 
  
 
@@ -113,7 +111,6 @@ public class AudioEventManager : MonoBehaviour
         EventManager.StartListening<ExplosionEvent, Vector3>(explosionEventListener);
         EventManager.StartListening<BombBounceEvent, Vector3>(bombBounceEventListener);
         EventManager.StartListening<JumpEvent, Vector3>(jumpEventListener);
-        EventManager.StartListening<DeathEvent, GameObject>(deathEventListener);
  
         EventManager.StartListening<PlayerFootstepsEvent, Vector3>(playerFootstepEventListener);
         EventManager.StartListening<EnemyAttackingEvent, Vector3>(battleEventListener);
@@ -128,7 +125,7 @@ public class AudioEventManager : MonoBehaviour
         EventManager.StopListening<ExplosionEvent, Vector3>(explosionEventListener);
         EventManager.StopListening<BombBounceEvent, Vector3>(bombBounceEventListener);
         EventManager.StopListening<JumpEvent, Vector3>(jumpEventListener);
-        EventManager.StopListening<DeathEvent, GameObject>(deathEventListener);
+        
 
         EventManager.StopListening<PlayerFootstepsEvent, Vector3>(playerFootstepEventListener);
         EventManager.StopListening<EnemyAttackingEvent, Vector3>(battleEventListener);
@@ -249,23 +246,7 @@ public class AudioEventManager : MonoBehaviour
         }
     }
 
-    void deathEventHandler(GameObject go)
-    {
-        //AudioSource.PlayClipAtPoint(this.explosionAudio, worldPos, 1f);
-
-        if (eventSound3DPrefab)
-        {
-
-            EventSound3D snd = Instantiate(eventSound3DPrefab, go.transform);
-
-            snd.audioSrc.clip = this.deathAudio;
-
-            snd.audioSrc.minDistance = 5f;
-            snd.audioSrc.maxDistance = 100f;
-
-            snd.audioSrc.Play();
-        }
-    }
+    
 
 
 

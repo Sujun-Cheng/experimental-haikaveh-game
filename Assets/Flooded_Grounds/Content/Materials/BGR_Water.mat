@@ -115,7 +115,7 @@ Material:
     - _RimWidth: 3
     - _SSSIntensity: 0.5
     - _SSSPower: 1
-    - _ScrollSpeed: 0.4
+    - _ScrollSpeed: 1
     - _Shift: 0
     - _Shininess: 0.6012862
     - _Smoothness: 1
