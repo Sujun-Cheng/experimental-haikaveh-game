@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TrapTrigger : MonoBehaviour
+public class GeneralTrigger : MonoBehaviour
 {
     private Animator TrapAnimator;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -12,16 +12,16 @@ public class TrapTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            TrapAnimator.SetTrigger("TrapUp");
+            TrapAnimator.SetTrigger("Up");
         }
     }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            TrapAnimator.SetTrigger("TrapDown");
-        }
-    }
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    if (other.CompareTag("Player"))
+    //    {
+    //        TrapAnimator.SetTrigger("TrapDown");
+    //    }
+    //}
  
 
 }
