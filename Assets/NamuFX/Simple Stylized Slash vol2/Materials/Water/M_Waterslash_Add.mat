@@ -34,19 +34,19 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M_Waterslash_Add
-  m_Shader: {fileID: -6465566751694194690, guid: c3b6dd7519323cc4bb41c71f8be5bfa0,
-    type: 3}
+  m_Shader: {fileID: 210, guid: 0000000000000000f000000000000000, type: 0}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _ALPHABLEND_ON
+  m_InvalidKeywords:
   - _ALPHA_USEALPHAFADE
   - _BLENDBETWEENMASK_MULTIPLY
   - _BUILTIN_ALPHATEST_ON
   - _BUILTIN_AlphaClip
   - _BUILTIN_SURFACE_TYPE_TRANSPARENT
   - _SURFACE_TYPE_TRANSPARENT
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
+  m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 3000
@@ -56,6 +56,7 @@ Material:
   - SHADOWCASTER
   - DepthOnly
   - MOTIONVECTORS
+  - GRABPASS
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -158,7 +159,11 @@ Material:
     - _BUILTIN_ZWrite: 0
     - _BUILTIN_ZWriteControl: 0
     - _Blend: 2
+    - _BlendOp: 0
     - _BumpScale: 1
+    - _CameraFadingEnabled: 0
+    - _CameraFarFadeDistance: 2
+    - _CameraNearFadeDistance: 1
     - _CastShadows: 0
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -170,20 +175,28 @@ Material:
     - _DissolveTexRot: 0
     - _Dissolve_Falloff: 0
     - _Dissolve_Tex_Oneminus: 0
+    - _DistortionBlend: 0.5
+    - _DistortionEnabled: 0
+    - _DistortionStrength: 1
+    - _DistortionStrengthScaled: 0
     - _DstBlend: 1
     - _EdgeWidth: 0
     - _Emission: 1
+    - _EmissionEnabled: 0
     - _EnvironmentReflections: 1
     - _FlipUV_Horizontal: 0
     - _FlipUV_Vertical: 0
+    - _FlipbookMode: 0
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _GradientMaskPower: 0
+    - _LightingEnabled: 1
     - _MainTexRotation: 0
     - _MaskPower: 1
     - _MaskTexRot: 0
     - _Metallic: 0
+    - _Mode: 4
     - _OcclusionStrength: 1
     - _OneMinus: 0
     - _Opacity: 1
@@ -196,6 +209,9 @@ Material:
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SoftParticlePow: 1
+    - _SoftParticlesEnabled: 0
+    - _SoftParticlesFarFadeDistance: 1
+    - _SoftParticlesNearFadeDistance: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 5
     - _StylizeAmount: 1
@@ -214,11 +230,12 @@ Material:
     - _ZWriteControl: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Dissolve_Scroll: {r: 0, g: 0, b: 0, a: 0}
     - _Dissolve_Tiling: {r: 1, g: 1, b: 0, a: 0}
     - _EdgeCol: {r: 1, g: 1, b: 1, a: 0}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     - _Gradient_Offset: {r: 0, g: 0, b: 0, a: 0}
     - _Gradient_tiling: {r: 1, g: 1, b: 0, a: 0}
     - _MainTexOffset: {r: 0, g: 0, b: 0, a: 0}
@@ -226,6 +243,7 @@ Material:
     - _MaskScroll: {r: 0, g: 0, b: 0, a: 0}
     - _Offset: {r: 0, g: 0, b: 0, a: 0}
     - _Scroll: {r: 0, g: 0, b: 0, a: 0}
+    - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SubmaskOffset: {r: 0, g: 0, b: 0, a: 0}
     - _SubmaskScroll: {r: 0, g: 0, b: 0, a: 0}

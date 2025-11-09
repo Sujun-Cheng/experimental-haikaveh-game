@@ -75,7 +75,7 @@ GameObject:
   - component: {fileID: 2338110}
   m_Layer: 0
   m_Name: Struct_WoodPath_A_LOD0
-  m_TagString: Untagged
+  m_TagString: ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -161,7 +161,7 @@ GameObject:
   - component: {fileID: 2305642}
   m_Layer: 0
   m_Name: Struct_WoodPath_A_LOD2
-  m_TagString: Untagged
+  m_TagString: ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -247,7 +247,7 @@ GameObject:
   - component: {fileID: 2316488}
   m_Layer: 0
   m_Name: Struct_WoodPath_A_LOD1
-  m_TagString: Untagged
+  m_TagString: ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
