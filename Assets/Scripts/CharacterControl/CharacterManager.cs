@@ -27,6 +27,7 @@ public class CharacterManager : MonoBehaviour
     [Header("Controls")]
     public PlayerInput PlayerInput { get; private set; }
 
+  
     private void Awake()
     {
         PlayerInput = new PlayerInput();
