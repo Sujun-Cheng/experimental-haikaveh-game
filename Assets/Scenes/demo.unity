@@ -62988,8 +62988,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCharacter: {fileID: 1331787731}
-  aiCompanions:
-  - {fileID: 1179679549}
+  aiCompanions: []
   thirdPersonCamera: {fileID: 435430747}
   cameraDistance: 5
   cameraHeight: 2
