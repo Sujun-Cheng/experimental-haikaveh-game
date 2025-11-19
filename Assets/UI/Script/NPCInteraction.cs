@@ -40,10 +40,49 @@ public class NPCInteraction : MonoBehaviour
     // public List<string> npcDialogue = new List<string>();
     [Header("Dialogue Settings")]
     [SerializeField] private List<dialogueString> dialogueStrings = new List<dialogueString>();
+    private PlayerInput playerInput;
 
-    void Start()
+    private void Awake()
     {
         anim = GetComponent<Animator>();
+        
+        playerInput = new PlayerInput();
+        playerInput.NPCInteraction.InitializeDialogue.performed += (ctx) =>
+        {
+            if (playerInRange)
+            {
+                Debug.Log("R pressed");
+                StartConversation();
+                if (anim != null)
+                {
+                    Debug.Log("setting npc animator to talk mode");
+                    anim.SetTrigger("Talk");
+
+                }
+            }
+        };
+        playerInput.NPCInteraction.InitializeDialogue.canceled += (ctx) =>
+        {
+            Debug.Log("R input cancelled");
+        };
+        playerInput.NPCInteraction.EndDialogue.performed += (ctx) =>
+        {
+            if (playerInRange)
+            {
+                Debug.Log("Conversation ended1.");
+                EndConversation();
+            }
+        };
+        playerInput.NPCInteraction.EndDialogue.canceled += (ctx) =>
+        {
+            Debug.Log("Esc input cancelled");
+        };
+        playerInput.Enable();
+        playerInput.NPCInteraction.Disable();
+     
+    }
+    void Start()
+    {
         if (interactionPrompt != null)
             interactionPrompt.SetActive(false);
     }
@@ -57,6 +96,7 @@ public class NPCInteraction : MonoBehaviour
             {
                 interactionPrompt.SetActive(true);
             }
+            playerInput.NPCInteraction.Enable();
         }
     }
 
@@ -69,6 +109,7 @@ public class NPCInteraction : MonoBehaviour
             {
                 interactionPrompt.SetActive(false);
             }
+            playerInput.NPCInteraction.Disable();
             EndConversation();
         }
     }
@@ -84,18 +125,7 @@ public class NPCInteraction : MonoBehaviour
             // transform.LookAt(faceDirection);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotateSpeed);
         }
-        if (playerInRange && Input.GetKeyDown(KeyCode.R))
-        {
-            Debug.Log("R pressed");
-            StartConversation();
-            anim.SetTrigger("Talk");
-        }
-        else if (playerInRange && Input.GetKeyDown(KeyCode.Escape))
-        {
-            Debug.Log("Conversation ended1.");
-            EndConversation();
-        }
-        else if (!playerInRange)
+      if (!playerInRange)
         {
             Debug.Log("Conversation ended2.");
             EndConversation();

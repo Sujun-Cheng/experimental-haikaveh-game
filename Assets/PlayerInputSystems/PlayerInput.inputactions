@@ -211,6 +211,82 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "NPCInteraction",
+            "id": "5b20d4bb-98a7-4f13-8fa4-aa2168d84dd7",
+            "actions": [
+                {
+                    "name": "InitializeDialogue",
+                    "type": "Button",
+                    "id": "42ebc5f2-2da8-4cf3-b95a-e2fbee986e3a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "EndDialogue",
+                    "type": "Button",
+                    "id": "46cfaf04-3324-4f8c-a352-5b857e844d2c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "7eb57957-efc5-4387-82a9-d704c4f2667a",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";KeyboardScheme",
+                    "action": "InitializeDialogue",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8ba7bac8-46e4-481d-bb8a-816542bea85e",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";KeyboardScheme",
+                    "action": "EndDialogue",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "PauseMenu",
+            "id": "6e7419aa-d0c4-43cc-a04f-8f17c27e23c3",
+            "actions": [
+                {
+                    "name": "TogglePause",
+                    "type": "Button",
+                    "id": "e11f3e9a-2c71-485c-9d89-0a7745d9fe26",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "966f868c-1f04-4135-ba02-f05410e4a7a2",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";KeyboardScheme",
+                    "action": "TogglePause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

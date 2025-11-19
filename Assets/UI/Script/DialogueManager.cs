@@ -48,7 +48,7 @@ public class DialogueManager : MonoBehaviour
         IsDialogueActive = true;
         dialogueParent.SetActive(true);
         // Need to disable player control/movement 
-        // Cursor.lockState = CursorLockMode.None;
+        //Cursor.lockState = CursorLockMode.None;
         // Cursor.visible = true;
         playerInput.Dialogue.Enable();
         Cursor.lockState = CursorLockMode.None;
