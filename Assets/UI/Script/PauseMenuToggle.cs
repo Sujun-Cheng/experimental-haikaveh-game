@@ -8,11 +8,24 @@ public class PauseMenuToggle : MonoBehaviour
     private PlayerInput playerInput;
     private CursorLockMode previousLockState = CursorLockMode.Locked;
     private bool previousCursorVisible = false;
+    public bool blockPause = false;
+    public static PauseMenuToggle instance;
     private void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         playerInput = playerInput = new PlayerInput();
         playerInput.PauseMenu.TogglePause.performed += (ctx) =>
         {
+            if (blockPause) return;
             TogglePause();
         };
         playerInput.PauseMenu.TogglePause.canceled += (ctx) =>
@@ -20,7 +33,7 @@ public class PauseMenuToggle : MonoBehaviour
             Debug.Log("Pause menu key action canceled");
         };
         playerInput.Enable();
-        playerInput.Dialogue.Enable();
+        // playerInput.Dialogue.Enable();
         canvasGroup = GetComponent<CanvasGroup>();
         if (canvasGroup == null)
         {
@@ -28,7 +41,6 @@ public class PauseMenuToggle : MonoBehaviour
         }
     }
 
- 
 
     private void TogglePause()
     {
@@ -64,5 +76,15 @@ public class PauseMenuToggle : MonoBehaviour
             Cursor.lockState = previousLockState;
             Cursor.visible = previousCursorVisible;
         }
+    }
+
+    public void DisablePauseInput()
+    {
+        playerInput.PauseMenu.Disable();
+    }
+
+    public void EnablePauseInput()
+    {
+        playerInput.PauseMenu.Enable();
     }
 }
