@@ -119,7 +119,11 @@ public class AINavV2 : MonoBehaviour
         // Update NavMesh destination
         //if (distanceToPlayer > stopDistance)
         //{
-        navAgent.SetDestination(player.position);
+        if (navAgent.isOnNavMesh)
+        {
+            navAgent.SetDestination(player.position);
+        }
+        
         if (navAgent.isOnOffMeshLink)
         {
             if (!isOffMesh)
