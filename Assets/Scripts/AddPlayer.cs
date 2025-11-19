@@ -10,6 +10,7 @@ public class AddPlayer : MonoBehaviour
         if (characterManager != null && collider.gameObject!= playerCompanion)
         {
             characterManager.AddCompanion(playerCompanion);
+            this.gameObject.SetActive(false);
 
         }
     }
