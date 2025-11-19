@@ -62988,7 +62988,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCharacter: {fileID: 1331787731}
-  aiCompanions: []
+  aiCompanions:
+  - {fileID: 1179679549}
   thirdPersonCamera: {fileID: 435430747}
   cameraDistance: 5
   cameraHeight: 2
@@ -69679,6 +69680,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2107983103}
   - component: {fileID: 2107983104}
+  - component: {fileID: 2107983105}
   m_Layer: 0
   m_Name: ObjectiveManager
   m_TagString: Untagged
@@ -69723,6 +69725,23 @@ MonoBehaviour:
   onAllObjectivesComplete:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2107983105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2107983102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b137f8fd1216654cb1f4076d44f5c54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: main-quest
+  displayName: Main Quest
+  Objectives: []
+  questStep: 0
+  state: 0
 --- !u!4 &2111040693 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4195845280015418, guid: 48d05d90ace0eae4da1923dbb025ce62,

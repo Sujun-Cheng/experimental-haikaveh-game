@@ -8,8 +8,18 @@ public class CheckpointEventEmitter : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             MainCharacterController mc = collision.gameObject.GetComponent<MainCharacterController>();
+            HealthSystem healthSystem = mc.GetComponent<HealthSystem>();
+            if (healthSystem != null)
+            {
+                if (healthSystem.IsDead())
+                {
+                    healthSystem.Revive();
+                }
+                healthSystem.Heal(100);
+            }
             if (mc != null && !mc.IsAIControlled())
             {
+                
                 EventManager.TriggerEvent<CheckPassedEvent, GameObject>(this.gameObject);
             }
         }
