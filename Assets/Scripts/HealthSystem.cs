@@ -62,6 +62,7 @@ public class HealthSystem : MonoBehaviour, IDamageable
             Debug.Log($"{gameObject.name} has died!");
         // Trigger death event
         OnDeath?.Invoke();
+        EventManager.TriggerEvent<DeathEvent, GameObject>(gameObject);
         // Play death animation
         if (anim != null)
         {
@@ -94,6 +95,17 @@ public class HealthSystem : MonoBehaviour, IDamageable
     public bool IsDead()
     {
         return isDead;
+    }
+
+    public void Revive()
+    {
+        isDead = false;
+        var combatController = GetComponent<CombatController>();
+        if (combatController != null)
+            combatController.enabled = true;
+        var inputController = GetComponent<CharacterInputController>();
+        if (inputController != null)
+            inputController.enabled = true;
     }
     public float GetHealthPercentage()
     {
