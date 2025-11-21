@@ -59,9 +59,9 @@ public class CollectableItem : MonoBehaviour
         isCollected = true;
 
         // Notify ObjectiveManager
-        if (ObjectiveManager.Instance != null)
+        if (InteractObjective.Instance != null)
         {
-            ObjectiveManager.Instance.CollectItem();
+            InteractObjective.Instance.CollectItem();
             Debug.Log($"Collected {gameObject.name}!");
         }
 

@@ -19,9 +19,9 @@ public class NPCObjectiveTracker : MonoBehaviour
         if (!hasConversationStarted && trackAsObjective)
         {
             hasConversationStarted = true;
-            if (ObjectiveManager.Instance != null)
+            if (InteractObjective.Instance != null)
             {
-                ObjectiveManager.Instance.CompleteNPCConversation();
+                InteractObjective.Instance.CompleteNPCConversation();
                 Debug.Log($"[Objective] Conversation started with {gameObject.name}");
             }
         }
@@ -33,9 +33,9 @@ public class NPCObjectiveTracker : MonoBehaviour
         Debug.Log($"[Objective] {gameObject.name} - Right choice made, disappearing peacefully");
 
         // Notify ObjectiveManager
-        if (trackAsObjective && ObjectiveManager.Instance != null)
+        if (trackAsObjective && InteractObjective.Instance != null)
         {
-            ObjectiveManager.Instance.NPCDisappeared();
+            InteractObjective.Instance.NPCDisappeared();
         }
 
         StartCoroutine(FadeOutAndDestroy());

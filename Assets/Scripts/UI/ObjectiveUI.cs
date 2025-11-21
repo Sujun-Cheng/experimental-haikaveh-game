@@ -1,51 +1,21 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
+using System.Linq;
 
 public class ObjectiveUI : MonoBehaviour
 {
     [Header("UI Text References")]
-    public TextMeshProUGUI collectablesText;
-    public TextMeshProUGUI npcText;
+    public TextMeshProUGUI objectiveDescription;
+    public TextMeshProUGUI objectiveProgress;
     public TextMeshProUGUI statusText;
 
     [Header("Optional: Checkmark Images")]
     public Image collectablesCheckmark;
     public Image npcCheckmark;
-
     public void UpdateObjectives(int collected, int totalCollectables, int npcsGone, int totalNPCs)
     {
-        // Update collectables text
-        if (collectablesText != null)
-        {
-            bool collectablesDone = collected >= totalCollectables;
-            collectablesText.text = collectablesDone ?
-                $"✓ Collect Items: {collected}/{totalCollectables}" :
-                $"Collect Items: {collected}/{totalCollectables}";
-
-            // Change color if complete
-            collectablesText.color = collectablesDone ? Color.green : Color.white;
-        }
-
-        // Update NPC text
-        if (npcText != null)
-        {
-            bool npcsDone = npcsGone >= totalNPCs;
-            npcText.text = npcsDone ?
-                $"✓ Deal with NPCs: {npcsGone}/{totalNPCs}" :
-                $"Deal with NPCs: {npcsGone}/{totalNPCs}";
-
-            // Change color if complete
-            npcText.color = npcsDone ? Color.green : Color.white;
-        }
-
-        // Update overall status
-        if (statusText != null)
-        {
-            bool allDone = collected >= totalCollectables && npcsGone >= totalNPCs;
-            statusText.text = allDone ? "ALL OBJECTIVES COMPLETE!" : "Objectives In Progress...";
-            statusText.color = allDone ? Color.yellow : Color.white;
-        }
 
         // Update checkmarks if using images
         if (collectablesCheckmark != null)
@@ -56,6 +26,51 @@ public class ObjectiveUI : MonoBehaviour
         if (npcCheckmark != null)
         {
             npcCheckmark.enabled = npcsGone >= totalNPCs;
+        }
+    }
+
+    public void UpdateObjectives(Objective[] objectives, int step)
+    {
+        if (step < objectives.Length)
+        {
+            Objective obj = objectives[step];
+            string objDescription = obj.description;
+            Dictionary<string, string> map = obj.ObjectiveProgress;
+            if (objectiveDescription != null)
+            {
+                objectiveDescription.text = objDescription;
+                objectiveDescription.color = Color.white;
+            }
+           
+            if (map != null && map.Count > 0)
+            {
+                if (objectiveProgress != null)
+                {
+                    string text = string.Empty;
+                    Debug.Log($"map: {map}");
+                    foreach (KeyValuePair<string,string> keyValuePair in map.OrderBy(i => i.Key))
+                    {
+                        text += keyValuePair.Value;
+                        text += "\n";
+                    }
+                    objectiveProgress.text = text;
+                    objectiveProgress.color = Color.white;
+                }
+
+            } else
+            {
+                objectiveProgress.text = string.Empty;
+            }
+            statusText.text =  "Objectives In Progress...";
+            statusText.color =  Color.white;
+
+        } else
+        {
+            Debug.Log("All objectives complete, game won");
+            objectiveDescription.text = string.Empty;
+            objectiveProgress.text = string.Empty;
+            statusText.text = "ALL OBJECTIVES COMPLETE!";
+            statusText.color = Color.yellow ;
         }
     }
 }
