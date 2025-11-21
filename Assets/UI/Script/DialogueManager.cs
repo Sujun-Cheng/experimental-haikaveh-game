@@ -41,13 +41,13 @@ public class DialogueManager : MonoBehaviour
         choicesParent?.SetActive(false);
     }
 
-    void Update()
-    {
-        if (IsDialogueActive && Keyboard.current.escapeKey.wasPressedThisFrame && !isStoppingDialogue)
-        {
-            DialogueStop();
-        }
-    }
+    // void Update()
+    // {
+    //     if (IsDialogueActive && Keyboard.current.escapeKey.wasPressedThisFrame && !isStoppingDialogue)
+    //     {
+    //         DialogueStop();
+    //     }
+    // }
 
     public void DialogueStart(List<dialogueString> textToPrint)
     {
