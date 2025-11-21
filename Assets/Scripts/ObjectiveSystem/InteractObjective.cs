@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class ObjectiveManager : MonoBehaviour
+public class InteractObjective : Objective
 {
-    public static ObjectiveManager Instance { get; private set; }
+    public static InteractObjective Instance { get; private set; }
 
     [Header("Objective Targets")]
     public int totalCollectables = 10;
@@ -16,12 +16,8 @@ public class ObjectiveManager : MonoBehaviour
     public int npcConversationsCompleted = 0;
     public int npcsDisappeared = 0;
 
-    [Header("UI Reference")]
-    public ObjectiveUI objectiveUI;
-    public GameObject winTextObject;
-
-    [Header("Win Condition")]
-    public UnityEvent onAllObjectivesComplete;
+ 
+    
 
     private void Awake()
     {
@@ -34,64 +30,56 @@ public class ObjectiveManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        ObjectiveProgress = new Dictionary<string, string>
+        {
+            { "Collectibles",  getCollectibleUiString() }
+            ,
+            { "NPCs" , getNPCUiString()}
+            
+        };
+
+
     }
 
-    private void Start()
-    {
-        UpdateUI();
-        winTextObject.SetActive(false); 
-    }
+
 
     // Called when player collects an item
     public void CollectItem()
     {
         collectablesCollected++;
         Debug.Log($"Collected item! ({collectablesCollected}/{totalCollectables})");
-        UpdateUI();
-        CheckWinCondition();
+        updateProgress();
+        if (CheckCompleteCondition())
+        {
+            FinishObjective();
+        }
     }
 
     // Called when NPC conversation starts
     public void CompleteNPCConversation()
     {
         npcConversationsCompleted++;
+        updateProgress();
         Debug.Log($"Completed conversation! ({npcConversationsCompleted}/{totalNPCConversations})");
-        UpdateUI();
-        CheckWinCondition();
+        if (CheckCompleteCondition())
+        {
+            FinishObjective();
+        }
     }
 
     // Called when NPC disappears (either killed or right choice)
     public void NPCDisappeared()
     {
         npcsDisappeared++;
+        updateProgress();
         Debug.Log($"NPC disappeared! ({npcsDisappeared}/{totalNPCConversations})");
-        UpdateUI();
-        CheckWinCondition();
-    }
-
-    private void UpdateUI()
-    {
-        if (objectiveUI != null)
+        if (CheckCompleteCondition())
         {
-            objectiveUI.UpdateObjectives(
-                collectablesCollected,
-                totalCollectables,
-                npcsDisappeared,
-                totalNPCConversations
-            );
+            FinishObjective();
         }
     }
 
-    private void CheckWinCondition()
-    {
-        if (collectablesCollected >= totalCollectables &&
-            npcsDisappeared >= totalNPCConversations)
-        {
-            Debug.Log("ALL OBJECTIVES COMPLETE! YOU WIN!"); // need to add game win UI later
-            winTextObject.SetActive(true);
-            onAllObjectivesComplete?.Invoke();
-        }
-    }
+
 
     // Optional: Get individual objective status
     public bool AreCollectablesComplete()
@@ -104,8 +92,29 @@ public class ObjectiveManager : MonoBehaviour
         return npcsDisappeared >= totalNPCConversations;
     }
 
-    public bool AreAllObjectivesComplete()
+    public override bool CheckCompleteCondition()
     {
         return AreCollectablesComplete() && AreNPCsComplete();
+    }
+
+    private void updateProgress()
+    {
+        ObjectiveProgress["Collectibles"] = getCollectibleUiString();
+        ObjectiveProgress["NPCs"] = getNPCUiString();
+        UpdateProgress();
+    }
+
+    private string getCollectibleUiString()
+    {
+        return (AreCollectablesComplete() ?
+                $"✓ Collect Items: {collectablesCollected}/{totalCollectables}" :
+                $"Collect Items: {collectablesCollected}/{totalCollectables}");
+    }
+
+    private string getNPCUiString()
+    {
+        return (AreNPCsComplete() ?
+                $"✓ Deal with NPCs: {npcsDisappeared}/{totalNPCConversations}" :
+                $"Deal with NPCs: {npcsDisappeared}/{totalNPCConversations}");
     }
 }

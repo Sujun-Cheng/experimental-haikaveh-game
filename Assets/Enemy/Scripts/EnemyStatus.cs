@@ -46,12 +46,12 @@ public class EnemyStatus : MonoBehaviour, IDamageable
         }
 
         // Notify ObjectiveManager that NPC disappeared (killed)
-        if (isNPCEnemy && ObjectiveManager.Instance != null)
+        if (isNPCEnemy && InteractObjective.Instance != null)
         {
             // Add the specified count (default 2 for paired NPCs)
             for (int i = 0; i < npcCountValue; i++)
             {
-                ObjectiveManager.Instance.NPCDisappeared();
+                InteractObjective.Instance.NPCDisappeared();
             }
             Debug.Log($"[EnemyStatus] {gameObject.name} killed - counted as {npcCountValue} NPCs disappeared");
         }
