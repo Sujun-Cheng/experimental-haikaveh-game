@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UIElements;
 
 public class QuestSystem : MonoBehaviour
 {
@@ -12,11 +13,12 @@ public class QuestSystem : MonoBehaviour
     public string displayName;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public Objective[] Objectives;
-
+    public GameObject Arrow;
     // Update is called once per frame
     public int questStep;
     private UnityAction<Objective> objectiveFinishedEventListener;
     private UnityAction<Objective> objectiveUpdateEventListener;
+    private UnityAction<string, Color> objectiveDialogueEventListener;
     public UnityEvent onAllObjectivesComplete;
 
     public enum QuestState
@@ -41,6 +43,7 @@ public class QuestSystem : MonoBehaviour
         }
         objectiveFinishedEventListener = new UnityAction<Objective>(objectiveFinishedEventHandler);
         objectiveUpdateEventListener = new UnityAction<Objective>(objectiveProgressUpdateEventHandler);
+        objectiveDialogueEventListener = new UnityAction<string, Color>(objectiveDialogueEventHandler);
     }
     private void Start()
     {
@@ -59,10 +62,29 @@ public class QuestSystem : MonoBehaviour
 
     }
 
+    private void Update()
+    {
+        if (Arrow != null && state != QuestState.COMPLETED)
+        {
+            if (questStep < Objectives.Length)
+            {
+                Objective objective = Objectives[questStep];
+                if (objective != null)
+                {
+                    Vector3 pos = objective.transform.position;
+                    pos.y = Arrow.transform.position.y;
+                    Arrow.transform.LookAt(pos);
+                }
+            }
+
+        }
+    }
+
     void OnEnable()
     {
         EventManager.StartListening<ObjectiveCompleteEvent, Objective>(objectiveFinishedEventListener);
         EventManager.StartListening<ObjectiveUpdateEvent, Objective>(objectiveUpdateEventListener);
+        EventManager.StartListening<ObjectiveDialogueEvent, string, Color>(objectiveDialogueEventListener);
 
     }
 
@@ -70,6 +92,7 @@ public class QuestSystem : MonoBehaviour
     {
         EventManager.StopListening<ObjectiveCompleteEvent, Objective>(objectiveFinishedEventListener);
         EventManager.StopListening<ObjectiveUpdateEvent, Objective>(objectiveUpdateEventListener);
+        EventManager.StopListening<ObjectiveDialogueEvent, string, Color>(objectiveDialogueEventListener);
 
     }
 
@@ -104,6 +127,12 @@ public class QuestSystem : MonoBehaviour
             UpdateUI();
         }
        
+    }
+
+    void objectiveDialogueEventHandler(string text, Color color)
+    {
+        objectiveUI.UpdateFlavorText(text, color);
+
     }
     public void WinGame()
     {

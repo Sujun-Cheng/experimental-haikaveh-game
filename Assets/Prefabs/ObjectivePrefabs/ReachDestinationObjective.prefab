@@ -49,6 +49,7 @@ MonoBehaviour:
   State: 0
   Destination: {fileID: 0}
   reachedDestination: 0
+  Arrow: {fileID: 0}
 --- !u!65 &2735228869862160910
 BoxCollider:
   m_ObjectHideFlags: 0
