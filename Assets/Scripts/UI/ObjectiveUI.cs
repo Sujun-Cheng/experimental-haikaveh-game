@@ -10,6 +10,7 @@ public class ObjectiveUI : MonoBehaviour
     public TextMeshProUGUI objectiveDescription;
     public TextMeshProUGUI objectiveProgress;
     public TextMeshProUGUI statusText;
+    public TextMeshProUGUI objectiveFlavorText;
 
     [Header("Optional: Checkmark Images")]
     public Image collectablesCheckmark;
@@ -72,5 +73,11 @@ public class ObjectiveUI : MonoBehaviour
             statusText.text = "ALL OBJECTIVES COMPLETE!";
             statusText.color = Color.yellow ;
         }
+    }
+
+    public void UpdateFlavorText(string text, Color color)
+    {
+        objectiveFlavorText.text = text;
+        objectiveFlavorText.color = color;
     }
 }
