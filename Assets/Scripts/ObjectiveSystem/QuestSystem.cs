@@ -18,7 +18,7 @@ public class QuestSystem : MonoBehaviour
     public int questStep;
     private UnityAction<Objective> objectiveFinishedEventListener;
     private UnityAction<Objective> objectiveUpdateEventListener;
-    private UnityAction<string, Color> objectiveDialogueEventListener;
+    private UnityAction<ObjectiveTextLine[]> objectiveDialogueEventListener;
     public UnityEvent onAllObjectivesComplete;
 
     public enum QuestState
@@ -43,7 +43,7 @@ public class QuestSystem : MonoBehaviour
         }
         objectiveFinishedEventListener = new UnityAction<Objective>(objectiveFinishedEventHandler);
         objectiveUpdateEventListener = new UnityAction<Objective>(objectiveProgressUpdateEventHandler);
-        objectiveDialogueEventListener = new UnityAction<string, Color>(objectiveDialogueEventHandler);
+        objectiveDialogueEventListener = new UnityAction<ObjectiveTextLine[]>(objectiveDialogueEventHandler);
     }
     private void Start()
     {
@@ -84,7 +84,7 @@ public class QuestSystem : MonoBehaviour
     {
         EventManager.StartListening<ObjectiveCompleteEvent, Objective>(objectiveFinishedEventListener);
         EventManager.StartListening<ObjectiveUpdateEvent, Objective>(objectiveUpdateEventListener);
-        EventManager.StartListening<ObjectiveDialogueEvent, string, Color>(objectiveDialogueEventListener);
+        EventManager.StartListening<ObjectiveDialogueEvent, ObjectiveTextLine[]>(objectiveDialogueEventListener);
 
     }
 
@@ -92,7 +92,7 @@ public class QuestSystem : MonoBehaviour
     {
         EventManager.StopListening<ObjectiveCompleteEvent, Objective>(objectiveFinishedEventListener);
         EventManager.StopListening<ObjectiveUpdateEvent, Objective>(objectiveUpdateEventListener);
-        EventManager.StopListening<ObjectiveDialogueEvent, string, Color>(objectiveDialogueEventListener);
+        EventManager.StopListening<ObjectiveDialogueEvent, ObjectiveTextLine[]>(objectiveDialogueEventListener);
 
     }
 
@@ -129,9 +129,9 @@ public class QuestSystem : MonoBehaviour
        
     }
 
-    void objectiveDialogueEventHandler(string text, Color color)
+    void objectiveDialogueEventHandler(ObjectiveTextLine[] textLines)
     {
-        objectiveUI.UpdateFlavorText(text, color);
+        objectiveUI.UpdateFlavorText(textLines);
 
     }
     public void WinGame()
