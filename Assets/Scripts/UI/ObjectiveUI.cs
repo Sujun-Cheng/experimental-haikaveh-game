@@ -1,8 +1,10 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
+using UnityEditor.Rendering;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class ObjectiveUI : MonoBehaviour
 {
@@ -11,6 +13,7 @@ public class ObjectiveUI : MonoBehaviour
     public TextMeshProUGUI objectiveProgress;
     public TextMeshProUGUI statusText;
     public TextMeshProUGUI objectiveFlavorText;
+    public float textAppearanceDelay;
 
     [Header("Optional: Checkmark Images")]
     public Image collectablesCheckmark;
@@ -75,9 +78,46 @@ public class ObjectiveUI : MonoBehaviour
         }
     }
 
-    public void UpdateFlavorText(string text, Color color)
+    public void UpdateFlavorText(ObjectiveTextLine[] objectiveTextLines)
     {
-        objectiveFlavorText.text = text;
-        objectiveFlavorText.color = color;
+        {
+            StopAllCoroutines();
+            StartCoroutine(PrintDialogue(objectiveTextLines));
+        }
+    }
+    private IEnumerator PrintDialogue(ObjectiveTextLine[] objectiveTextLines)
+    {
+        int currentDialogueIndex = 0;
+        try
+        {
+            while (currentDialogueIndex < objectiveTextLines.Count())
+            {
+                ObjectiveTextLine line = objectiveTextLines[currentDialogueIndex];
+                yield return StartCoroutine(TypeText(line));
+                                  
+
+                currentDialogueIndex++;
+            }
+        }
+        finally
+        {
+            objectiveFlavorText.text = string.Empty;
+        }
+    }
+
+    private IEnumerator TypeText(ObjectiveTextLine text)
+    {
+        objectiveFlavorText.text = "";
+        objectiveFlavorText.color = text.color;
+        string fullText = text.text;
+
+        for (int i = 0; i < fullText.Length; i++)
+        {
+            objectiveFlavorText.text += fullText[i];
+
+            yield return new WaitForSeconds(textAppearanceDelay);
+        }
+        yield return new WaitForSeconds(0.5f);
+
     }
 }
