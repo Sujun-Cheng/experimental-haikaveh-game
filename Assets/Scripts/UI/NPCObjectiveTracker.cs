@@ -12,38 +12,42 @@ public class NPCObjectiveTracker : MonoBehaviour
     public GameObject enemyVersion;
 
     private bool hasConversationStarted = false;
+    private bool hasBeenResolved = false; // Prevent double counting
 
-  
+
     public void OnConversationStarted()
     {
-        if (!hasConversationStarted && trackAsObjective)
+        if (!hasConversationStarted)
         {
             hasConversationStarted = true;
-            if (InteractObjective.Instance != null)
-            {
-                InteractObjective.Instance.CompleteNPCConversation();
-                Debug.Log($"[Objective] Conversation started with {gameObject.name}");
-            }
+            Debug.Log($"[Objective] Conversation started with {gameObject.name}");
         }
     }
 
-    // friendly choice
+    // friendly choice - NPC disappears peacefully
     public void OnRightChoice()
     {
+        if (hasBeenResolved) return; // Prevent double counting
+        hasBeenResolved = true;
+
         Debug.Log($"[Objective] {gameObject.name} - Right choice made, disappearing peacefully");
 
-        // Notify ObjectiveManager
+        // Notify ObjectiveManager - count this NPC as resolved
         if (trackAsObjective && InteractObjective.Instance != null)
         {
             InteractObjective.Instance.NPCDisappeared();
+            Debug.Log($"[Objective] NPC {gameObject.name} resolved peacefully - counted");
         }
 
         StartCoroutine(FadeOutAndDestroy());
     }
 
-    // combat choice
+    // combat choice - NPC turns into enemy
     public void OnWrongChoice()
     {
+        if (hasBeenResolved) return; // Prevent double counting
+        hasBeenResolved = true;
+
         Debug.Log($"[Objective] {gameObject.name} - Wrong choice made, activating enemy version");
 
         if (enemyVersion != null)
@@ -51,12 +55,13 @@ public class NPCObjectiveTracker : MonoBehaviour
             // Make sure enemy version is active (in case it's not already)
             enemyVersion.SetActive(true);
 
-            // Mark the enemy to track for objectives
+            // Mark the enemy to track for objectives AND pass reference to this tracker
             EnemyStatus enemyStatus = enemyVersion.GetComponent<EnemyStatus>();
             if (enemyStatus != null && trackAsObjective)
             {
                 enemyStatus.isNPCEnemy = true;
-                Debug.Log($"[Objective] Enemy {enemyVersion.name} marked for objective tracking");
+                enemyStatus.npcTracker = this; // Pass reference so enemy can notify on death
+                Debug.Log($"[Objective] Enemy {enemyVersion.name} marked for objective tracking - will count when killed");
             }
             else if (enemyStatus == null)
             {
@@ -70,6 +75,16 @@ public class NPCObjectiveTracker : MonoBehaviour
 
         // Deactivate this NPC GameObject
         gameObject.SetActive(false);
+    }
+
+    // Called by EnemyStatus when the enemy dies
+    public void OnEnemyKilled()
+    {
+        if (trackAsObjective && InteractObjective.Instance != null)
+        {
+            InteractObjective.Instance.NPCDisappeared();
+            Debug.Log($"[Objective] Enemy killed - counted as NPC resolved");
+        }
     }
 
     private IEnumerator FadeOutAndDestroy()

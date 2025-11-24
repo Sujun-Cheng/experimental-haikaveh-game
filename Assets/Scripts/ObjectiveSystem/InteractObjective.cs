@@ -9,7 +9,7 @@ public class InteractObjective : Objective
 
     [Header("Objective Targets")]
     public int totalCollectables = 10;
-    public int totalNPCConversations = 3;
+    public int totalNPCConversations = 6;
 
     [Header("Current Progress")]
     public int collectablesCollected = 0;

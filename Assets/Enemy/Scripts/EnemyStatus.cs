@@ -11,8 +11,10 @@ public class EnemyStatus : MonoBehaviour, IDamageable
 
     [Header("Disappear Settings")]
     public float disappearDelay = 2f; // Time before disappearing after death
+
+    [Header("NPC Objective Tracking")]
     public bool isNPCEnemy = false; // Set true if this enemy came from NPC dialogue
-    public int npcCountValue = 2; // How many NPCs this counts as when killed (default: 2 for paired NPCs)
+    public NPCObjectiveTracker npcTracker; // Reference to the NPC tracker
 
     void Start()
     {
@@ -23,7 +25,9 @@ public class EnemyStatus : MonoBehaviour, IDamageable
     public void TakeDamage(float damage, Vector3 hitPosition)
     {
         if (isDead) return;
+
         currentHealth -= damage;
+
         if (currentHealth <= 0)
         {
             Die();
@@ -40,20 +44,17 @@ public class EnemyStatus : MonoBehaviour, IDamageable
     void Die()
     {
         isDead = true;
+
         if (anim != null)
         {
             anim.SetTrigger("death");
         }
 
-        // Notify ObjectiveManager that NPC disappeared (killed)
-        if (isNPCEnemy && InteractObjective.Instance != null)
+        // Notify the NPC tracker that this enemy was killed
+        if (isNPCEnemy && npcTracker != null)
         {
-            // Add the specified count (default 2 for paired NPCs)
-            for (int i = 0; i < npcCountValue; i++)
-            {
-                InteractObjective.Instance.NPCDisappeared();
-            }
-            Debug.Log($"[EnemyStatus] {gameObject.name} killed - counted as {npcCountValue} NPCs disappeared");
+            npcTracker.OnEnemyKilled();
+            Debug.Log($"[EnemyStatus] {gameObject.name} killed - notified NPC tracker");
         }
 
         // Start disappear coroutine
