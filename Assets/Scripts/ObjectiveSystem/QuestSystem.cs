@@ -13,7 +13,8 @@ public class QuestSystem : MonoBehaviour
     public string displayName;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public Objective[] Objectives;
-    public GameObject Arrow;
+    public Camera Camera;
+    public RectTransform ArrowImage;
     // Update is called once per frame
     public int questStep;
     private UnityAction<Objective> objectiveFinishedEventListener;
@@ -64,16 +65,25 @@ public class QuestSystem : MonoBehaviour
 
     private void Update()
     {
-        if (Arrow != null && state != QuestState.COMPLETED)
+        if (Camera != null && state != QuestState.COMPLETED)
         {
             if (questStep < Objectives.Length)
             {
                 Objective objective = Objectives[questStep];
                 if (objective != null)
                 {
-                    Vector3 pos = objective.transform.position;
-                    pos.y = Arrow.transform.position.y;
-                    Arrow.transform.LookAt(pos);
+                    Vector3 screenPos = Camera.WorldToScreenPoint(objective.transform.position);
+                    Debug.Log($"Screen position to target: {screenPos}");
+                    if (screenPos.z > 0)
+                    {
+                        ArrowImage.gameObject.SetActive(true);
+                        ArrowImage.transform.position = new Vector3(Mathf.Clamp(screenPos.x, 50, Screen.width - 50), Mathf.Clamp(screenPos.y, 50, Screen.height - 50), screenPos.z);
+
+                    } else
+                    {
+                       
+                            ArrowImage.gameObject.SetActive(false);
+                    }
                 }
             }
 
