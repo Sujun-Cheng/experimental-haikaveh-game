@@ -23421,7 +23421,8 @@ MonoBehaviour:
       Owner: {fileID: 435430746}
       Enabled: 1
       Input:
-        InputAction: {fileID: 0}
+        InputAction: {fileID: 8924383049918047295, guid: f14005c0aa536584a8ec5434ae57fed7,
+          type: 3}
         Gain: 1
         LegacyInput: Mouse X
         LegacyGain: 100
@@ -23434,7 +23435,8 @@ MonoBehaviour:
       Owner: {fileID: 435430746}
       Enabled: 1
       Input:
-        InputAction: {fileID: 0}
+        InputAction: {fileID: -6651886087168372186, guid: f14005c0aa536584a8ec5434ae57fed7,
+          type: 3}
         Gain: 1
         LegacyInput: Mouse Y
         LegacyGain: -100
@@ -23618,7 +23620,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 435430742}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.05660757, y: -0.006497556, z: 0.00036840964, w: 0.9983753}
+  m_LocalRotation: {x: 0.05660713, y: -0.007192645, z: 0.00040781952, w: 0.9983705}
   m_LocalPosition: {x: 233.032, y: 18.73, z: 54.84}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -54583,7 +54585,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1233660826}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.05660742, y: -0.0064975563, z: 0.00036840842, w: 0.99837536}
+  m_LocalRotation: {x: 0.05660713, y: -0.0071926448, z: 0.00040781955, w: 0.9983705}
   m_LocalPosition: {x: 233.032, y: 18.73, z: 54.84}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

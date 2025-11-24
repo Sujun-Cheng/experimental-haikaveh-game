@@ -127,6 +127,24 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LookX"",
+                    ""type"": ""Value"",
+                    ""id"": ""aff75235-a241-4e6a-96ea-0447fab9eb8c"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""LookY"",
+                    ""type"": ""Value"",
+                    ""id"": ""7ddae06e-a31d-4928-8102-ee9d2c0c41ba"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -187,6 +205,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""265067a8-9245-4d90-8757-d260aa2b99b3"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""e2254049-b64d-4344-a14b-fe5c4e046767"",
                     ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
@@ -209,11 +238,33 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""bb6455d3-bf32-4990-8281-3df2f09c0931"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""8ad57ec1-c697-43a4-a3eb-9308279fe1f0"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";KeyboardScheme"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c6d127ce-2f11-40fe-aec6-8e5e84b26b63"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -226,6 +277,61 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";KeyboardScheme"",
                     ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fc4da46b-e6d0-4f83-a5c1-0a74b4d84288"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a366cbf1-a3fd-4bda-8a65-de7e0549d680"",
+                    ""path"": ""<Mouse>/delta/x"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=30)"",
+                    ""groups"": """",
+                    ""action"": ""LookX"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cc1531e3-8cea-420c-9ca9-4c9dd350afa2"",
+                    ""path"": ""<Gamepad>/rightStick/x"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=100)"",
+                    ""groups"": """",
+                    ""action"": ""LookX"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1c0fac6e-d074-4418-8994-efc8c4c487a2"",
+                    ""path"": ""<Mouse>/delta/y"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=30),Invert"",
+                    ""groups"": """",
+                    ""action"": ""LookY"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""de35ee1f-f15c-41ca-a1e6-c129ffdccdcd"",
+                    ""path"": ""<Gamepad>/rightStick/y"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=100),Invert"",
+                    ""groups"": """",
+                    ""action"": ""LookY"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -253,6 +359,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";KeyboardScheme"",
+                    ""action"": ""Switch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6bc9bfae-dd04-41db-a3a8-774802597cb8"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
                     ""action"": ""Switch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -292,6 +409,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";KeyboardScheme"",
+                    ""action"": ""NextLine"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1888f8b4-bfe9-4c0d-84e0-3f432472296b"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
                     ""action"": ""NextLine"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -335,11 +463,33 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""50fc2542-d14b-4e33-b9f6-1d8a21de54e6"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""InitializeDialogue"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""8ba7bac8-46e4-481d-bb8a-816542bea85e"",
                     ""path"": ""<Keyboard>/backquote"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";KeyboardScheme"",
+                    ""action"": ""EndDialogue"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6e9723ca-c743-4f7d-bfe6-dbd74b2755c7"",
+                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
                     ""action"": ""EndDialogue"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -368,6 +518,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";KeyboardScheme"",
+                    ""action"": ""TogglePause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""80b90e04-9e5d-466c-a31e-5ce263cea92f"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
                     ""action"": ""TogglePause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -411,6 +572,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_CharacterControls_Dash = m_CharacterControls.FindAction("Dash", throwIfNotFound: true);
         m_CharacterControls_Jump = m_CharacterControls.FindAction("Jump", throwIfNotFound: true);
         m_CharacterControls_Attack = m_CharacterControls.FindAction("Attack", throwIfNotFound: true);
+        m_CharacterControls_LookX = m_CharacterControls.FindAction("LookX", throwIfNotFound: true);
+        m_CharacterControls_LookY = m_CharacterControls.FindAction("LookY", throwIfNotFound: true);
         // CharacterSwitching
         m_CharacterSwitching = asset.FindActionMap("CharacterSwitching", throwIfNotFound: true);
         m_CharacterSwitching_Switch = m_CharacterSwitching.FindAction("Switch", throwIfNotFound: true);
@@ -512,6 +675,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_CharacterControls_Dash;
     private readonly InputAction m_CharacterControls_Jump;
     private readonly InputAction m_CharacterControls_Attack;
+    private readonly InputAction m_CharacterControls_LookX;
+    private readonly InputAction m_CharacterControls_LookY;
     /// <summary>
     /// Provides access to input actions defined in input action map "CharacterControls".
     /// </summary>
@@ -539,6 +704,14 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "CharacterControls/Attack".
         /// </summary>
         public InputAction @Attack => m_Wrapper.m_CharacterControls_Attack;
+        /// <summary>
+        /// Provides access to the underlying input action "CharacterControls/LookX".
+        /// </summary>
+        public InputAction @LookX => m_Wrapper.m_CharacterControls_LookX;
+        /// <summary>
+        /// Provides access to the underlying input action "CharacterControls/LookY".
+        /// </summary>
+        public InputAction @LookY => m_Wrapper.m_CharacterControls_LookY;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -577,6 +750,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Attack.started += instance.OnAttack;
             @Attack.performed += instance.OnAttack;
             @Attack.canceled += instance.OnAttack;
+            @LookX.started += instance.OnLookX;
+            @LookX.performed += instance.OnLookX;
+            @LookX.canceled += instance.OnLookX;
+            @LookY.started += instance.OnLookY;
+            @LookY.performed += instance.OnLookY;
+            @LookY.canceled += instance.OnLookY;
         }
 
         /// <summary>
@@ -600,6 +779,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Attack.started -= instance.OnAttack;
             @Attack.performed -= instance.OnAttack;
             @Attack.canceled -= instance.OnAttack;
+            @LookX.started -= instance.OnLookX;
+            @LookX.performed -= instance.OnLookX;
+            @LookX.canceled -= instance.OnLookX;
+            @LookY.started -= instance.OnLookY;
+            @LookY.performed -= instance.OnLookY;
+            @LookY.canceled -= instance.OnLookY;
         }
 
         /// <summary>
@@ -1089,6 +1274,20 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnAttack(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "LookX" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnLookX(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "LookY" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnLookY(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "CharacterSwitching" which allows adding and removing callbacks.
