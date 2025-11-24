@@ -70,7 +70,7 @@ public class QuestSystem : MonoBehaviour
             if (questStep < Objectives.Length)
             {
                 Objective objective = Objectives[questStep];
-                if (objective != null)
+                if (objective != null && objective is ReachDestinationObjective)
                 {
                     Vector3 screenPos = Camera.WorldToScreenPoint(objective.transform.position);
                     Debug.Log($"Screen position to target: {screenPos}");
@@ -84,7 +84,13 @@ public class QuestSystem : MonoBehaviour
                        
                             ArrowImage.gameObject.SetActive(false);
                     }
+                } else
+                {
+                    ArrowImage.gameObject.SetActive(false);
                 }
+            } else
+            {
+                ArrowImage.gameObject.SetActive(false);
             }
 
         }
