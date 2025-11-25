@@ -2505,7 +2505,7 @@ MonoBehaviour:
   currentHealth: 0
   disappearDelay: 2
   isNPCEnemy: 0
-  npcCountValue: 2
+  npcTracker: {fileID: 0}
 --- !u!114 &87660015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6636,7 +6636,7 @@ MonoBehaviour:
   currentHealth: 0
   disappearDelay: 2
   isNPCEnemy: 0
-  npcCountValue: 2
+  npcTracker: {fileID: 0}
 --- !u!114 &151277210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21478,7 +21478,7 @@ MonoBehaviour:
   currentHealth: 0
   disappearDelay: 2
   isNPCEnemy: 0
-  npcCountValue: 2
+  npcTracker: {fileID: 0}
 --- !u!114 &408475640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31568,7 +31568,7 @@ MonoBehaviour:
   currentHealth: 0
   disappearDelay: 2
   isNPCEnemy: 0
-  npcCountValue: 2
+  npcTracker: {fileID: 0}
 --- !u!114 &672157774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48836,6 +48836,90 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2454548610312323064, guid: 4c08a01c25d17744c9b33989d172b31c,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 0fecd1ba5f6ee3947b30cc169fe1d8e7, type: 2}
+    - target: {fileID: 2454548610312323064, guid: 4c08a01c25d17744c9b33989d172b31c,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 0fecd1ba5f6ee3947b30cc169fe1d8e7, type: 2}
+    - target: {fileID: 2454548610312323064, guid: 4c08a01c25d17744c9b33989d172b31c,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[3]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 5d4cc4454398fa947aae9b2c41c8f60a, type: 2}
+    - target: {fileID: 2454548610312323064, guid: 4c08a01c25d17744c9b33989d172b31c,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[4]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 0fecd1ba5f6ee3947b30cc169fe1d8e7, type: 2}
+    - target: {fileID: 2454548610312323064, guid: 4c08a01c25d17744c9b33989d172b31c,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[5]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 0fecd1ba5f6ee3947b30cc169fe1d8e7, type: 2}
+    - target: {fileID: 2454548610312323064, guid: 4c08a01c25d17744c9b33989d172b31c,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[6]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 0fecd1ba5f6ee3947b30cc169fe1d8e7, type: 2}
+    - target: {fileID: 2454548610312323064, guid: 4c08a01c25d17744c9b33989d172b31c,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[10]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 5d4cc4454398fa947aae9b2c41c8f60a, type: 2}
+    - target: {fileID: 2454548610312323064, guid: 4c08a01c25d17744c9b33989d172b31c,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[11]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 5d4cc4454398fa947aae9b2c41c8f60a, type: 2}
+    - target: {fileID: 2454548610312323064, guid: 4c08a01c25d17744c9b33989d172b31c,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[12]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 5d4cc4454398fa947aae9b2c41c8f60a, type: 2}
+    - target: {fileID: 2454548610312323064, guid: 4c08a01c25d17744c9b33989d172b31c,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[13]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 5d4cc4454398fa947aae9b2c41c8f60a, type: 2}
+    - target: {fileID: 2454548610312323064, guid: 4c08a01c25d17744c9b33989d172b31c,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[14]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 5d4cc4454398fa947aae9b2c41c8f60a, type: 2}
+    - target: {fileID: 2454548610312323064, guid: 4c08a01c25d17744c9b33989d172b31c,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[15]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 3a56eda7b970c1642996c7143ce593f3, type: 2}
+    - target: {fileID: 2454548610312323064, guid: 4c08a01c25d17744c9b33989d172b31c,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[16]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 3a56eda7b970c1642996c7143ce593f3, type: 2}
+    - target: {fileID: 2454548610312323064, guid: 4c08a01c25d17744c9b33989d172b31c,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[17]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 3a56eda7b970c1642996c7143ce593f3, type: 2}
+    - target: {fileID: 2454548610312323064, guid: 4c08a01c25d17744c9b33989d172b31c,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[18]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 0fecd1ba5f6ee3947b30cc169fe1d8e7, type: 2}
+    - target: {fileID: 2454548610312323064, guid: 4c08a01c25d17744c9b33989d172b31c,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[19]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 3a56eda7b970c1642996c7143ce593f3, type: 2}
+    - target: {fileID: 13700006, guid: 468074b7db6524718a2aab5fdc63acc9, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 3d7a8e20598a043a199de06f7427d5b4, type: 2}
     - target: {fileID: -9160292907857289238, guid: 1acab6c3906b66f42ace7b5edf2cef37,
         type: 3}
       propertyPath: m_Layer
@@ -52341,90 +52425,6 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 11
       objectReference: {fileID: 0}
-    - target: {fileID: 2454548610312323064, guid: 4c08a01c25d17744c9b33989d172b31c,
-        type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 0fecd1ba5f6ee3947b30cc169fe1d8e7, type: 2}
-    - target: {fileID: 2454548610312323064, guid: 4c08a01c25d17744c9b33989d172b31c,
-        type: 3}
-      propertyPath: 'm_Materials.Array.data[2]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 0fecd1ba5f6ee3947b30cc169fe1d8e7, type: 2}
-    - target: {fileID: 2454548610312323064, guid: 4c08a01c25d17744c9b33989d172b31c,
-        type: 3}
-      propertyPath: 'm_Materials.Array.data[3]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 5d4cc4454398fa947aae9b2c41c8f60a, type: 2}
-    - target: {fileID: 2454548610312323064, guid: 4c08a01c25d17744c9b33989d172b31c,
-        type: 3}
-      propertyPath: 'm_Materials.Array.data[4]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 0fecd1ba5f6ee3947b30cc169fe1d8e7, type: 2}
-    - target: {fileID: 2454548610312323064, guid: 4c08a01c25d17744c9b33989d172b31c,
-        type: 3}
-      propertyPath: 'm_Materials.Array.data[5]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 0fecd1ba5f6ee3947b30cc169fe1d8e7, type: 2}
-    - target: {fileID: 2454548610312323064, guid: 4c08a01c25d17744c9b33989d172b31c,
-        type: 3}
-      propertyPath: 'm_Materials.Array.data[6]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 0fecd1ba5f6ee3947b30cc169fe1d8e7, type: 2}
-    - target: {fileID: 2454548610312323064, guid: 4c08a01c25d17744c9b33989d172b31c,
-        type: 3}
-      propertyPath: 'm_Materials.Array.data[10]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 5d4cc4454398fa947aae9b2c41c8f60a, type: 2}
-    - target: {fileID: 2454548610312323064, guid: 4c08a01c25d17744c9b33989d172b31c,
-        type: 3}
-      propertyPath: 'm_Materials.Array.data[11]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 5d4cc4454398fa947aae9b2c41c8f60a, type: 2}
-    - target: {fileID: 2454548610312323064, guid: 4c08a01c25d17744c9b33989d172b31c,
-        type: 3}
-      propertyPath: 'm_Materials.Array.data[12]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 5d4cc4454398fa947aae9b2c41c8f60a, type: 2}
-    - target: {fileID: 2454548610312323064, guid: 4c08a01c25d17744c9b33989d172b31c,
-        type: 3}
-      propertyPath: 'm_Materials.Array.data[13]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 5d4cc4454398fa947aae9b2c41c8f60a, type: 2}
-    - target: {fileID: 2454548610312323064, guid: 4c08a01c25d17744c9b33989d172b31c,
-        type: 3}
-      propertyPath: 'm_Materials.Array.data[14]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 5d4cc4454398fa947aae9b2c41c8f60a, type: 2}
-    - target: {fileID: 2454548610312323064, guid: 4c08a01c25d17744c9b33989d172b31c,
-        type: 3}
-      propertyPath: 'm_Materials.Array.data[15]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 3a56eda7b970c1642996c7143ce593f3, type: 2}
-    - target: {fileID: 2454548610312323064, guid: 4c08a01c25d17744c9b33989d172b31c,
-        type: 3}
-      propertyPath: 'm_Materials.Array.data[16]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 3a56eda7b970c1642996c7143ce593f3, type: 2}
-    - target: {fileID: 2454548610312323064, guid: 4c08a01c25d17744c9b33989d172b31c,
-        type: 3}
-      propertyPath: 'm_Materials.Array.data[17]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 3a56eda7b970c1642996c7143ce593f3, type: 2}
-    - target: {fileID: 2454548610312323064, guid: 4c08a01c25d17744c9b33989d172b31c,
-        type: 3}
-      propertyPath: 'm_Materials.Array.data[18]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 0fecd1ba5f6ee3947b30cc169fe1d8e7, type: 2}
-    - target: {fileID: 2454548610312323064, guid: 4c08a01c25d17744c9b33989d172b31c,
-        type: 3}
-      propertyPath: 'm_Materials.Array.data[19]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 3a56eda7b970c1642996c7143ce593f3, type: 2}
-    - target: {fileID: 13700006, guid: 468074b7db6524718a2aab5fdc63acc9, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 3d7a8e20598a043a199de06f7427d5b4, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -60736,7 +60736,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 2732977815955197923, guid: 563b4ff224f36dd46b48f7e7bf858117,
     type: 3}
-  enemyCount: 5
+  enemyCount: 2
   spawnAreaSize: {x: 41.8, y: 0, z: 13.3}
   spawnHeightOffset: 0.5
   minDistanceBetweenEnemies: 3
@@ -63444,7 +63444,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcPrefab: {fileID: 7165891456614256273, guid: 1e860fd895edbd3498974ee5516cbfcc,
     type: 3}
-  initialNPCCount: 20
+  initialNPCCount: 5
   npcSpeed: 0.7
   spawnInterval: 0.5
   spawnAreaSize: {x: 133.6, y: 0, z: 89}
@@ -65474,7 +65474,7 @@ MonoBehaviour:
   description: Collect Data
   State: 0
   totalCollectables: 10
-  totalNPCConversations: 3
+  totalNPCConversations: 6
   collectablesCollected: 0
   npcConversationsCompleted: 0
   npcsDisappeared: 0
@@ -67898,7 +67898,7 @@ MonoBehaviour:
   m_SerializedVersion: 1
   m_AgentTypeID: 0
   m_StartPoint: {x: -0.41861725, y: -1.7766876, z: 3.946659}
-  m_EndPoint: {x: 1.0110397, y: -0.87506676, z: 6.344269}
+  m_EndPoint: {x: 3.3840332, y: -0.87506676, z: 6.2771835}
   m_StartTransform: {fileID: 0}
   m_EndTransform: {fileID: 0}
   m_Activated: 1
@@ -68342,7 +68342,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 2732977815955197923, guid: 563b4ff224f36dd46b48f7e7bf858117,
     type: 3}
-  enemyCount: 5
+  enemyCount: 2
   spawnAreaSize: {x: 105.9, y: 0, z: 13.2}
   spawnHeightOffset: 0.5
   minDistanceBetweenEnemies: 3
@@ -68464,7 +68464,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 2732977815955197923, guid: 563b4ff224f36dd46b48f7e7bf858117,
     type: 3}
-  enemyCount: 5
+  enemyCount: 2
   spawnAreaSize: {x: 69.5, y: 0, z: 13.3}
   spawnHeightOffset: 0.5
   minDistanceBetweenEnemies: 3
@@ -69558,7 +69558,7 @@ MonoBehaviour:
   currentHealth: 0
   disappearDelay: 2
   isNPCEnemy: 0
-  npcCountValue: 2
+  npcTracker: {fileID: 0}
 --- !u!114 &1820119547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77034,7 +77034,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 2732977815955197923, guid: 563b4ff224f36dd46b48f7e7bf858117,
     type: 3}
-  enemyCount: 5
+  enemyCount: 2
   spawnAreaSize: {x: 26.2, y: 0, z: 74.1}
   spawnHeightOffset: 0.5
   minDistanceBetweenEnemies: 3
@@ -77985,7 +77985,7 @@ MonoBehaviour:
   currentHealth: 0
   disappearDelay: 2
   isNPCEnemy: 0
-  npcCountValue: 2
+  npcTracker: {fileID: 0}
 --- !u!114 &2064922766
 MonoBehaviour:
   m_ObjectHideFlags: 0
