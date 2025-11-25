@@ -112,8 +112,9 @@ Zhipeng Zhu:
 1. Dialogue system, dialogue chat box, and choice option box. 
 2. Two playable characters can talk to each other and NPCs, depending on the choice made with the NPCs, they will either turn hostile or remain friendly. 
 3. Player health bar, enemy health bar. 
-4. Player characters' health bar and enemy characters' health bar will decrease or increase to reflect the actual damage taken or heal received. Main menu scene to start game and quit game. 
-5. In-game pause menu, to restart game or to quit game.
+4. Player characters' health bar and enemy characters' health bar will decrease or increase to reflect the actual damage taken or heal received.
+5. Main menu scene to start game and quit game. 
+6. In-game pause menu, to restart game or to quit game.
 
 Healthbar.png, UI Prefab: DialogueCanvas, EnemyHealth, InteractionPrompt
 Scripts:
@@ -181,12 +182,12 @@ GuitarMusic.cs
 
 
 Zhuoyun Cai
-Pressure Button Trigger:
+1. Pressure Button Trigger:
 When a character stands on a pressure button, it becomes active and plays the corresponding button animation and sound.
 After 3 seconds, the linked platform or slope moves to its designated position, allowing the character to continue along the path.
-AI Navmesh:
+2. AI Navmesh:
 Baked the appropriate Navmesh in order to make sure the AI-controlled characters can follow the player and jump to reach the player’s position.
-Pickups:
+3. Pickups:
 Rotating pickups are placed along the path to guide the player in the correct direction.
 When collected, pickups disappear.
 
