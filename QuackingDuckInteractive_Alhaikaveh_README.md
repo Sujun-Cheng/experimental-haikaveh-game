@@ -4,22 +4,25 @@ Game Instructions
 Open the scene file:
 assets/scenes/MainMenu.unity
 
+
 2. Start the Game
 Basic Controls:
 
-WASD – Move character
+WASD/Left Stick– Move character
 
-Mouse – Adjust camera view
+Mouse/Right Stick – Adjust camera view
 
-Tab – Switch between characters
+Tab/ North Button– Switch between characters
 
-Space – Jump
+Space/ South Button – Jump
 
-Shift/Right Mouse Button - Sprint
+Shift/Right Mouse Button/ East Button - Sprint
 
 1-0 - Variable Speed
 
-Left Mouse Button – Attack
+Left Mouse Button/West Button – Attack
+
+
 
 Gameplay Settings:
 
@@ -106,38 +109,59 @@ Assets/Scripts/AppEvents/EnemyAttackingEmitter.cs
 Assets/Scripts/AppEvents/EnemyAttackingEvent.cs
 
 Zhipeng Zhu:
-1. Dialogue system, dialogue chat box, and choice option box.
-Two playable characters can talk to each other and NPCs, depending on the choice made with the NPCs, they will either turn hostile or remain friendly. 
-Player health bar, enemy health bar. 
-Player characters' health bar and enemy characters' health bar will decrease or increase to reflect the actual damage taken or heal received.
-Main menu scene to start game and quit game.
-2. Healthbar.png, UI Prefab: DialogueCanvas, EnemyHealth, InteractionPrompt
-3. BillBoard.cs, DialogueManager.cs, EnemyUIManager.cs, HealthBar.cs, MainMenu.cs, NPCInteraction.cs, PlayerUIManager.cs, StartofGameDialogue.cs
+1. Dialogue system, dialogue chat box, and choice option box. 
+2. Two playable characters can talk to each other and NPCs, depending on the choice made with the NPCs, they will either turn hostile or remain friendly. 
+3. Player health bar, enemy health bar. 
+4. Player characters' health bar and enemy characters' health bar will decrease or increase to reflect the actual damage taken or heal received. Main menu scene to start game and quit game. 
+5. In-game pause menu, to restart game or to quit game.
+
+Healthbar.png, UI Prefab: DialogueCanvas, EnemyHealth, InteractionPrompt
+Scripts:
+BillBoard.cs, DialogueManager.cs, EnemyUIManager.cs, HealthBar.cs, MainMenu.cs, NPCInteraction.cs, PlayerUIManager.cs, ChoiceTextHighlight.cs, PauseMenu.cs, TextHighlightOnHover.cs, TwoColorText.cs
 
 Zhe Dang 
-completed all enemies features including:
-Scripts:
-EnemyStatus.cs, EnemyController.cs
-Animators:
-EnemyCast, EnemyShockWave, EnemyThrust
-Enemy Prefabs:
-Cordan_Container, Janice_Container, Leo_Container, Tink_Container, TY_Container, Vans_Container
+1. Enemy Prefab Setup
+Created 6 interactive enemy prefabs complete with weapons, hitboxes, and attack VFX.
+Files: Cordan_Container, Janice_Container, Leo_Container, Tink_Container, TY_Container, Vans_Container
+2. Core Combat & Animation
+Built the base logic for enemy health and movement. Set up Animators to handle specific attack styles like casting or thrusting.
+Animators: EnemyCast, EnemyShockWave, EnemyThrust
+3. Slime AI Logic
+Behavior: Switches between Idle/Roam and Chase/Attack. The AI detects the player within range to attack and returns to patrolling when the player leaves.
+4. Input System
+Configured PlayerInput.inputactions to include full gamepad support alongside keyboard controls.
+
+Scripts: 
+SlimeAIController.cs, SlimeCombat.cs, EnemyStatus.cs, EnemyController.cs
 
 Qianqian: 
-combat controller scripts for player characters (melee and mage).
-health system for player characters.
-Attack animator and animation for one of the main charater (Alhaitham).
-Weapon handler script for Alhaitham (melee).
-Add weapon to Alhaitham's hand, and show weapon only when attack.
-Add VFX visual effect to Alhaitham (code in weapon handler, "add event" to the animation at the appropriate time frame to trigger visual effect)
-Collectable Item script to track collectable objective.
-NPC objective script to track NPC conversation objective.
-Objective manager script to manage objective.
-UI for objective.
-objective UI script to update objective progress on UI.
-Build scene: background buildings and trees.
-Import enemy character models. 
-Write game story focus mainly on enemy dialogue.
+Alpha:
+1. combat controller scripts for player characters (melee and mage).
+2. health system for player characters.
+3. Attack animator and animation for one of the main charater (Alhaitham).
+4. Weapon handler script for Alhaitham (melee).
+5. Add weapon to Alhaitham's hand, and show weapon only when attack.
+6. Add VFX visual effect to Alhaitham (code in weapon handler, "add event" to the animation at the appropriate time frame to trigger visual effect)
+7. Collectable Item script to track collectable objective.
+8. NPC objective script to track NPC conversation objective.
+9. Objective manager script to manage objective.
+10. UI for objective.
+11. objective UI script to update objective progress on UI.
+12. Build scene: background buildings and trees.
+13. Import enemy character models. 
+14. Write game story focus mainly on NPC and character dialogues.
+
+Final Game:
+15. Wrote EnemySpawner.cs to automatically generate slime without replacement on the map.
+16. Wrote NPCSpawener.cs and NPCWalkers.cs to automatically generate NPCs that walks around with replacement on the map. NPC disappear after reaching the boundary to prevent cumulation.
+17. Added FriendlyNPCs with different status: playing guitar (wrote GuitarHandler.cs and GuitarMusic.cs and add guitar music for sound effect when player approaches), chatting, arguing, dancing, clapping, cheering, laying down, etc.
+18. Modified game terrain with additional town buildings added.
+19. Wrote choices in the game, dilemma leading to different consequences (friendly outcome vs. NPC turning into enemy)
+20. Add screens to create impression of lively town, 
+21. using the same mechanism for creating the screen, add star effects to the bridge.
+22. Add directional lights, candles in the tunnel for better shading and lightning style.
+23. Modified NPCObjectiveTracker.cs, InteractObjective.cs, ObjectiveUI.cs and EnemyStatus.cs to fix bugs in counting the NPCs in the objective (comment with // Prevent double counting)
+
 Scripts:
 CombatController.cs
 MageCombatController.cs
@@ -147,16 +171,25 @@ CollectableItem.cs
 ObjectiveManager.cs
 NPCObjectiveTracker.cs
 ObjectiveUI.cs
+EnemyStatus.cs (only modified it to debug)
+InteractObjective.cs (only modified it to debug)
+EnemySpawner.cs
+NPCSpawener.cs
+NPCWalkers.cs
+GuitarHandler.cs
+GuitarMusic.cs
+
 
 Zhuoyun Cai
 Pressure Button Trigger:
-When a character stands on a pressure button, it becomes active and plays the corresponding button animation.
+When a character stands on a pressure button, it becomes active and plays the corresponding button animation and sound.
 After 3 seconds, the linked platform or slope moves to its designated position, allowing the character to continue along the path.
-AI Follower Characters:
-AI-controlled characters can follow the player and jump to reach the player’s position.
-Rotating Pickups:
+AI Navmesh:
+Baked the appropriate Navmesh in order to make sure the AI-controlled characters can follow the player and jump to reach the player’s position.
+Pickups:
 Rotating pickups are placed along the path to guide the player in the correct direction.
 When collected, pickups disappear.
+
 Scripts:
 AudioPlay.cs
 GateTrigger.cs
